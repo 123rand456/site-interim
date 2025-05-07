@@ -1,5 +1,31 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
+import remarkToc from 'remark-toc';
+import rehypeSlug from 'rehype-slug';
+import rehypeExternalLinks from 'rehype-external-links';
+import remarkGfm from 'remark-gfm';
 
 // https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: 'https://your-domain.com', // Replace with your actual domain
+  integrations: [
+    tailwind(),
+    sitemap(),
+  ],
+  markdown: {
+    remarkPlugins: [
+      remarkToc,
+      remarkGfm
+    ],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeExternalLinks, { target: '_blank', rel: ['nofollow', 'noopener', 'noreferrer'] }]
+    ],
+    shikiConfig: {
+      theme: 'github-dark',
+      wrap: true
+    }
+  }
+});
