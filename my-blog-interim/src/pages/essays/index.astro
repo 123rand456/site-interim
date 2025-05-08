@@ -1,0 +1,40 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+const posts = await Promise.all(
+  Object.entries(import.meta.glob('./*.md')).map(async ([, post]) => {
+    const resolved = await post();
+    return {
+      url: resolved.url,
+      frontmatter: resolved.frontmatter,
+    };
+  })
+);
+
+posts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+---
+
+<MainLayout title="Essays" description="A collection of essays on various topics">
+  <h1 class="text-4xl font-bold mb-8">Essays</h1>
+  <div class="space-y-8">
+    {posts.map(post => (
+      <article class="border-b border-gray-200 dark:border-gray-700 pb-8">
+        <h2 class="text-2xl font-semibold mb-2">
+          <a href={post.url} class="hover:text-blue-600 dark:hover:text-blue-400">
+            {post.frontmatter.title}
+          </a>
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">
+          {post.frontmatter.description}
+        </p>
+        <div class="text-sm text-gray-500 dark:text-gray-500">
+          {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </div>
+      </article>
+    ))}
+  </div>
+</MainLayout> 
