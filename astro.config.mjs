@@ -9,7 +9,8 @@ import remarkGfm from 'remark-gfm';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://your-domain.com', // Replace with your actual domain
+  site: 'https://123rand456.github.io/site-interim',
+  base: '/site-interim/',
   integrations: [
     tailwind(),
     sitemap(),
