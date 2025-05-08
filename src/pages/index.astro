@@ -3,6 +3,7 @@
 // is your "component frontmatter". It never runs in the browser.
 
 import MainLayout from '../layouts/MainLayout.astro';
+import { base } from '../utils/constants';
 
 const posts = await Promise.all(
   Object.entries(import.meta.glob('./essays/*.md'))
@@ -53,7 +54,7 @@ const recentEssays = posts
       ))}
     </div>
     <div class="mt-8">
-      <a href="/essays" class="text-blue-600 dark:text-blue-400 hover:underline">
+      <a href={`${base}essays`} class="text-blue-600 dark:text-blue-400 hover:underline">
         View all essays →
       </a>
     </div>

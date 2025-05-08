@@ -1,6 +1,7 @@
 ---
 import { SEO } from 'astro-seo';
 import '../styles/global.css';
+import { base } from '../utils/constants';
 
 interface Props {
   title?: string;
@@ -37,10 +38,10 @@ const {
       <div class="container max-w-4xl mx-auto px-4 py-8">
         <header class="mb-8">
           <nav class="flex justify-between items-center">
-            <a href="/" class="site-title text-2xl font-bold">chizubo</a>
+            <a href={`${base}/`} class="site-title text-2xl font-bold">chizubo</a>
             <div class="nav-links flex gap-4">
-              <a href="/essays" class="nav-link hover:text-gray-600 dark:hover:text-gray-300">Essays</a>
-              <a href="/about" class="nav-link hover:text-gray-600 dark:hover:text-gray-300">About</a>
+              <a href={`${base}essays`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">Essays</a>
+              <a href={`${base}about`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">About</a>
               <button id="theme-toggle" class="theme-toggle p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
                 🌓
               </button>
