@@ -1,3 +1,6 @@
+@import './theme.css';
+@import './components/table-of-contents.css';
+/* Other imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

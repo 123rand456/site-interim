@@ -1,0 +1,27 @@
+:root {
+  /* Base colors */
+  --gray-50: #f8f9fa;
+  --gray-100: #e9ecef;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  
+  /* Functional colors - light theme */
+  --toc-bg: var(--gray-50);
+  --toc-border: var(--gray-100);
+  --text-primary: #333;
+  --text-secondary: #666;
+  --border-color: #dee2e6;
+  --link-hover: #0066cc;
+  --link-active: #0066cc;
+}
+
+/* Functional colors - dark theme */
+:root.dark {
+  --toc-bg: var(--gray-800);
+  --toc-border: var(--gray-700);
+  --text-primary: #e5e5e5;
+  --text-secondary: #b3b3b3;
+  --border-color: #404040;
+  --link-hover: #66b3ff;
+  --link-active: #66b3ff;
+} 
