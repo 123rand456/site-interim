@@ -1,0 +1,24 @@
+---
+interface Props {
+  tags: string[];
+  dateCreated: string;
+  dateUpdated: string;
+  description?: string;
+}
+
+const { tags, dateCreated, dateUpdated, description } = Astro.props;
+---
+
+<div class="metadata-container mb-8 text-center">
+  <div class="tags italic">
+    {tags.join(', ')}
+  </div>
+  
+  <div class="description mt-4 text-gray-600 dark:text-gray-400">
+    {description}
+  </div>
+  
+  <div class="dates mt-2 text-sm text-gray-500">
+    {dateCreated} – {dateUpdated}
+  </div>
+</div> 
