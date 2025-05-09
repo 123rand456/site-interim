@@ -1,0 +1,82 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+
+const sections = [
+  {
+    id: 'personal',
+    title: 'Personal',
+    subsections: [
+      { id: 'work', title: 'Work' },
+      { id: 'interests', title: 'Interests' }
+    ]
+  },
+  {
+    id: 'projects',
+    title: 'Projects'
+  },
+  {
+    id: 'contact',
+    title: 'Contact'
+  }
+];
+---
+
+<MainLayout title="About Me" description="Personal information, work, and interests">
+  <div class="flex gap-8">
+    <TableOfContents sections={sections} />
+
+    {/* Main Content */}
+    <main class="flex-1 prose dark:prose-invert max-w-none">
+      <h1>About Me</h1>
+      
+      <section id="personal">
+        <h2>Personal</h2>
+        <p>Your introduction here...</p>
+
+        <h3 id="work">Work</h3>
+        <p>Your work experience...</p>
+
+        <h3 id="interests">Interests</h3>
+        <p>Your interests and hobbies...</p>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <p>Notable projects you've worked on...</p>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>How to reach you...</p>
+      </section>
+    </main>
+  </div>
+</MainLayout>
+
+<script>
+  // Optional: Add active class to navigation items based on scroll position
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('aside nav a');
+
+  function updateActiveSection() {
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      const scrollPosition = window.scrollY;
+
+      if (scrollPosition >= sectionTop - 100 && 
+          scrollPosition < sectionTop + sectionHeight - 100) {
+        const id = section.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveSection);
+</script> 

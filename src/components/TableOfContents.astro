@@ -1,0 +1,60 @@
+---
+interface Section {
+  id: string;
+  title: string;
+  subsections?: (Section | { id: string; title: string; })[];
+}
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+<aside class="toc-container">
+  <nav>
+    <ul class="toc-list">
+      {sections.map(section => (
+        <li class="toc-item">
+          <a href={`#${section.id}`} class="toc-link">
+            {section.title}
+          </a>
+          {section.subsections && (
+            <ul class="toc-sublist">
+              {section.subsections.map(subsection => (
+                <li class="toc-subitem">
+                  <a href={`#${subsection.id}`} class="toc-sublink">
+                    {subsection.title}
+                  </a>
+                  {'subsections' in subsection && subsection.subsections && (
+                    <ul class="toc-subsublist">
+                      {subsection.subsections.map(subsubsection => (
+                        <li class="toc-subsubitem">
+                          <a href={`#${subsubsection.id}`} class="toc-subsublink">
+                            {subsubsection.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  aside nav a.active {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  aside nav {
+    position: sticky;
+    top: 2rem;
+  }
+</style> 

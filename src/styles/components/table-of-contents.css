@@ -1,0 +1,59 @@
+/* Base styles for ToC */
+.toc-container {
+  width: 250px;
+  flex-shrink: 0;
+  background-color: var(--toc-bg);
+  border: 1px solid var(--toc-border);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-right: 2rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-item {
+  margin-bottom: 0.75rem;
+}
+
+/* Link styles */
+.toc-link {
+  display: block;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.25rem 0;
+}
+
+/* Nested lists */
+.toc-sublist {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  border-left: 1px solid var(--border-color);
+}
+
+.toc-subitem {
+  margin: 0.25rem 0;
+}
+
+.toc-sublink {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Hover states */
+.toc-link:hover,
+.toc-sublink:hover {
+  color: var(--link-hover);
+}
+
+/* Active states */
+.toc-link.active,
+.toc-sublink.active {
+  color: var(--link-active);
+} 
