@@ -1,56 +1,116 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
+import PageMetadata from '../../components/PageMetadata.astro';
+
+const metadata = {
+  tags: ['software', 'research', 'writing'],
+  dateCreated: '2025-05-09',
+  dateUpdated: '2025-05-10',
+  description: 'Who am I online & what have I done? Sites I use; things I\'ve worked on; psyches'
+};
 
 const sections = [
   {
     id: 'personal',
     title: 'Personal',
     subsections: [
-      { id: 'work', title: 'Work' },
-      { id: 'interests', title: 'Interests' }
+      { 
+        id: 'work', 
+        title: 'Work',
+        metadata: {
+          timestamp: '2024',
+          status: 'current'
+        }
+      },
+      { id: 'websites', title: 'Websites' },
+      {
+        id: 'uses-this',
+        title: 'Uses This',
+        subsections: [
+          { id: 'software', title: 'Software' },
+          { id: 'hardware', title: 'Hardware' }
+        ]
+      }
     ]
-  },
-  {
-    id: 'projects',
-    title: 'Projects'
   },
   {
     id: 'contact',
     title: 'Contact'
+  },
+  {
+    id: 'collaboration style',
+    title: 'Collaboration Style'
   }
+
 ];
 ---
 
-<MainLayout title="About Me" description="Personal information, work, and interests">
-  <div class="flex gap-8">
-    <TableOfContents sections={sections} />
+<MainLayout title="About Me" description={metadata.description}>
+  <div class="max-w-4xl mx-auto">
+    {/* Page Title and Metadata */}
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-center mb-4">ABOUT CHIZUBO</h1>
+      <PageMetadata {...metadata} />
+    </div>
 
-    {/* Main Content */}
-    <main class="flex-1 prose dark:prose-invert max-w-none">
-      <h1>About Me</h1>
+    <div class="flex gap-8 relative">
+      {/* Table of Contents - Aligned with first paragraph */}
+      <aside class="w-64 flex-shrink-0 sticky" style="top: 2rem;">
+        <TableOfContents sections={sections} />
+      </aside>
+
+      {/* Main Content */}
+      <main class="flex-1">
+        {/* Initial Description */}
+        <div class="mb-12">
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            This page is about me; for information about my website, see <a href="/about-site">About This Website</a>.
+          </p>
+        </div>
+
+        {/* PERSONAL section with right alignment and divider */}
+        <div class="relative">
+          <h2 class="text-right text-3xl font-bold mb-8 pr-4">PERSONAL</h2>
+          <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+          
+          {/* Quote section */}
+          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
+            "A transition from an author's book to his conversation..."
+            <footer class="mt-2 text-sm">
+              — Samuel Johnson; The Rambler, No. 14 (1750-05-05)
+            </footer>
+          </blockquote>
+
+          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
+            "A transition from an author's book to his conversation..."
+            <footer class="mt-2 text-sm">
+              — Samuel Johnson; The Rambler, No. 14 (1750-05-05)
+            </footer>
+          </blockquote>
+
+          {/* Content sections */}
+          <div class="relative -ml-64">
+            <section id="work" class="mb-8">
+              <h2 class="text-left text-3xl font-bold mb-8 pr-4">WORK</h2>
+              <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+              <p>Your work content...</p>
+            </section>
+
+            <section id="profile" class="mb-8">
+              <h2 class="text-left text-3xl font-bold mb-8 pr-4">PROFILE</h2>
+              <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+              <p>Your work content...</p>
+            </section>
+          </div>
+          
+          
+
+          {/* Other sections... */}
+        </div>
+      </main>
       
-      <section id="personal">
-        <h2>Personal</h2>
-        <p>Your introduction here...</p>
-
-        <h3 id="work">Work</h3>
-        <p>Your work experience...</p>
-
-        <h3 id="interests">Interests</h3>
-        <p>Your interests and hobbies...</p>
-      </section>
-
-      <section id="projects">
-        <h2>Projects</h2>
-        <p>Notable projects you've worked on...</p>
-      </section>
-
-      <section id="contact">
-        <h2>Contact</h2>
-        <p>How to reach you...</p>
-      </section>
-    </main>
+    </div>
   </div>
 </MainLayout>
 
@@ -79,4 +139,12 @@ const sections = [
   }
 
   window.addEventListener('scroll', updateActiveSection);
-</script> 
+</script>
+
+<style>
+  /* Add any additional custom styles */
+  .metadata-container {
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+</style> 
