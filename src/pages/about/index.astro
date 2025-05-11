@@ -14,14 +14,15 @@ const sections = [
   {
     id: 'personal',
     title: 'Personal',
+    metadata: { status: 'complete' },
     subsections: [
       { 
         id: 'work', 
         title: 'Work',
-        metadata: {
-          timestamp: '2024',
-          status: 'current'
-        }
+        metadata: { timestamp: '2024', status: 'current' },
+        subsections: [
+          { id: 'projects', title: 'Projects', metadata: { importance: 'core' }, subsections: [] }
+        ]
       },
       { id: 'websites', title: 'Websites' },
       {
