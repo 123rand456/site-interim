@@ -2,7 +2,7 @@
 interface Section {
   id: string;
   title: string;
-  subsections?: (Section | { id: string; title: string; })[];
+  subsections?: Section[];  // Allow recursive nesting
 }
 
 interface Props {
