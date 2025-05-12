@@ -8,7 +8,7 @@ import { base } from '../utils/constants';
 const posts = await Promise.all(
   Object.entries(import.meta.glob('./essays/*.md'))
     .map(async ([_, post]) => {
-      const resolvedPost = await post();
+      const resolvedPost = await post() as { url: string; frontmatter: { date: string; title: string; description: string } };
       return {
         url: resolvedPost.url,
         frontmatter: resolvedPost.frontmatter
@@ -23,7 +23,7 @@ const recentEssays = posts
 
 <MainLayout>
   <section class="mb-16">
-    <h1 class="text-4xl font-bold mb-4"></h1>
+    <h1 class="text-4xl font-bold mb-4">ルールで名乗ることはできない事になっています</h1>
     <p class="text-xl text-gray-600 dark:text-gray-400">
       This is a collection of essays and research on technology, science, philosophy, and other topics that interest me. 
       Oh, and insight porn too.
