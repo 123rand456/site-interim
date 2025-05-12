@@ -4,7 +4,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 
 const posts = await Promise.all(
   Object.entries(import.meta.glob('./*.md')).map(async ([, post]) => {
-    const resolved = await post();
+    const resolved = await post() as { url: string; frontmatter: any };
     return {
       url: resolved.url,
       frontmatter: resolved.frontmatter,
@@ -12,7 +12,7 @@ const posts = await Promise.all(
   })
 );
 
-posts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 ---
 
 <MainLayout title="Essays" description="A collection of essays on various topics">
