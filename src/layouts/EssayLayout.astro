@@ -1,0 +1,21 @@
+---
+// Component Script (inside frontmatter fence)
+import MainLayout from './MainLayout.astro';
+import PageMetadata from '../components/PageMetadata.astro';
+
+// For markdown files using this as a layout, 
+// Astro.props contains frontmatter and renders the markdown content in <slot />
+const { frontmatter } = Astro.props;
+---
+
+<MainLayout title={frontmatter.title} description={frontmatter.description}>
+  <h1 class="text-4xl font-bold mb-4 text-center">{frontmatter.title}</h1>
+  
+  <div class="mb-8">
+    <PageMetadata {...frontmatter} />
+  </div>
+  
+  <div class="prose dark:prose-invert max-w-none">
+    <slot />  <!-- Markdown content gets rendered here -->
+  </div>
+</MainLayout>

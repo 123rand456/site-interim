@@ -1,15 +1,19 @@
 ---
-layout: ../../layouts/MainLayout.astro
-title: "Example Essay: The Nature of Knowledge"
+layout: ../../layouts/EssayLayout.astro
+title: "The Nature of Knowledge"
 description: "An exploration of epistemology and how we acquire knowledge"
-date: 2024-05-07
+dateCreated: "2024-05-07"
+dateUpdated: "2024-05-07"
+confidence: "highly likely"
+importance: "3"
+tags:
+  - philosophy
+  - epistemology
 ---
 
-# The Nature of Knowledge
+## The Problem of Knowledge
 
 How do we know what we know? This is a fundamental question that has puzzled philosophers for millennia.[^1]
-
-## The Problem of Knowledge
 
 Knowledge seems simple at first glance, but becomes increasingly complex when we examine it closely. Consider these three aspects:
 
