@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import PageMetadata from '../../components/PageMetadata.astro';
+import { base } from '../../utils/constants';
 
 const metadata = {
   tags: ['software', 'research', 'writing'],
@@ -9,6 +10,15 @@ const metadata = {
   dateUpdated: '2025-05-10',
   description: 'Who am I online & what have I done? Sites I use; things I\'ve worked on; psyches'
 };
+
+// Breadcrumb items for About page
+const breadcrumbItems = [
+  {
+    title: "About",
+    url: `${base}about`,
+    isCurrent: true
+  }
+];
 
 const sections = [
   {
@@ -46,7 +56,11 @@ const sections = [
 ];
 ---
 
-<MainLayout title="About Me" description={metadata.description}>
+<MainLayout 
+  title="About Me" 
+  description={metadata.description}
+  breadcrumbItems={breadcrumbItems}
+>
   <div class="max-w-4xl mx-auto">
     {/* Page Title and Metadata */}
     <div class="mb-12">

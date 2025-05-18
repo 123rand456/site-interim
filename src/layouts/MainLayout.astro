@@ -2,15 +2,22 @@
 import { SEO } from 'astro-seo';
 import '../styles/global.css';
 import { base } from '../utils/constants';
+import Breadcrumb from '../components/Breadcrumb.astro';
 
 interface Props {
   title?: string;
   description?: string;
+  breadcrumbItems?: Array<{
+    title: string;
+    url: string;
+    isCurrent?: boolean;
+  }>;
 }
 
 const { 
   title = "Chizubo's Essays and Research",
-  description = "A collection of essays on technology, science, and philosophy."
+  description = "A collection of essays on technology, science, and philosophy.",
+  breadcrumbItems = []
 } = Astro.props;
 
 // JavaScript/TypeScript code here (imports, props, etc.)
@@ -33,32 +40,37 @@ const {
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body>
-    <div class="wrapper min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <div class="container max-w-4xl mx-auto px-4 py-8">
-        <header class="mb-8">
-          <nav class="flex justify-between items-center">
-            <a href={`${base}/`} class="site-title text-2xl font-bold">chizubo</a>
-            <div class="nav-links flex gap-4">
-              <a href={`${base}essays`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">Essays</a>
-              <a href={`${base}about`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">About</a>
-              <button id="theme-toggle" class="theme-toggle p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-                🌓
-              </button>
-            </div>
-          </nav>
-        </header>
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <!-- Header -->
+    <div class="container max-w-4xl mx-auto px-4 py-8">
+      <header class="mb-8">
+        <nav class="flex justify-between items-center">
+          <a href={`${base}/`} class="site-title text-2xl font-bold">chizubo</a>
+          <div class="nav-links flex gap-4">
+            <a href={`${base}essays`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">Essays</a>
+            <a href={`${base}about`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">About</a>
+            <button id="theme-toggle" class="theme-toggle p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+              🌓
+            </button>
+          </div>
+        </nav>
+      </header>
+    </div>
 
-        <main class="content prose dark:prose-invert max-w-none">
-          <slot />
-        </main>
+    <!-- Breadcrumb - Full Width -->
+    {breadcrumbItems.length > 0 && <Breadcrumb items={breadcrumbItems} />}
 
-        <footer class="site-footer mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
-          <p class="text-center text-gray-600 dark:text-gray-400">
-            © {new Date().getFullYear()} ちずぼ
-          </p>
-        </footer>
-      </div>
+    <!-- Main Content -->
+    <div class="container max-w-4xl mx-auto px-4 pb-8">
+      <main class="content prose dark:prose-invert max-w-none">
+        <slot />
+      </main>
+
+      <footer class="site-footer mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
+        <p class="text-center text-gray-600 dark:text-gray-400">
+          © {new Date().getFullYear()} ちずぼ
+        </p>
+      </footer>
     </div>
 
     <script>
@@ -71,4 +83,4 @@ const {
       });
     </script>
   </body>
-</html> 
+</html>

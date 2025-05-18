@@ -13,9 +13,22 @@ const posts = await Promise.all(
 );
 
 posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+
+// Define breadcrumb items
+const breadcrumbItems = [
+  {
+    title: "Essays",
+    url: `${base}essays`,
+    isCurrent: true
+  }
+];
 ---
 
-<MainLayout title="Essays" description="A collection of essays on various topics">
+<MainLayout 
+  title="Essays" 
+  description="A collection of essays on various topics"
+  breadcrumbItems={breadcrumbItems}
+>
   <h1 class="text-4xl font-bold mb-8">Essays</h1>
   <div class="space-y-8">
     {posts.map(post => (

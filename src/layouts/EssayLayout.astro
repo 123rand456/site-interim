@@ -2,13 +2,31 @@
 // Component Script (inside frontmatter fence)
 import MainLayout from './MainLayout.astro';
 import PageMetadata from '../components/PageMetadata.astro';
+import { base } from '../utils/constants';
 
 // For markdown files using this as a layout, 
 // Astro.props contains frontmatter and renders the markdown content in <slot />
 const { frontmatter } = Astro.props;
+
+// Create breadcrumb items for this essay
+const breadcrumbItems = [
+  {
+    title: "Essays",
+    url: `${base}essays`,
+  },
+  {
+    title: frontmatter.title,
+    url: Astro.url.pathname,
+    isCurrent: true
+  }
+];
 ---
 
-<MainLayout title={frontmatter.title} description={frontmatter.description}>
+<MainLayout 
+  title={frontmatter.title} 
+  description={frontmatter.description}
+  breadcrumbItems={breadcrumbItems}
+>
   <h1 class="text-4xl font-bold mb-4 text-center">{frontmatter.title}</h1>
   
   <div class="mb-8">

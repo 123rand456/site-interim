@@ -1,0 +1,57 @@
+---
+import { base } from '../utils/constants';
+
+interface BreadcrumbItem {
+  title: string;
+  url: string;
+  isCurrent?: boolean;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="breadcrumb-wrapper w-full bg-gray-100 dark:bg-gray-800">
+  <div class="container max-w-4xl mx-auto px-4">
+    <nav aria-label="Breadcrumb" class="breadcrumb py-2">
+      <ol class="flex flex-wrap items-center text-sm">
+        <li class="breadcrumb-item">
+          <a href={`${base}/`} class="text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">Home</a>
+        </li>
+        
+        {items.map((item: BreadcrumbItem, index: number) => (
+          <li class="breadcrumb-item flex items-center">
+            <span class="mx-2 text-gray-500 dark:text-gray-500">/</span>
+            {item.isCurrent ? (
+              <span class="text-gray-900 dark:text-gray-200 font-medium">{item.title}</span>
+            ) : (
+              <a href={item.url} class="text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">{item.title}</a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .breadcrumb-wrapper {
+    border-bottom: 1px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .breadcrumb {
+    font-size: 0.875rem;
+  }
+  
+  .breadcrumb a {
+    text-decoration: none;
+  }
+  
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+</style>
