@@ -13,6 +13,7 @@
   --border-color: #dee2e6;
   --link-hover: #0066cc;
   --link-active: #0066cc;
+  --toc-hover-bg: #e9ecef; /* Background for ToC items on hover - light theme */
 }
 
 /* Functional colors - dark theme */
@@ -24,4 +25,5 @@
   --border-color: #404040;
   --link-hover: #66b3ff;
   --link-active: #66b3ff;
+  --toc-hover-bg: #2d3748; /* Background for ToC items on hover - dark theme */
 } 

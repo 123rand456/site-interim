@@ -1,14 +1,20 @@
 @import './theme.css';
 @import './components/table-of-contents.css';
-/* Other imports */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light dark;
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+  
+  .dark {
+    color-scheme: dark;
+  }
 }
 
-.dark {
-  color-scheme: dark;
+@layer components {
+  /* Common component patterns here */
 } 

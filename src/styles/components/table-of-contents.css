@@ -25,10 +25,12 @@
   color: var(--text-primary);
   font-weight: 600;
   text-decoration: none;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
 }
 
-/* Nested lists */
+/* Nested lists - first level */
 .toc-sublist {
   list-style: none;
   padding-left: 1rem;
@@ -41,19 +43,54 @@
 }
 
 .toc-sublink {
+  display: block;
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.9rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
 }
 
-/* Hover states */
+/* Nested lists - second level */
+.toc-subsublist {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  border-left: 1px solid var(--border-color);
+}
+
+.toc-subsubitem {
+  margin: 0.25rem 0;
+}
+
+.toc-subsublink {
+  display: block;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover states for all levels */
 .toc-link:hover,
-.toc-sublink:hover {
-  color: var(--link-hover);
+.toc-sublink:hover,
+.toc-subsublink:hover {
+  background-color: var(--toc-hover-bg);
+  text-decoration: none;
 }
 
-/* Active states */
+/* Active states for all levels */
 .toc-link.active,
-.toc-sublink.active {
+.toc-sublink.active,
+.toc-subsublink.active {
   color: var(--link-active);
+  text-decoration: none;
+}
+
+/* Extra selector to ensure all links in TOC have no underlines */
+.toc-container a {
+  text-decoration: none !important;
 } 
