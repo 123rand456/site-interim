@@ -16,8 +16,18 @@ const posts = await Promise.all(
     })
 );
 
-const recentEssays = posts
-  .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
+// Precompute most recent date for each post for optimized sorting
+const postsWithDate = posts.map(post => {
+  const fm = post.frontmatter as { date?: string; dateCreated?: string; dateUpdated?: string };
+  const dateStr = fm.dateUpdated ?? fm.dateCreated ?? fm.date;
+  return {
+    ...post,
+    _sortDate: dateStr ? new Date(dateStr).getTime() : 0
+  };
+});
+
+const recentEssays = postsWithDate
+  .sort((a, b) => b._sortDate - a._sortDate)
   .slice(0, 3);
 ---
 

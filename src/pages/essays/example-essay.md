@@ -2,8 +2,8 @@
 layout: ../../layouts/EssayLayout.astro
 title: "The Nature of Knowledge"
 description: "An exploration of epistemology and how we acquire knowledge"
-dateCreated: "2024-05-07"
-dateUpdated: "2024-05-07"
+dateCreated: "2024-05-09"
+dateUpdated: "2024-05-12"
 confidence: "highly likely"
 importance: "3"
 tags:

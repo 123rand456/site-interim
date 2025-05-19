@@ -3,7 +3,7 @@ layout: ../../layouts/EssayLayout.astro
 title: "The Role of AI in Modern Society"
 description: "Exploring the impact of artificial intelligence on contemporary life"
 dateCreated: "2024-05-08"
-dateUpdated: "2024-05-08"
+dateUpdated: "2024-05-10"
 confidence: "likely"
 importance: "4"
 tags:
