@@ -3,14 +3,16 @@
 // is your "component frontmatter". It never runs in the browser.
 
 import MainLayout from '../layouts/MainLayout.astro';
-import { base } from '../utils/constants';
+import { base, CATEGORIES } from '../utils/constants';
 
 const posts = await Promise.all(
   Object.entries(import.meta.glob('./essays/*.md'))
-    .map(async ([_, post]) => {
-      const resolvedPost = await post() as { url: string; frontmatter: { date: string; title: string; description: string } };
+    .map(async ([url, post]: [string, any]) => {
+      const resolvedPost = await post() as { url: string; frontmatter: { title: string; description: string; date?: string; dateCreated?: string; dateUpdated?: string; category?: string } };
+      // Extract slug from filename
+      const slug = url.replace('./essays/', '').replace('.md', '');
       return {
-        url: resolvedPost.url,
+        url: `${base}essays/${slug}`,
         frontmatter: resolvedPost.frontmatter
       };
     })
@@ -26,53 +28,59 @@ const postsWithDate = posts.map(post => {
   };
 });
 
-const recentEssays = postsWithDate
-  .sort((a, b) => b._sortDate - a._sortDate)
-  .slice(0, 3);
+// Group posts by category
+const categoriesMap = new Map();
+for (const post of postsWithDate) {
+  const cat = post.frontmatter.category || 'Uncategorized';
+  if (!categoriesMap.has(cat)) categoriesMap.set(cat, []);
+  categoriesMap.get(cat).push(post);
+}
+
+// Sort posts in each category by date (most recent first)
+for (const postsArr of categoriesMap.values()) {
+  postsArr.sort((a: typeof postsWithDate[0], b: typeof postsWithDate[0]) => b._sortDate - a._sortDate);
+}
+
+const categories = Array.from(categoriesMap.entries());
 ---
 
 <MainLayout>
   <section class="mb-16">
-    <h1 class="text-4xl font-bold mb-4">ルールで名乗ることはできない事になっています</h1>
-    <p class="text-xl text-gray-600 dark:text-gray-400">
-      This is a collection of essays and research on technology, science, philosophy, and other topics that interest me. 
-      Oh, and insight porn too.
+    <h1 class="text-4xl font-bold mb-4">ルールで名乗る事はできない</h1>
+    <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+      事になっています
     </p>
   </section>
 
-  <section class="mb-16">
-    <h2 class="text-2xl font-bold mb-8">Recent Essays</h2>
-    <div class="space-y-8">
-      {recentEssays.map(essay => (
-        <article class="border-b border-gray-200 dark:border-gray-700 pb-8">
-          <h3 class="text-xl font-semibold mb-2">
-            <a href={essay.url} class="hover:text-blue-600 dark:hover:text-blue-400">
-              {essay.frontmatter.title}
-            </a>
-          </h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">
-            {essay.frontmatter.description}
-          </p>
-          <div class="text-sm text-gray-500 dark:text-gray-500">
-            {(() => {
-              const fm = essay.frontmatter as { date?: string; dateCreated?: string; dateUpdated?: string; title: string; description: string };
-              const d = fm.dateUpdated ?? fm.dateCreated ?? fm.date;
-              return d ? new Date(d).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              }) : '';
-            })()}
-          </div>
-        </article>
-      ))}
-    </div>
-    <div class="mt-8">
-      <a href={`${base}essays`} class="text-blue-600 dark:text-blue-400 hover:underline">
-        View all essays →
-      </a>
-    </div>
-  </section>
+  <div class="flex flex-col gap-12 md:flex-row md:flex-wrap md:gap-x-8 lg:gap-x-12 lg:gap-y-16">
+    {CATEGORIES.map(cat =>
+      <section class="mb-8 w-full md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] flex-shrink-0">
+        <h2 class="text-2xl font-bold mb-2">{cat.label}</h2>
+        <hr class="mb-4 border-gray-300 dark:border-gray-700" />
+        <div class="grid grid-cols-1 gap-y-2">
+          {postsWithDate
+            .filter(post => (post.frontmatter.category || 'Uncategorized') === cat.key)
+            .sort((a, b) => b._sortDate - a._sortDate)
+            .map(post => (
+              <div class="flex items-baseline gap-2">
+                <span class="text-gray-400 text-xs">{(() => {
+                  const fm = post.frontmatter;
+                  const d = fm.dateUpdated ?? fm.dateCreated ?? fm.date;
+                  return d ? new Date(d).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  }) : '';
+                })()}</span>
+                <a href={post.url} class="hover:text-blue-600 dark:hover:text-blue-400 underline">
+                  {post.frontmatter.title}
+                </a>
+              </div>
+            ))}
+        </div>
+      </section>
+    )}
+  </div>
 </MainLayout>
 
 <style>
