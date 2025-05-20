@@ -4,6 +4,7 @@ title: "The Nature of Knowledge"
 description: "An exploration of epistemology and how we acquire knowledge"
 dateCreated: "2024-05-09"
 dateUpdated: "2024-05-12"
+category: "Philosophy"
 confidence: "highly likely"
 importance: "3"
 tags:

@@ -5,6 +5,7 @@ description: "Exploring the impact of artificial intelligence on contemporary li
 dateCreated: "2024-05-08"
 dateUpdated: "2024-05-10"
 confidence: "likely"
+category: "Random"
 importance: "4"
 tags:
   - technology
