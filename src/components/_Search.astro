@@ -1,0 +1,68 @@
+---
+import { base } from '../utils/constants';
+---
+
+<div id="search-container" class="relative">
+  <div id="searchbox"></div>
+  <div id="hits"></div>
+</div>
+
+<script define:vars={{ base }}>
+  import algoliasearch from 'algoliasearch/lite';
+  import instantsearch from 'instantsearch.js';
+  import { searchBox, hits } from 'instantsearch.js/es/widgets';
+
+  const searchClient = algoliasearch(
+    import.meta.env.ALGOLIA_APP_ID,
+    import.meta.env.ALGOLIA_SEARCH_KEY
+  );
+
+  const search = instantsearch({
+    indexName: import.meta.env.PUBLIC_ALGOLIA_INDEX_NAME,
+    searchClient,
+  });
+
+  search.addWidgets([
+    searchBox({
+      container: '#searchbox',
+      placeholder: 'Search essays...',
+      cssClasses: {
+        root: 'w-full',
+        form: 'relative',
+        input: 'w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100',
+      },
+    }),
+    hits({
+      container: '#hits',
+      templates: {
+        item: (hit) => `
+          <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <a href="${base}essays/${hit.slug}" class="block hover:bg-gray-50 dark:hover:bg-gray-800">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">${hit.title}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">${hit.description}</p>
+              <div class="mt-2 flex items-center gap-2">
+                <span class="text-xs text-gray-500 dark:text-gray-500">${hit.category}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-500">•</span>
+                <span class="text-xs text-gray-500 dark:text-gray-500">${new Date(hit.date).toLocaleDateString()}</span>
+              </div>
+            </a>
+          </div>
+        `,
+      },
+      cssClasses: {
+        root: 'mt-2 max-h-96 overflow-y-auto bg-white dark:bg-gray-900 rounded-lg shadow-lg',
+        list: 'divide-y divide-gray-200 dark:divide-gray-700',
+        item: 'hover:bg-gray-50 dark:hover:bg-gray-800',
+      },
+    }),
+  ]);
+
+  search.start();
+</script>
+
+<style>
+  #search-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style> 
