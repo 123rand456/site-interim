@@ -7,14 +7,13 @@ import rehypeSlug from 'rehype-slug';
 import rehypeExternalLinks from 'rehype-external-links';
 import remarkGfm from 'remark-gfm';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://123rand456.github.io/site-interim',
   base: '/site-interim/',
-  integrations: [
-    tailwind(),
-    sitemap(),
-  ],
+  integrations: [tailwind(), sitemap(), react()],
   markdown: {
     remarkPlugins: [
       remarkToc,
