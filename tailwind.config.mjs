@@ -35,7 +35,10 @@ export default {
             }
           }
         }
-      }
+      },
+      colors: {
+        'brand-orange': '#ff9900',
+      },
     }
   },
   plugins: [
