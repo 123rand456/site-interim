@@ -53,9 +53,12 @@ The project follows these styling principles:
 
 ## To-Do
 
-- Add search functionality
-- Add essay indexing
-- Improve page styling with nested directional links 
-- Add toggle drop down 
-- Add Dropcaps (?)
+- [x] Add search functionality
+- [x] Add essay indexing
+- [x] Improve page styling with nested directional links 
+- [x] Add toggle drop down 
+- [] Add recommendation
+- [] Add comments
+- [] Add rss feed
+- [] Add Dropcaps (?)
 
