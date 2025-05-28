@@ -2,11 +2,15 @@
 // Component Script (inside frontmatter fence)
 import MainLayout from './MainLayout.astro';
 import PageMetadata from '../components/PageMetadata.astro';
+import SupabaseComments from '../components/SupabaseComments.jsx';
 import { base } from '../utils/constants';
 
 // For markdown files using this as a layout, 
 // Astro.props contains frontmatter and renders the markdown content in <slot />
 const { frontmatter } = Astro.props;
+
+// Extract slug from URL for comments
+const slug = Astro.url.pathname.split('/').pop() || 'unknown';
 
 // Create breadcrumb items for this essay
 const breadcrumbItems = [
@@ -36,4 +40,7 @@ const breadcrumbItems = [
   <div class="prose dark:prose-invert max-w-none">
     <slot />  <!-- Markdown content gets rendered here -->
   </div>
+
+  <!-- Supabase Comments Section -->
+  <SupabaseComments client:load essaySlug={slug} />
 </MainLayout>
