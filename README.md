@@ -59,6 +59,7 @@ The project follows these styling principles:
 - [x] Add toggle drop down 
 - [ ] Add recommendation
 - [x] Add comments
+- [ ] Properly secure admin interface
 - [ ] Add rss feed
 - [ ] Add Dropcaps (?)
 
