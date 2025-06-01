@@ -5,6 +5,7 @@ import astro from 'eslint-plugin-astro';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import globals from 'globals';
 
 export default [
   // Base JavaScript config
@@ -16,9 +17,8 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        browser: true,
-        node: true,
-        es2022: true,
+        ...globals.browser,
+        ...globals.node,
       },
     },
     settings: {
@@ -71,7 +71,7 @@ export default [
 
   // JavaScript/JSX files
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['**/*.{js,jsx,mjs}'],
     languageOptions: {
       parserOptions: {
         ecmaFeatures: {
@@ -100,57 +100,8 @@ export default [
     },
   },
 
-  // Astro files
-  {
-    files: ['**/*.astro'],
-    languageOptions: {
-      parser: astro.parsers['astro-eslint-parser'],
-      parserOptions: {
-        parser: typescriptParser,
-        extraFileExtensions: ['.astro'],
-      },
-    },
-    plugins: {
-      astro,
-      '@typescript-eslint': typescript,
-      react,
-      'react-hooks': reactHooks,
-      'jsx-a11y': jsxA11y,
-    },
-    rules: {
-      ...astro.configs.recommended.rules,
-      ...typescript.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      ...jsxA11y.configs.recommended.rules,
-
-      // TypeScript
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_' },
-      ],
-      '@typescript-eslint/no-explicit-any': 'warn',
-
-      // React
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-
-      // General
-      'no-console': 'warn',
-      'prefer-const': 'error',
-      'no-var': 'error',
-    },
-  },
-
-  // Markdown files - disable most rules
-  {
-    files: ['**/*.{md,mdx}'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'off',
-      'no-undef': 'off',
-      'no-unused-vars': 'off',
-    },
-  },
+  // Include Astro recommended configs
+  ...astro.configs.recommended,
 
   // Ignore patterns
   {
@@ -163,6 +114,9 @@ export default [
       '.vscode/',
       '.cache/',
       '.temp/',
+      '**/*.md',
+      '**/*.mdx',
+      'README.md',
     ],
   },
 ];
