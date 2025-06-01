@@ -42,7 +42,7 @@ export default function Search({ base = '/' }) {
       hits({
         container: hitsRef.current,
         templates: {
-          item: (hit) => `
+          item: hit => `
             <a href="${base}essays/${hit.slug}" 
                style="display:block;text-decoration:none;color:inherit;" 
                onmousedown="window.location=this.href">
@@ -86,7 +86,14 @@ export default function Search({ base = '/' }) {
   };
 
   return (
-    <div style={{ position: 'relative', zIndex: 100, minWidth: 250, maxWidth: 350 }}>
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 100,
+        minWidth: 250,
+        maxWidth: 350,
+      }}
+    >
       <div style={{ position: 'relative' }}>
         <div ref={searchBoxRef} />
         {query && (
@@ -108,7 +115,12 @@ export default function Search({ base = '/' }) {
           >
             {/* SVG cross icon */}
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-              <path d="M6 6l8 8M14 6l-8 8" stroke="#888" strokeWidth="2" strokeLinecap="round"/>
+              <path
+                d="M6 6l8 8M14 6l-8 8"
+                stroke="#888"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </button>
         )}

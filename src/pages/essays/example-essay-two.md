@@ -1,12 +1,12 @@
 ---
 layout: ../../layouts/EssayLayout.astro
-title: "The Role of AI in Modern Society"
-description: "Exploring the impact of artificial intelligence on contemporary life"
-dateCreated: "2024-05-08"
-dateUpdated: "2024-05-10"
-confidence: "likely"
-category: "Random"
-importance: "4"
+title: 'The Role of AI in Modern Society'
+description: 'Exploring the impact of artificial intelligence on contemporary life'
+dateCreated: '2024-05-08'
+dateUpdated: '2024-05-10'
+confidence: 'likely'
+category: 'Random'
+importance: '4'
 tags:
   - technology
   - artificial-intelligence
@@ -15,7 +15,8 @@ tags:
 
 ## Introduction
 
-The rapid advancement of artificial intelligence has fundamentally changed how we live, work, and interact. This essay explores the multifaceted impact of AI on modern society.
+The rapid advancement of artificial intelligence has fundamentally changed how we live, work, and
+interact. This essay explores the multifaceted impact of AI on modern society.
 
 ## Current State of AI
 
@@ -56,6 +57,7 @@ As AI continues to evolve, we must prepare for:
 
 ## Conclusion
 
-The integration of AI into society represents both unprecedented opportunities and challenges. Our ability to navigate this transformation will determine its ultimate impact.
+The integration of AI into society represents both unprecedented opportunities and challenges. Our
+ability to navigate this transformation will determine its ultimate impact.
 
-[^1]: Based on current trends and research in artificial intelligence as of 2024. 
+[^1]: Based on current trends and research in artificial intelligence as of 2024.

@@ -5,23 +5,24 @@ import { base } from '../../utils/constants';
 
 const breadcrumbItems = [
   {
-    title: "Admin",
+    title: 'Admin',
     url: `${base}admin`,
   },
   {
-    title: "Comments",
+    title: 'Comments',
     url: `${base}admin/comments`,
-    isCurrent: true
-  }
+    isCurrent: true,
+  },
 ];
 ---
 
-<MainLayout 
-  title="Comment Administration" 
+<MainLayout
+  title="Comment Administration"
   description="Manage and approve comments"
   breadcrumbItems={breadcrumbItems}
 >
   <h1 class="text-4xl font-bold mb-8 text-center">Comment Administration</h1>
-  
+
   <CommentAdmin client:load />
-</MainLayout> 
+</MainLayout>
+

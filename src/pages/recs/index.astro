@@ -6,19 +6,35 @@ import MainLayout from '../../layouts/MainLayout.astro';
   <section class="mb-16">
     <h1 class="text-4xl font-bold mb-4 text-brand-orange">The best things</h1>
     <blockquote class="border-l-4 pl-4 italic text-gray-500 my-8">
-      <span id="recs-quote">...to hedge against the terror of having a terrible memory. Though still young enough to expect no sympathy, I constantly feel the burden of this handicap. Confirmation of it, and that writing is its cure, I discover every time I pick up something I wrote years, or even months ago. Reading those things puts me in an uncanny state, like a past-life regression. Meanwhile, unrecorded impressions, sayings, old friends, and good books vanish without warning or trace. Some read and write to win eternal life; I would be happy enough just to keep a hold of this one.</span><br />
+      <span id="recs-quote"
+        >...to hedge against the terror of having a terrible memory. Though
+        still young enough to expect no sympathy, I constantly feel the burden
+        of this handicap. Confirmation of it, and that writing is its cure, I
+        discover every time I pick up something I wrote years, or even months
+        ago. Reading those things puts me in an uncanny state, like a past-life
+        regression. Meanwhile, unrecorded impressions, sayings, old friends, and
+        good books vanish without warning or trace. Some read and write to win
+        eternal life; I would be happy enough just to keep a hold of this one.</span
+      ><br />
       <span class="not-italic">– Nathan Schneider</span>
     </blockquote>
   </section>
 
   <div class="flex flex-col gap-4">
     <details class="bg-green-900 text-white rounded" open>
-      <summary class="cursor-pointer px-4 py-3 text-lg font-medium">Overall</summary>
-      <div class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900">
+      <summary class="cursor-pointer px-4 py-3 text-lg font-medium"
+        >Overall</summary
+      >
+      <div
+        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900"
+      >
         <p>My favourite things per se are talking to people...</p>
         <!-- Nested dropdowns -->
         <details class="mt-4 border border-gray-200 rounded">
-          <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Free Things</summary>
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Free Things</summary
+          >
           <div class="px-3 py-2">
             <ul class="list-disc pl-5">
               <li>Sneezing</li>
@@ -27,74 +43,122 @@ import MainLayout from '../../layouts/MainLayout.astro';
             </ul>
           </div>
         </details>
+        <details class="mt-4 border border-gray-200 rounded">
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Underrated Things</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5">
+              <li>Cold Food</li>
+              <li>Vocal Fry & Intentional Rasp</li>
+            </ul>
+          </div>
+        </details>
         <details class="mt-2 border border-gray-200 rounded">
-          <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Overrated Things</summary>
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Overrated Things</summary
+          >
           <div class="px-3 py-2">
             <ul class="list-disc pl-5">
               <li>Nightclubs</li>
-              <li>Bacon</li>
+              <li>Alcohol</li>
+              <li>IYKYK Energy</li>
+              <li>Acronyms</li>
             </ul>
           </div>
         </details>
       </div>
     </details>
     <details class="bg-green-900 text-white rounded">
-      <summary class="cursor-pointer px-4 py-3 text-lg font-medium">Writing</summary>
-      <div class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900">
+      <summary class="cursor-pointer px-4 py-3 text-lg font-medium"
+        >Writing</summary
+      >
+      <div
+        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900"
+      >
         <details class="mt-4 border border-gray-200 rounded">
-            <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Books</summary>
-            <div class="px-3 py-2">
-              <ul class="list-disc pl-5">
-              </ul>
-            </div>
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Books</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5"></ul>
+          </div>
         </details>
 
         <details class="mt-4 border border-gray-200 rounded">
-            <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Poems</summary>
-            <div class="px-3 py-2">
-              <ul class="list-disc pl-5">
-              </ul>
-            </div>
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Blogs</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5"></ul>
+          </div>
         </details>
 
         <details class="mt-4 border border-gray-200 rounded">
-            <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Idioms</summary>
-            <div class="px-3 py-2">
-              <ul class="list-disc pl-5">
-              </ul>
-            </div>
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Poems</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5"></ul>
+          </div>
+        </details>
+
+        <details class="mt-4 border border-gray-200 rounded">
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Idioms</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5"></ul>
+          </div>
         </details>
       </div>
     </details>
 
     <details class="bg-green-900 text-white rounded">
-      <summary class="cursor-pointer px-4 py-3 text-lg font-medium">People</summary>
-      <div class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-green-900">
+      <summary class="cursor-pointer px-4 py-3 text-lg font-medium"
+        >People</summary
+      >
+      <div
+        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-green-900"
+      >
         <!-- Add people content here -->
       </div>
     </details>
 
     <details class="bg-green-900 text-white rounded">
-        <summary class="cursor-pointer px-4 py-3 text-lg font-medium">Misc</summary>
-        <div class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900">
-          <details class="mt-4 border border-gray-200 rounded">
-            <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Restaurants & Cafes</summary>
-            <div class="px-3 py-2">
-              <ul class="list-disc pl-5">
-              </ul>
-            </div>
+      <summary class="cursor-pointer px-4 py-3 text-lg font-medium"
+        >Misc</summary
+      >
+      <div
+        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900"
+      >
+        <details class="mt-4 border border-gray-200 rounded">
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Restaurants & Cafes</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5"></ul>
+          </div>
         </details>
 
         <details class="mt-4 border border-gray-200 rounded">
-            <summary class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100">Music</summary>
-            <div class="px-3 py-2">
-              <ul class="list-disc pl-5">
-              </ul>
-            </div>
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Music</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5"></ul>
+          </div>
         </details>
-        </div>
+      </div>
     </details>
-
   </div>
 </MainLayout>
 
@@ -117,4 +181,5 @@ import MainLayout from '../../layouts/MainLayout.astro';
   details[open] > summary {
     border-bottom: 1px solid #e5e7eb;
   }
-</style> 
+</style>
+

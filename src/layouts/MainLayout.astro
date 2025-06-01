@@ -15,10 +15,10 @@ interface Props {
   }>;
 }
 
-const { 
+const {
   title = "Chizubo's Essays and Research",
-  description = "A collection of essays on technology, science, and philosophy.",
-  breadcrumbItems = []
+  description = 'A collection of essays on technology, science, and philosophy.',
+  breadcrumbItems = [],
 } = Astro.props;
 
 // JavaScript/TypeScript code here (imports, props, etc.)
@@ -34,9 +34,9 @@ const {
       openGraph={{
         basic: {
           title,
-          type: "website",
-          image: "/og-image.png"
-        }
+          type: 'website',
+          image: '/og-image.png',
+        },
       }}
     />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
@@ -47,37 +47,81 @@ const {
       <div class="container max-w-4xl mx-auto px-4 py-8">
         <header class="mb-8">
           <nav class="flex justify-between items-center">
-            <a href={`${base}/`} class="site-title text-2xl font-bold">chizubo</a>
+            <a href={`${base}/`} class="site-title text-2xl font-bold"
+              >chizubo</a
+            >
             <div class="nav-links flex gap-4 items-center">
               <Search client:load base={base} />
-              <a href={`${base}essays`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">Essays</a>
-              <a href={`${base}about`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">About</a>
-              <a href={`${base}recs`} class="nav-link hover:text-gray-600 dark:hover:text-gray-300">Recs</a>
+              <a
+                href={`${base}essays`}
+                class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
+                >Essays</a
+              >
+              <a
+                href={`${base}about`}
+                class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
+                >About</a
+              >
+              <a
+                href={`${base}recs`}
+                class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
+                >Recs</a
+              >
             </div>
           </nav>
         </header>
       </div>
       <!-- Gear icon fixed to the far right -->
       <div class="fixed top-8 right-8 z-50 flex flex-col items-center">
-        <button id="settings-toggle" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Settings">
+        <button
+          id="settings-toggle"
+          class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
+          aria-label="Settings"
+        >
           <img src={`${base}gear-icon.svg`} alt="Settings" class="h-6 w-6" />
         </button>
-        <div id="settings-dropdown" class="hidden flex flex-col items-center mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 w-12 py-2">
+        <div
+          id="settings-dropdown"
+          class="hidden flex flex-col items-center mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 w-12 py-2"
+        >
           <div class="flex flex-col items-center gap-2">
             <div class="relative group">
-              <button id="theme-auto" aria-label="Auto Light/Dark" class="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
-                <img src={`${base}default-theme.svg`} alt="Auto" class="h-5 w-5" />
+              <button
+                id="theme-auto"
+                aria-label="Auto Light/Dark"
+                class="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <img
+                  src={`${base}default-theme.svg`}
+                  alt="Auto"
+                  class="h-5 w-5"
+                />
               </button>
-              <span class="settings-tooltip group-hover:opacity-100">Auto Light/Dark</span>
+              <span class="settings-tooltip group-hover:opacity-100"
+                >Auto Light/Dark</span
+              >
             </div>
             <div class="relative group">
-              <button id="theme-light" aria-label="Light" class="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
-                <img src={`${base}light-theme.svg`} alt="Light" class="h-5 w-5" />
+              <button
+                id="theme-light"
+                aria-label="Light"
+                class="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <img
+                  src={`${base}light-theme.svg`}
+                  alt="Light"
+                  class="h-5 w-5"
+                />
               </button>
-              <span class="settings-tooltip group-hover:opacity-100">Light</span>
+              <span class="settings-tooltip group-hover:opacity-100">Light</span
+              >
             </div>
             <div class="relative group">
-              <button id="theme-dark" aria-label="Dark" class="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
+              <button
+                id="theme-dark"
+                aria-label="Dark"
+                class="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
                 <img src={`${base}dark-theme.svg`} alt="Dark" class="h-5 w-5" />
               </button>
               <span class="settings-tooltip group-hover:opacity-100">Dark</span>
@@ -92,16 +136,18 @@ const {
 
     <!-- Main Content -->
     <div class="container max-w-4xl mx-auto px-4 pb-8">
-        <main class="content prose dark:prose-invert max-w-none">
-          <slot />
-        </main>
+      <main class="content prose dark:prose-invert max-w-none">
+        <slot />
+      </main>
 
-        <footer class="site-footer mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
-          <p class="text-center text-gray-600 dark:text-gray-400">
-            © {new Date().getFullYear()} ちずぼ
-          </p>
-        </footer>
-      </div>
+      <footer
+        class="site-footer mt-16 py-8 border-t border-gray-200 dark:border-gray-700"
+      >
+        <p class="text-center text-gray-600 dark:text-gray-400">
+          © {new Date().getFullYear()} ちずぼ
+        </p>
+      </footer>
+    </div>
 
     <style>
       .settings-tooltip {
@@ -114,11 +160,11 @@ const {
       const gearBtn = document.getElementById('settings-toggle');
       const dropdown = document.getElementById('settings-dropdown');
       if (gearBtn && dropdown) {
-        gearBtn.addEventListener('click', (e) => {
+        gearBtn.addEventListener('click', e => {
           e.stopPropagation();
           dropdown.classList.toggle('hidden');
         });
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', e => {
           const target = e.target as Node;
           if (!dropdown.contains(target) && !gearBtn.contains(target)) {
             dropdown.classList.add('hidden');
@@ -129,16 +175,16 @@ const {
       // Theme switching
       function setTheme(theme: string) {
         if (theme === 'auto') {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark');
           } else {
             document.documentElement.classList.remove('dark');
           }
         } else if (theme === 'dark') {
           document.documentElement.classList.add('dark');
-      } else {
+        } else {
           document.documentElement.classList.remove('dark');
-      }
+        }
         localStorage.setItem('theme', theme);
       }
 
@@ -160,11 +206,13 @@ const {
       }
 
       // Listen for system theme changes if auto
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (localStorage.getItem('theme') === 'auto') {
-          setTheme('auto');
-        }
-      });
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', e => {
+          if (localStorage.getItem('theme') === 'auto') {
+            setTheme('auto');
+          }
+        });
 
       // Reader mode and popups toggles (implement as needed)
       const readerToggle = document.getElementById('reader-toggle');
@@ -181,4 +229,5 @@ const {
       }
     </script>
   </body>
-</html> 
+</html>
+

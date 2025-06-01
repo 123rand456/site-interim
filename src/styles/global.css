@@ -9,7 +9,7 @@
   :root {
     color-scheme: light dark;
   }
-  
+
   .dark {
     color-scheme: dark;
   }
@@ -17,4 +17,4 @@
 
 @layer components {
   /* Common component patterns here */
-} 
+}

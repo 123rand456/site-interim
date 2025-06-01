@@ -8,16 +8,16 @@ export default {
         DEFAULT: {
           css: {
             'code::before': {
-              content: '""'
+              content: '""',
             },
             'code::after': {
-              content: '""'
+              content: '""',
             },
             'blockquote p:first-of-type::before': {
-              content: '""'
+              content: '""',
             },
             'blockquote p:last-of-type::after': {
-              content: '""'
+              content: '""',
             },
             maxWidth: '65ch',
             lineHeight: '1.75',
@@ -32,16 +32,14 @@ export default {
             'h1, h2, h3, h4': {
               marginTop: '2em',
               marginBottom: '1em',
-            }
-          }
-        }
+            },
+          },
+        },
       },
       colors: {
         'brand-orange': '#ff9900',
       },
-    }
+    },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
-} 
+  plugins: [require('@tailwindcss/typography')],
+};

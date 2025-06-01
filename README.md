@@ -33,14 +33,13 @@ A personal website inspired by gwern.net, built with Astro and Tailwind CSS.
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-
+| Command             | Action                                           |
+| :------------------ | :----------------------------------------------- |
+| `npm install`       | Installs dependencies                            |
+| `npm run dev`       | Starts local dev server at `localhost:4321`      |
+| `npm run build`     | Build your production site to `./dist/`          |
+| `npm run preview`   | Preview your build locally, before deploying     |
+| `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
 
 ## Styling Guidelines
 
@@ -55,11 +54,10 @@ The project follows these styling principles:
 
 - [x] Add search functionality
 - [x] Add essay indexing
-- [x] Improve page styling with nested directional links 
-- [x] Add toggle drop down 
+- [x] Improve page styling with nested directional links
+- [x] Add toggle drop down
 - [ ] Add recommendation
 - [x] Add comments
 - [ ] Properly secure admin interface
 - [ ] Add rss feed
 - [ ] Add Dropcaps (?)
-

@@ -19,4 +19,4 @@ export type Comment = {
   updated_at: string;
   parent_id?: string; // nested comments
   is_approved: boolean;
-}; 
+};

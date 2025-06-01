@@ -8,12 +8,12 @@ interface Props {
   description?: string;
 }
 
-const { tags, dateCreated, dateUpdated, confidence, importance, description } = Astro.props;
+const { tags, dateCreated, dateUpdated, confidence, importance, description } =
+  Astro.props;
 ---
 
 <div class="metadata-container mb-8 text-center">
-
-<!--
+  <!--
   {description && <div class="description mt-4 text-gray-600 dark:text-gray-400">{description}</div>}
 -->
 
@@ -23,30 +23,39 @@ const { tags, dateCreated, dateUpdated, confidence, importance, description } = 
     {dateCreated} – {dateUpdated}
   </div>
 
-  {confidence && (
-    <span class="badge badge-confidence" title="Confidence">{confidence}</span>
-  )}
+  {
+    confidence && (
+      <span class="badge badge-confidence" title="Confidence">
+        {confidence}
+      </span>
+    )
+  }
 
-  {importance && (
-    <span class="badge badge-importance" title="Importance">{importance}</span>
-  )}
+  {
+    importance && (
+      <span class="badge badge-importance" title="Importance">
+        {importance}
+      </span>
+    )
+  }
 </div>
 
 <style>
-.badge {
-  display: inline-block;
-  margin: 0 0.25em;
-  padding: 0.2em 0.6em;
-  border-radius: 0.25em;
-  font-size: 0.85em;
-  font-weight: 500;
-}
-.badge-confidence {
-  background: #e0f7fa;
-  color: #00796b;
-}
-.badge-importance {
-  background: #fff3e0;
-  color: #e65100;
-}
-</style> 
+  .badge {
+    display: inline-block;
+    margin: 0 0.25em;
+    padding: 0.2em 0.6em;
+    border-radius: 0.25em;
+    font-size: 0.85em;
+    font-weight: 500;
+  }
+  .badge-confidence {
+    background: #e0f7fa;
+    color: #00796b;
+  }
+  .badge-importance {
+    background: #fff3e0;
+    color: #e65100;
+  }
+</style>
+

@@ -4,7 +4,7 @@
   --gray-100: #e9ecef;
   --gray-700: #334155;
   --gray-800: #1e293b;
-  
+
   /* Functional colors - light theme */
   --toc-bg: var(--gray-50);
   --toc-border: var(--gray-100);
@@ -26,4 +26,4 @@
   --link-hover: #66b3ff;
   --link-active: #66b3ff;
   --toc-hover-bg: #2d3748; /* Background for ToC items on hover - dark theme */
-} 
+}

@@ -29,7 +29,7 @@ export default function CommentAdmin() {
     }
   };
 
-  const approveComment = async (commentId) => {
+  const approveComment = async commentId => {
     try {
       const { error } = await supabase
         .from('comments')
@@ -38,18 +38,18 @@ export default function CommentAdmin() {
 
       if (error) throw error;
 
-      setComments(prev => prev.map(comment => 
-        comment.id === commentId 
-          ? { ...comment, is_approved: true }
-          : comment
-      ));
+      setComments(prev =>
+        prev.map(comment =>
+          comment.id === commentId ? { ...comment, is_approved: true } : comment
+        )
+      );
     } catch (err) {
       setError('Failed to approve comment');
       console.error('Error approving comment:', err);
     }
   };
 
-  const rejectComment = async (commentId) => {
+  const rejectComment = async commentId => {
     try {
       const { error } = await supabase
         .from('comments')
@@ -58,19 +58,22 @@ export default function CommentAdmin() {
 
       if (error) throw error;
 
-      setComments(prev => prev.map(comment => 
-        comment.id === commentId 
-          ? { ...comment, is_approved: false }
-          : comment
-      ));
+      setComments(prev =>
+        prev.map(comment =>
+          comment.id === commentId
+            ? { ...comment, is_approved: false }
+            : comment
+        )
+      );
     } catch (err) {
       setError('Failed to reject comment');
       console.error('Error rejecting comment:', err);
     }
   };
 
-  const deleteComment = async (commentId) => {
-    if (!confirm('Are you sure you want to permanently delete this comment?')) return;
+  const deleteComment = async commentId => {
+    if (!confirm('Are you sure you want to permanently delete this comment?'))
+      return;
 
     try {
       const { error } = await supabase
@@ -97,28 +100,33 @@ export default function CommentAdmin() {
       const { error } = await supabase
         .from('comments')
         .update({ is_approved: true })
-        .in('id', pendingComments.map(c => c.id));
+        .in(
+          'id',
+          pendingComments.map(c => c.id)
+        );
 
       if (error) throw error;
 
-      setComments(prev => prev.map(comment => 
-        pendingComments.some(pc => pc.id === comment.id)
-          ? { ...comment, is_approved: true }
-          : comment
-      ));
+      setComments(prev =>
+        prev.map(comment =>
+          pendingComments.some(pc => pc.id === comment.id)
+            ? { ...comment, is_approved: true }
+            : comment
+        )
+      );
     } catch (err) {
       setError('Failed to bulk approve comments');
       console.error('Error bulk approving comments:', err);
     }
   };
 
-  const formatDate = (timestamp) => {
+  const formatDate = timestamp => {
     return new Date(timestamp).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -134,7 +142,9 @@ export default function CommentAdmin() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-gray-500 dark:text-gray-400">Loading comments...</div>
+        <div className="text-gray-500 dark:text-gray-400">
+          Loading comments...
+        </div>
       </div>
     );
   }
@@ -164,7 +174,7 @@ export default function CommentAdmin() {
         <div className="flex gap-2">
           <select
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={e => setFilter(e.target.value)}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           >
             <option value="all">All Comments</option>
@@ -197,12 +207,12 @@ export default function CommentAdmin() {
             No {filter === 'all' ? '' : filter} comments found.
           </p>
         ) : (
-          filteredComments.map((comment) => (
-            <div 
-              key={comment.id} 
+          filteredComments.map(comment => (
+            <div
+              key={comment.id}
               className={`border rounded-lg p-4 ${
-                comment.is_approved 
-                  ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10' 
+                comment.is_approved
+                  ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10'
                   : 'border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/10'
               }`}
             >
@@ -217,16 +227,20 @@ export default function CommentAdmin() {
                         ({comment.author_email})
                       </span>
                     )}
-                    <span className={`px-2 py-1 text-xs rounded ${
-                      comment.is_approved 
-                        ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400' 
-                        : 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 text-xs rounded ${
+                        comment.is_approved
+                          ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400'
+                          : 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400'
+                      }`}
+                    >
                       {comment.is_approved ? 'Approved' : 'Pending'}
                     </span>
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Essay: <span className="font-mono">{comment.essay_slug}</span> • {formatDate(comment.created_at)}
+                    Essay:{' '}
+                    <span className="font-mono">{comment.essay_slug}</span> •{' '}
+                    {formatDate(comment.created_at)}
                   </div>
                 </div>
 
@@ -264,4 +278,4 @@ export default function CommentAdmin() {
       </div>
     </div>
   );
-} 
+}

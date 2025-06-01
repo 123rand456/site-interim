@@ -8,16 +8,17 @@ const metadata = {
   tags: ['software', 'research', 'writing'],
   dateCreated: '2025-05-09',
   dateUpdated: '2025-05-10',
-  description: 'Who am I online & what have I done? Sites I use; things I\'ve worked on; psyches'
+  description:
+    "Who am I online & what have I done? Sites I use; things I've worked on; psyches",
 };
 
 // Breadcrumb items for About page
 const breadcrumbItems = [
   {
-    title: "About",
+    title: 'About',
     url: `${base}about`,
-    isCurrent: true
-  }
+    isCurrent: true,
+  },
 ];
 
 const sections = [
@@ -25,13 +26,18 @@ const sections = [
     id: 'personal',
     title: 'Personal',
     subsections: [
-      { 
-        id: 'work', 
+      {
+        id: 'work',
         title: 'Work',
         metadata: { timestamp: '2024', status: 'current' },
         subsections: [
-          { id: 'projects', title: 'Projects', metadata: { importance: 'core' }, subsections: [] }
-        ]
+          {
+            id: 'projects',
+            title: 'Projects',
+            metadata: { importance: 'core' },
+            subsections: [],
+          },
+        ],
       },
       { id: 'websites', title: 'Websites' },
       {
@@ -39,25 +45,24 @@ const sections = [
         title: 'Uses This',
         subsections: [
           { id: 'software', title: 'Software' },
-          { id: 'hardware', title: 'Hardware' }
-        ]
-      }
-    ]
+          { id: 'hardware', title: 'Hardware' },
+        ],
+      },
+    ],
   },
   {
     id: 'contact',
-    title: 'Contact'
+    title: 'Contact',
   },
   {
     id: 'collaboration style',
-    title: 'Collaboration Style'
-  }
-
+    title: 'Collaboration Style',
+  },
 ];
 ---
 
-<MainLayout 
-  title="About Me" 
+<MainLayout
+  title="About Me"
   description={metadata.description}
   breadcrumbItems={breadcrumbItems}
 >
@@ -79,7 +84,9 @@ const sections = [
         {/* Initial Description */}
         <div class="mb-12">
           <p class="text-lg text-gray-600 dark:text-gray-400">
-            This page is about me; for information about my website, see <a href="/about-site">About This Website</a>.
+            This page is about me; for information about my website, see <a
+              href="/about-site">About This Website</a
+            >.
           </p>
         </div>
 
@@ -87,81 +94,110 @@ const sections = [
         <div class="relative">
           <h2 class="text-right text-3xl font-bold mb-8 pr-4">PERSONAL</h2>
           <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
-          
+
           {/* Quote section */}
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
             "A transition from an author's book to his conversation..."
             <footer class="mt-2 text-sm">
-              — Brian Kernighan; The Elements of Programming Style, 2nd edition, chapter 2
+              — Brian Kernighan; The Elements of Programming Style, 2nd edition,
+              chapter 2
             </footer>
           </blockquote>
 
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
-            "If you are rich and sophisticated, but not too rich or too sophisticated, then you are in the sweet spot for a lot of people who want to market complicated, expensive, terrible financial products to you."
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
+            "If you are rich and sophisticated, but not too rich
+            or too sophisticated, then you are in the sweet spot for a lot of
+            people who want to market complicated, expensive, terrible financial
+            products to you."
             <footer class="mt-2 text-sm">
               — Matt Levine; Look Like a Loser, Then Win, Bloomberg Opinion
             </footer>
           </blockquote>
 
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
-            "If the error rate you see is low, the error rate you don’t see is high."
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
+            "If the error rate you see is low, the error rate you don’t see is
+            high."
             <footer class="mt-2 text-sm">
               — David R. Maclver; There's no single error rate
             </footer>
           </blockquote>
 
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
             "Point of view is worth 80 IQ points"
             <footer class="mt-2 text-sm">
               — Alan Kay; Creative Think Seminar 1982
             </footer>
           </blockquote>
 
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
-            "Anything that's human is mentionable and anything mentionable is manageable. When we can talk about our feelings, they become less overwhelming, less upsetting, and less scary. The people that we trust with that important talk can help us know that "
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
+            "Anything that's human is mentionable and anything mentionable is
+            manageable. When we can talk about our feelings, they become less
+            overwhelming, less upsetting, and less scary. The people that we
+            trust with that important talk can help us know that "
             <footer class="mt-2 text-sm">
               — Fred Rogers; Testification before Congress 1969
             </footer>
           </blockquote>
 
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
-            "Really you want to charge an amount of money that is so absurd that most people won’t pay it, so that (1) you have very few clients and don’t have to work too hard, (2) those few clients pay you a lot of money and (3) they get their money’s worth."
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
+            "Really you want to charge an amount of money that is so absurd that
+            most people won’t pay it, so that (1) you have very few clients and
+            don’t have to work too hard, (2) those few clients pay you a lot of
+            money and (3) they get their money’s worth."
             <footer class="mt-2 text-sm">
-              — Matt Levine; Sculptor Sticks With the Deal It Knows, Bloomberg Opinion
+              — Matt Levine; Sculptor Sticks With the Deal It Knows, Bloomberg
+              Opinion
             </footer>
           </blockquote>
 
-          <blockquote class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8">
-            "Having a fast connection between New York and Chicago, or a good high school resume, is nothing. Having a faster connection between New York and Chicago, or a better high school resume, is everything. It is always good to be in a business where your customers beg you to take more money to work less."
+          <blockquote
+            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+          >
+            "Having a fast connection between New York and Chicago, or a good
+            high school resume, is nothing. Having a faster connection between
+            New York and Chicago, or a better high school resume, is everything.
+            It is always good to be in a business where your customers beg you
+            to take more money to work less."
             <footer class="mt-2 text-sm">
-              — Matt Levine; Sculptor Sticks With the Deal It Knows, Bloomberg Opinion
+              — Matt Levine; Sculptor Sticks With the Deal It Knows, Bloomberg
+              Opinion
             </footer>
           </blockquote>
-
-          
-
 
           {/* Content sections */}
           <div class="relative -ml-64">
             <section id="work" class="mb-8">
-              <h2 class="text-left text-3xl font-bold mb-8 pr-4">POSITIONAL GOODS</h2>
-              <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+              <h2 class="text-left text-3xl font-bold mb-8 pr-4">
+                POSITIONAL GOODS
+              </h2>
+              <div class="border-t border-gray-300 dark:border-gray-700 my-4">
+              </div>
               <p>Your work content...</p>
             </section>
 
             <section id="profile" class="mb-8">
               <h2 class="text-left text-3xl font-bold mb-8 pr-4">PROFILE</h2>
-              <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+              <div class="border-t border-gray-300 dark:border-gray-700 my-4">
+              </div>
               <p>Incorrect cliches...</p>
             </section>
           </div>
-          
-          
 
           {/* Other sections... */}
         </div>
       </main>
-      
     </div>
   </div>
 </MainLayout>
@@ -177,8 +213,10 @@ const sections = [
       const sectionHeight = section.clientHeight;
       const scrollPosition = window.scrollY;
 
-      if (scrollPosition >= sectionTop - 100 && 
-          scrollPosition < sectionTop + sectionHeight - 100) {
+      if (
+        scrollPosition >= sectionTop - 100 &&
+        scrollPosition < sectionTop + sectionHeight - 100
+      ) {
         const id = section.getAttribute('id');
         navLinks.forEach(link => {
           link.classList.remove('active');
@@ -199,4 +237,5 @@ const sections = [
     max-width: 36rem;
     margin: 0 auto;
   }
-</style> 
+</style>
+

@@ -9,7 +9,9 @@ const ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY;
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
 
 if (!ALGOLIA_APP_ID || !ALGOLIA_ADMIN_KEY || !ALGOLIA_INDEX_NAME) {
-  console.error('Please set ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, and ALGOLIA_INDEX_NAME in your environment.');
+  console.error(
+    'Please set ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY, and ALGOLIA_INDEX_NAME in your environment.'
+  );
   process.exit(1);
 }
 
@@ -50,4 +52,4 @@ async function main() {
 main().catch(err => {
   console.error(err);
   process.exit(1);
-}); 
+});

@@ -15,17 +15,17 @@ export default defineConfig({
   base: '/site-interim/',
   integrations: [tailwind(), sitemap(), react()],
   markdown: {
-    remarkPlugins: [
-      remarkToc,
-      remarkGfm
-    ],
+    remarkPlugins: [remarkToc, remarkGfm],
     rehypePlugins: [
       rehypeSlug,
-      [rehypeExternalLinks, { target: '_blank', rel: ['nofollow', 'noopener', 'noreferrer'] }]
+      [
+        rehypeExternalLinks,
+        { target: '_blank', rel: ['nofollow', 'noopener', 'noreferrer'] },
+      ],
     ],
     shikiConfig: {
       theme: 'github-dark',
-      wrap: true
-    }
-  }
+      wrap: true,
+    },
+  },
 });
