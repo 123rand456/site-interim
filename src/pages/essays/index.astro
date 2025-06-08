@@ -1,21 +1,29 @@
 ---
 import { base } from '../../utils/constants';
 import MainLayout from '../../layouts/MainLayout.astro';
+import { formatReadingMetrics } from '../../utils/readingMetrics';
 
 const posts = await Promise.all(
-  Object.entries(import.meta.glob('./*.md')).map(async ([, post]) => {
-    const resolved = (await post()) as { url: string; frontmatter: any };
-    return {
-      url: resolved.url,
-      frontmatter: resolved.frontmatter,
-    };
-  })
+  Object.entries(import.meta.glob('./*.md', { eager: true })).map(
+    async entry => {
+      const resolved = entry[1] as { url: string; frontmatter: any };
+
+      return {
+        url: resolved.url,
+        frontmatter: resolved.frontmatter,
+        readingMetrics: {
+          wordCount: resolved.frontmatter.wordCount,
+          readTimeMinutes: resolved.frontmatter.readingTime,
+        },
+      };
+    }
+  )
 );
 
 posts.sort(
   (a, b) =>
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
+    new Date(b.frontmatter.dateUpdated).getTime() -
+    new Date(a.frontmatter.dateUpdated).getTime()
 );
 
 // Define breadcrumb items
@@ -49,19 +57,22 @@ const breadcrumbItems = [
           <p class="text-gray-600 dark:text-gray-400 mb-4">
             {post.frontmatter.description}
           </p>
-          <div class="text-sm text-gray-500 dark:text-gray-500">
-            {new Date(post.frontmatter.dateUpdated).toLocaleDateString(
-              'en-US',
-              {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              }
-            )}
+          <div class="flex items-center text-sm text-gray-500 dark:text-gray-500 space-x-4">
+            <time datetime={post.frontmatter.dateUpdated}>
+              {new Date(post.frontmatter.dateUpdated).toLocaleDateString(
+                'en-US',
+                {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                }
+              )}
+            </time>
+            <span>·</span>
+            <span>{formatReadingMetrics(post.readingMetrics)}</span>
           </div>
         </article>
       ))
     }
   </div>
 </MainLayout>
-
