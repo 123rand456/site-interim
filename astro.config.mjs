@@ -6,6 +6,7 @@ import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
 import rehypeExternalLinks from 'rehype-external-links';
 import remarkGfm from 'remark-gfm';
+import { remarkReadingMetrics } from './src/utils/remarkReadingMetrics';
 
 import react from '@astrojs/react';
 
@@ -15,7 +16,7 @@ export default defineConfig({
   base: '/site-interim/',
   integrations: [tailwind(), sitemap(), react()],
   markdown: {
-    remarkPlugins: [remarkToc, remarkGfm],
+    remarkPlugins: [remarkToc, remarkGfm, remarkReadingMetrics],
     rehypePlugins: [
       rehypeSlug,
       [

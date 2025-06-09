@@ -6,10 +6,19 @@ interface Props {
   confidence?: string;
   importance?: string;
   description?: string;
+  wordCount?: number;
+  readingTime?: number;
 }
 
-const { tags, dateCreated, dateUpdated, confidence, importance, description } =
-  Astro.props;
+const {
+  tags,
+  dateCreated,
+  dateUpdated,
+  confidence,
+  importance,
+  wordCount,
+  readingTime,
+} = Astro.props;
 ---
 
 <div class="metadata-container mb-8 text-center">
@@ -38,6 +47,14 @@ const { tags, dateCreated, dateUpdated, confidence, importance, description } =
       </span>
     )
   }
+
+  {
+    wordCount && readingTime && (
+      <div class="mt-2 text-sm text-gray-500">
+        {wordCount.toLocaleString()} words · {readingTime} min read
+      </div>
+    )
+  }
 </div>
 
 <style>
@@ -58,4 +75,3 @@ const { tags, dateCreated, dateUpdated, confidence, importance, description } =
     color: #e65100;
   }
 </style>
-
