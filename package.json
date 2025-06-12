@@ -28,6 +28,7 @@
     "astro-seo": "^0.8.0",
     "gray-matter": "^4.0.3",
     "instantsearch.js": "^4.78.3",
+    "mdast-util-to-string": "^4.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "rehype-external-links": "^3.0.0",

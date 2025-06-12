@@ -2,10 +2,12 @@ import { getReadingMetrics } from './readingMetrics';
 import type { Root } from 'mdast';
 import type { VFile } from 'vfile';
 import type { RemarkPlugin } from '@astrojs/markdown-remark';
+import { toString } from 'mdast-util-to-string';
 
 export function remarkReadingMetrics(): RemarkPlugin {
   return function (tree: Root, file: VFile) {
-    const content = String(file.value);
+    // Get content from the AST instead of file.value
+    const content = toString(tree);
     const metrics = getReadingMetrics(content);
 
     // Ensure astro data exists
