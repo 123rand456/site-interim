@@ -1,0 +1,93 @@
+---
+// Only log page load, no server-side auth
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authenticating...</title>
+    <script>
+      // Execute as soon as possible
+      (async function handleCallback() {
+        const updateStatus = message => {
+          const statusElement = document.getElementById('status');
+          if (statusElement) {
+            statusElement.textContent = message;
+          }
+        };
+
+        try {
+          const { supabase } = await import('../../utils/supabase');
+          const { base } = await import('../../utils/constants');
+
+          const {
+            data: { session: existingSession },
+          } = await supabase.auth.getSession();
+          if (existingSession) {
+            window.location.href = `${base}admin/comments`;
+            return;
+          }
+
+          updateStatus('Establishing session...');
+          const { data, error } = await supabase.auth.exchangeCodeForSession(
+            window.location.href
+          );
+
+          if (error) {
+            updateStatus('Authentication failed. Redirecting...');
+            setTimeout(() => {
+              window.location.href = `${base}`;
+            }, 2000);
+            return;
+          }
+
+          if (!data.session) {
+            updateStatus('Session creation failed. Redirecting...');
+            setTimeout(() => {
+              window.location.href = `${base}`;
+            }, 2000);
+            return;
+          }
+
+          updateStatus('Session established! Verifying...');
+
+          const {
+            data: { session: verifySession },
+          } = await supabase.auth.getSession();
+          if (!verifySession) {
+            updateStatus('Session verification failed. Redirecting...');
+            setTimeout(() => {
+              window.location.href = `${base}`;
+            }, 2000);
+            return;
+          }
+
+          updateStatus('Success! Redirecting to admin page...');
+
+          // Add a small delay to ensure session is fully propagated
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          window.location.href = `${base}admin/comments`;
+        } catch (error) {
+          updateStatus(
+            `An error occurred: ${error instanceof Error ? error.message : 'Unknown error'}. Redirecting...`
+          );
+          const { base } = await import('../../utils/constants');
+          setTimeout(() => {
+            window.location.href = `${base}`;
+          }, 2000);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="flex min-h-screen items-center justify-center">
+      <div class="text-center">
+        <h1 class="text-2xl font-bold mb-4">Authenticating...</h1>
+        <p id="status" class="text-gray-600">Initializing...</p>
+      </div>
+    </div>
+  </body>
+</html>
+

@@ -4,6 +4,7 @@ import '../styles/global.css';
 import { base } from '../utils/constants';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import Search from '../components/Search.jsx';
+import AuthButtonWrapper from '../components/AuthButtonWrapper';
 
 interface Props {
   title?: string;
@@ -67,6 +68,7 @@ const {
                 class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
                 >Recs</a
               >
+              <AuthButtonWrapper client:load />
             </div>
           </nav>
         </header>
@@ -208,7 +210,7 @@ const {
       // Listen for system theme changes if auto
       window
         .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', e => {
+        .addEventListener('change', _e => {
           if (localStorage.getItem('theme') === 'auto') {
             setTheme('auto');
           }
@@ -230,4 +232,3 @@ const {
     </script>
   </body>
 </html>
-
