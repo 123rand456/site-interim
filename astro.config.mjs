@@ -14,9 +14,10 @@ import react from '@astrojs/react';
 export default defineConfig({
   site: 'https://123rand456.github.io/site-interim',
   base: '/site-interim/',
-  integrations: [tailwind(), sitemap(), react()],
+  integrations: [react(), tailwind(), sitemap()],
+  output: 'server',
   markdown: {
-    remarkPlugins: [remarkToc, remarkGfm, remarkReadingMetrics],
+    remarkPlugins: [remarkToc, remarkGfm, remarkReadingMetrics()],
     rehypePlugins: [
       rehypeSlug,
       [
