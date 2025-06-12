@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../utils/supabase';
+import {
+  supabase,
+  getSessionId,
+  setSessionConfig,
+  canEditComment,
+} from '../utils/supabase';
 
 // Helper Components
 const CommentBadge = ({ type, children }) => {
@@ -85,8 +90,8 @@ const ReplyContext = ({ comment, onCancel }) => (
           Replying to <strong>{comment.author_name}</strong>
         </span>
         <div className="text-xs text-blue-600 dark:text-blue-500 mt-1 italic">
-          "{comment.content.substring(0, 100)}
-          {comment.content.length > 100 ? '...' : ''}"
+          &ldquo;{comment.content.substring(0, 100)}
+          {comment.content.length > 100 ? '...' : ''}&rdquo;
         </div>
       </div>
       <button
@@ -109,7 +114,6 @@ export default function SupabaseComments({ essaySlug }) {
     isSubmitting: false,
     loading: true,
     error: null,
-    userComments: new Set(),
     currentTime: new Date(),
   });
 
@@ -122,29 +126,40 @@ export default function SupabaseComments({ essaySlug }) {
   }, []);
 
   useEffect(() => {
-    loadComments();
+    const loadComments = async () => {
+      try {
+        updateState({ loading: true });
+        const { data, error } = await supabase
+          .from('comments')
+          .select('*')
+          .eq('essay_slug', essaySlug)
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+        updateState({ comments: data || [] });
+      } catch (err) {
+        updateState({ error: `Failed to load comments: ${err.message}` });
+      } finally {
+        updateState({ loading: false });
+      }
+    };
+
+    const initializeComments = async () => {
+      try {
+        await setSessionConfig();
+        await loadComments();
+      } catch (err) {
+        setState(prev => ({
+          ...prev,
+          error: `Failed to initialize comments: ${err.message}`,
+        }));
+      }
+    };
+
+    initializeComments();
   }, [essaySlug]);
 
   const updateState = updates => setState(prev => ({ ...prev, ...updates }));
-
-  const loadComments = async () => {
-    try {
-      updateState({ loading: true });
-      const { data, error } = await supabase
-        .from('comments')
-        .select('*')
-        .eq('essay_slug', essaySlug)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      updateState({ comments: data || [] });
-    } catch (err) {
-      updateState({ error: 'Failed to load comments' });
-      console.error('Error loading comments:', err);
-    } finally {
-      updateState({ loading: false });
-    }
-  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -154,42 +169,43 @@ export default function SupabaseComments({ essaySlug }) {
     updateState({ isSubmitting: true, error: null });
 
     try {
-      const { data, error } = await supabase
-        .from('comments')
-        .insert([
-          {
-            essay_slug: essaySlug,
-            author_name: state.newComment.name.trim(),
-            author_email: state.newComment.email.trim() || null,
-            content: state.newComment.content.trim(),
-            is_approved: false,
-            parent_id: state.replyingTo || null,
-          },
-        ])
-        .select();
+      const sessionId = getSessionId();
+      const { data, error } = await supabase.rpc('insert_comment', {
+        p_essay_slug: essaySlug,
+        p_author_name: state.newComment.name.trim(),
+        p_author_email: state.newComment.email.trim() || null,
+        p_content: state.newComment.content.trim(),
+        p_parent_id: state.replyingTo || null,
+        p_session_id: sessionId,
+      });
 
       if (error) throw error;
 
       updateState({
-        comments: [...state.comments, data[0]],
-        userComments: new Set([...state.userComments, data[0].id]),
+        comments: [...state.comments, data],
         newComment: { name: '', email: '', content: '' },
         replyingTo: null,
       });
     } catch (err) {
       updateState({ error: `Failed to post comment: ${err.message}` });
-      console.error('Error posting comment:', err);
     } finally {
       updateState({ isSubmitting: false });
     }
   };
 
   const handleEdit = async (commentId, newContent) => {
+    const comment = state.comments.find(c => c.id === commentId);
+    if (!comment || !canEditComment(comment)) {
+      updateState({ error: 'You can no longer edit this comment' });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('comments')
         .update({ content: newContent, updated_at: new Date().toISOString() })
-        .eq('id', commentId);
+        .eq('id', commentId)
+        .eq('session_id', getSessionId());
 
       if (error) throw error;
 
@@ -207,42 +223,37 @@ export default function SupabaseComments({ essaySlug }) {
         editContent: '',
       });
     } catch (err) {
-      updateState({ error: 'Failed to update comment' });
-      console.error('Error updating comment:', err);
+      updateState({ error: `Failed to update comment: ${err.message}` });
     }
   };
 
   const handleDelete = async commentId => {
+    const comment = state.comments.find(c => c.id === commentId);
+    if (!comment || !canEditComment(comment)) {
+      updateState({ error: 'You can no longer delete this comment' });
+      return;
+    }
+
     if (!confirm('Are you sure you want to delete this comment?')) return;
 
     try {
       const { error } = await supabase
         .from('comments')
         .delete()
-        .eq('id', commentId);
-      if (error) throw error;
+        .eq('id', commentId)
+        .eq('session_id', getSessionId());
 
-      const newUserComments = new Set(state.userComments);
-      newUserComments.delete(commentId);
+      if (error) throw error;
 
       updateState({
         comments: state.comments.filter(comment => comment.id !== commentId),
-        userComments: newUserComments,
       });
     } catch (err) {
-      updateState({ error: 'Failed to delete comment' });
-      console.error('Error deleting comment:', err);
+      updateState({ error: `Failed to delete comment: ${err.message}` });
     }
   };
 
   // Utility functions
-  const canEditComment = comment => {
-    if (!state.userComments.has(comment.id)) return false;
-    const diffMinutes =
-      (state.currentTime - new Date(comment.created_at)) / (1000 * 60);
-    return diffMinutes <= 5;
-  };
-
   const getTimeRemaining = comment => {
     const diffMinutes =
       (state.currentTime - new Date(comment.created_at)) / (1000 * 60);
@@ -286,7 +297,7 @@ export default function SupabaseComments({ essaySlug }) {
     const isApproved = comment.is_approved;
     const canEdit = canEditComment(comment);
     const timeRemaining = getTimeRemaining(comment);
-    const isOwn = state.userComments.has(comment.id);
+    const isOwn = comment.session_id === getSessionId();
     const isReply = depth > 0;
     const isEditing = state.editingComment === comment.id;
 
@@ -392,7 +403,7 @@ export default function SupabaseComments({ essaySlug }) {
     comment => comment.is_approved
   );
   const pendingComments = state.comments.filter(
-    comment => !comment.is_approved && state.userComments.has(comment.id)
+    comment => !comment.is_approved && comment.session_id === getSessionId()
   );
   const organizedComments = organizeComments(approvedComments);
   const replyingToComment = state.comments.find(c => c.id === state.replyingTo);

@@ -1,28 +1,64 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import CommentAdmin from '../../components/CommentAdmin.jsx';
-import { base } from '../../utils/constants';
-
-const breadcrumbItems = [
-  {
-    title: 'Admin',
-    url: `${base}admin`,
-  },
-  {
-    title: 'Comments',
-    url: `${base}admin/comments`,
-    isCurrent: true,
-  },
-];
 ---
 
-<MainLayout
-  title="Comment Administration"
-  description="Manage and approve comments"
-  breadcrumbItems={breadcrumbItems}
->
-  <h1 class="text-4xl font-bold mb-8 text-center">Comment Administration</h1>
+<MainLayout title="Comment Administration">
+  <div id="admin-content" style="display: none;">
+    <h1 class="text-4xl font-bold mb-8 text-center">Comment Administration</h1>
+    <CommentAdmin client:load />
+  </div>
 
-  <CommentAdmin client:load />
+  <div id="loading" class="flex min-h-screen items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-2xl font-bold mb-4">Checking access...</h1>
+      <p id="status" class="text-gray-600">Please wait...</p>
+    </div>
+  </div>
+
+  <script>
+    async function checkAccess() {
+      const updateStatus = (message: string) => {
+        const statusElement = document.getElementById('status');
+        if (statusElement) {
+          statusElement.textContent = message;
+        }
+      };
+
+      const showContent = (show: boolean) => {
+        const loadingElement = document.getElementById('loading');
+        const contentElement = document.getElementById('admin-content');
+
+        if (loadingElement && contentElement) {
+          loadingElement.style.display = show ? 'none' : 'flex';
+          contentElement.style.display = show ? 'block' : 'none';
+        }
+      };
+
+      try {
+        const { getCurrentAdmin } = await import('../../utils/supabase');
+        const { base } = await import('../../utils/constants');
+
+        updateStatus('Verifying admin access...');
+        const admin = await getCurrentAdmin();
+
+        if (!admin) {
+          window.location.href = base;
+          return;
+        }
+
+        updateStatus('Access granted!');
+        showContent(true);
+      } catch (error) {
+        const { base } = await import('../../utils/constants');
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error';
+        updateStatus(`Access check failed: ${errorMessage}`);
+        setTimeout(() => {
+          window.location.href = base;
+        }, 2000);
+      }
+    }
+    checkAccess();
+  </script>
 </MainLayout>
-
