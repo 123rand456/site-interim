@@ -6,14 +6,21 @@ import { toString } from 'mdast-util-to-string';
 
 export function remarkReadingMetrics(): RemarkPlugin {
   return function (tree: Root, file: VFile) {
-    // Get content from the AST instead of file.value
+    // Get content from the AST
     const content = toString(tree);
     const metrics = getReadingMetrics(content);
 
-    // Ensure astro data exists
-    if (!file.data.astro) {
-      file.data.astro = { frontmatter: {} };
+    // Initialize the data structure if it doesn't exist
+    if (!file.data) {
+      file.data = {};
     }
+
+    // Initialize astro data if it doesn't exist
+    if (!file.data.astro) {
+      file.data.astro = {};
+    }
+
+    // Initialize frontmatter if it doesn't exist
     if (!file.data.astro.frontmatter) {
       file.data.astro.frontmatter = {};
     }
