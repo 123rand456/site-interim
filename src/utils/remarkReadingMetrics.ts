@@ -5,28 +5,36 @@ import type { RemarkPlugin } from '@astrojs/markdown-remark';
 import { toString } from 'mdast-util-to-string';
 
 export function remarkReadingMetrics(): RemarkPlugin {
-  return function (tree: Root, file: VFile) {
-    // Get content from the AST
-    const content = toString(tree);
-    const metrics = getReadingMetrics(content);
-
-    // Initialize the data structure if it doesn't exist
-    if (!file.data) {
-      file.data = {};
+  return function (tree: Root, vfile?: VFile) {
+    // If vfile is undefined, we can't do anything
+    if (!vfile) {
+      return;
     }
 
-    // Initialize astro data if it doesn't exist
-    if (!file.data.astro) {
-      file.data.astro = {};
-    }
+    try {
+      // Get content from the AST
+      const content = toString(tree);
+      const metrics = getReadingMetrics(content);
 
-    // Initialize frontmatter if it doesn't exist
-    if (!file.data.astro.frontmatter) {
-      file.data.astro.frontmatter = {};
-    }
+      // Create empty objects if they don't exist
+      const data = (vfile.data = vfile.data || {});
+      const astro = (data.astro = data.astro || {});
+      const frontmatter = (astro.frontmatter = astro.frontmatter || {});
 
-    // Add metrics to frontmatter
-    file.data.astro.frontmatter.wordCount = metrics.wordCount;
-    file.data.astro.frontmatter.readingTime = metrics.readTimeMinutes;
+      // Add metrics to frontmatter
+      frontmatter.wordCount = metrics.wordCount;
+      frontmatter.readingTime = metrics.readTimeMinutes;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // Ensure we at least have default values
+      vfile.data = {
+        astro: {
+          frontmatter: {
+            wordCount: 0,
+            readingTime: 1,
+          },
+        },
+      };
+    }
   };
 }
