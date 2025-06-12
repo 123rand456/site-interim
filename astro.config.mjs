@@ -10,12 +10,15 @@ import { remarkReadingMetrics } from './src/utils/remarkReadingMetrics';
 
 import react from '@astrojs/react';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://123rand456.github.io/site-interim',
   base: '/site-interim/',
   integrations: [react(), tailwind(), sitemap()],
   output: 'server',
+
   markdown: {
     remarkPlugins: [remarkToc, remarkGfm, remarkReadingMetrics()],
     rehypePlugins: [
@@ -30,4 +33,6 @@ export default defineConfig({
       wrap: true,
     },
   },
+
+  adapter: vercel(),
 });
