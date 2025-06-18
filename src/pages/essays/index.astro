@@ -1,20 +1,26 @@
 ---
 import { base } from '../../utils/constants';
 import MainLayout from '../../layouts/MainLayout.astro';
-import { formatReadingMetrics } from '../../utils/readingMetrics';
+import {
+  formatReadingMetrics,
+  getReadingMetrics,
+} from '../../utils/readingMetrics';
 
 const posts = await Promise.all(
   Object.entries(import.meta.glob('./*.md', { eager: true })).map(
     async entry => {
-      const resolved = entry[1] as { url: string; frontmatter: any };
+      const resolved = entry[1] as {
+        url: string;
+        frontmatter: any;
+        rawContent: () => string;
+      };
 
+      const content =
+        typeof resolved.rawContent === 'function' ? resolved.rawContent() : '';
       return {
         url: resolved.url,
         frontmatter: resolved.frontmatter,
-        readingMetrics: {
-          wordCount: resolved.frontmatter.wordCount,
-          readTimeMinutes: resolved.frontmatter.readingTime,
-        },
+        readingMetrics: getReadingMetrics(content),
       };
     }
   )

@@ -48,6 +48,6 @@ export function getReadingMetrics(text: string): ReadingMetrics {
  * @returns Formatted string
  */
 export function formatReadingMetrics(metrics: ReadingMetrics): string {
-  const formattedWordCount = metrics.wordCount.toLocaleString();
+  const formattedWordCount = (metrics.wordCount ?? 0).toLocaleString();
   return `${formattedWordCount} words · ${metrics.readTimeMinutes} min read`;
 }
