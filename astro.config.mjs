@@ -14,13 +14,17 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://123rand456.github.io/site-interim',
-  base: '/site-interim/',
-  integrations: [react(), tailwind(), sitemap()],
+  base: '/',
   output: 'server',
+  integrations: [react(), tailwind(), sitemap()],
+  adapter: vercel(),
 
   markdown: {
-    remarkPlugins: [remarkToc, remarkGfm, remarkReadingMetrics()],
+    remarkPlugins: [
+      remarkToc,
+      remarkGfm,
+      remarkReadingMetrics(),
+    ],
     rehypePlugins: [
       rehypeSlug,
       [
@@ -33,6 +37,4 @@ export default defineConfig({
       wrap: true,
     },
   },
-
-  adapter: vercel(),
 });

@@ -1,6 +1,4 @@
 ---
-import { base } from '../utils/constants';
-
 interface BreadcrumbItem {
   title: string;
   url: string;
@@ -20,14 +18,14 @@ const { items } = Astro.props;
       <ol class="flex flex-wrap items-center text-sm">
         <li class="breadcrumb-item">
           <a
-            href={`${base}/`}
+            href={`/`}
             class="text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
             >Home</a
           >
         </li>
 
         {
-          items.map((item: BreadcrumbItem, index: number) => (
+          items.map((item: BreadcrumbItem) => (
             <li class="breadcrumb-item flex items-center">
               <span class="mx-2 text-gray-500 dark:text-gray-500">/</span>
               {item.isCurrent ? (

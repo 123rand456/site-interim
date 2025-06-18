@@ -1,4 +1,4 @@
-export const base = import.meta.env.BASE_URL ?? '/site-interim';
+export const base = '/';
 
 // referenced from https://www.gap-map.org/
 export const CATEGORIES = [
