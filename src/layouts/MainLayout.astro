@@ -47,32 +47,50 @@ const {
     <div class="relative w-full">
       <div class="container max-w-4xl mx-auto px-4 py-8">
         <header class="mb-8">
-          <nav class="flex justify-between items-center">
-            <a href={`/`} class="site-title text-2xl font-bold">chizubo</a>
-            <div class="nav-links flex gap-4 items-center">
-              <Search client:load base={base} />
-              <a
-                href={`${base}essays`}
-                class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
-                >Essays</a
+          <nav>
+            <!-- Top row: Logo + Search (mobile: row, desktop: row) -->
+            <div
+              class="flex flex-col md:flex-row md:justify-between md:items-center md:gap-0"
+            >
+              <div class="flex flex-row items-center gap-2 w-full">
+                <a
+                  href={`/`}
+                  class="site-title text-2xl font-bold whitespace-nowrap"
+                  >chizubo</a
+                >
+                <div class="flex-1">
+                  <Search client:load base={base} />
+                </div>
+              </div>
+              <!-- Nav links row (mobile: row, desktop: row, but on right) -->
+              <div
+                class="flex flex-row justify-between md:justify-end gap-4 items-center w-full"
               >
-              <a
-                href={`${base}about`}
-                class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
-                >About</a
-              >
-              <a
-                href={`${base}recs`}
-                class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
-                >Recs</a
-              >
-              <AuthButtonWrapper client:load />
+                <a
+                  href={`${base}essays`}
+                  class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
+                  >Essays</a
+                >
+                <a
+                  href={`${base}about`}
+                  class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
+                  >About</a
+                >
+                <a
+                  href={`${base}recs`}
+                  class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
+                  >Recs</a
+                >
+                <AuthButtonWrapper client:load />
+              </div>
             </div>
           </nav>
         </header>
       </div>
-      <!-- Gear icon fixed to the far right -->
-      <div class="fixed top-8 right-8 z-50 flex flex-col items-center">
+      <!-- Gear icon: bottom right on mobile, top right on desktop -->
+      <div
+        class="fixed bottom-4 right-4 md:top-8 md:right-8 md:bottom-auto z-50 flex flex-col items-center"
+      >
         <button
           id="settings-toggle"
           class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
