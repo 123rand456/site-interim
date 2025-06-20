@@ -72,7 +72,7 @@ export default function Search({ base = '/' }) {
         input.removeEventListener('blur', () => setIsFocused(false));
       }
     };
-  }, []);
+  }, [base]);
 
   // Custom clear handler
   const handleClear = () => {
@@ -89,7 +89,7 @@ export default function Search({ base = '/' }) {
     <div
       style={{
         position: 'relative',
-        zIndex: 100,
+        zIndex: 20,
         minWidth: 250,
         maxWidth: 350,
       }}
