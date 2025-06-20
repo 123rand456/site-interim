@@ -36,15 +36,31 @@ A personal website inspired by gwern.net, built with Astro and Tailwind CSS.
 
 ## Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are run from the root of the project, from a terminal.
 
-| Command             | Action                                           |
-| :------------------ | :----------------------------------------------- |
-| `npm install`       | Installs dependencies                            |
-| `npm run dev`       | Starts local dev server at `localhost:4321`      |
-| `npm run build`     | Build your production site to `./dist/`          |
-| `npm run preview`   | Preview your build locally, before deploying     |
-| `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
+### Standard Development
+
+These commands are used for typical local development with Astro's built-in server.
+
+| Command           | Action                                      |
+| :---------------- | :------------------------------------------ |
+| `npm install`     | Installs dependencies                       |
+| `npm run dev`     | Starts local dev server at `localhost:4321` |
+| `npm run build`   | Build your production site to `./dist/`     |
+| `npm run preview` | Preview your production build locally       |
+
+### Vercel Development
+
+Since this site is deployed on Vercel, you can use the Vercel CLI to closely emulate the production
+environment on your local machine.
+
+| Command           | Action                                      |
+| :---------------- | :------------------------------------------ |
+| `npm i -g vercel` | Installs the Vercel CLI globally (one-time) |
+| `vercel dev`      | Starts a local server emulating Vercel      |
+| `vercel link`     | Links your local repo to a Vercel project   |
+| `vercel deploy`   | Deploys the current version to preview      |
+| `vercel --prod`   | Deploys the current version to production   |
 
 ## Styling Guidelines
 
@@ -120,7 +136,11 @@ This implementation ensures:
 - [x] Add comments
 - [x] Properly secure admin interface
 - [ ] Add rss feed
-- [ ] Optimize for mobile screen
+- [x] Optimize for mobile screen
 - [ ] Change UI admin
 - [ ] Add Dropcaps (?)
 - [ ] Get Domain Name
+
+## Credits
+
+- Icons from [SVG Silh](https://svgsilh.com/)
