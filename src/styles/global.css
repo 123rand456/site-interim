@@ -18,3 +18,7 @@
 @layer components {
   /* Common component patterns here */
 }
+
+.settings-tooltip {
+  @apply absolute right-full mr-2 top-1/2 -translate-y-1/2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200;
+}

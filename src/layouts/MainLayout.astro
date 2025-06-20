@@ -54,7 +54,7 @@ const {
             >
               <div class="flex flex-row items-center gap-2 w-full">
                 <a
-                  href={`/`}
+                  href={base}
                   class="site-title text-2xl font-bold whitespace-nowrap"
                   >chizubo</a
                 >
@@ -81,7 +81,7 @@ const {
                   class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
                   >Recs</a
                 >
-                <AuthButtonWrapper client:load />
+                <!-- <AuthButtonWrapper client:load /> -->
               </div>
             </div>
           </nav>
@@ -144,6 +144,10 @@ const {
               </button>
               <span class="settings-tooltip group-hover:opacity-100">Dark</span>
             </div>
+
+            <div class="relative group">
+              <AuthButtonWrapper client:load />
+            </div>
           </div>
         </div>
       </div>
@@ -166,12 +170,6 @@ const {
         </p>
       </footer>
     </div>
-
-    <style>
-      .settings-tooltip {
-        @apply absolute right-full mr-2 top-1/2 -translate-y-1/2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200;
-      }
-    </style>
 
     <script>
       // Dropdown toggle
