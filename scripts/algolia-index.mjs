@@ -4,9 +4,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 
-const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID;
+const ALGOLIA_APP_ID = process.env.PUBLIC_ALGOLIA_APP_ID;
 const ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY;
-const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
+const ALGOLIA_INDEX_NAME = process.env.PUBLIC_ALGOLIA_INDEX_NAME;
 
 if (!ALGOLIA_APP_ID || !ALGOLIA_ADMIN_KEY || !ALGOLIA_INDEX_NAME) {
   console.error(
