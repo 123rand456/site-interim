@@ -45,8 +45,10 @@ async function getEssays() {
 
 async function main() {
   const essays = await getEssays();
+  await index.clearObjects();
+  console.log(`Indexing ${essays.length} essays...`);
   await index.saveObjects(essays);
-  console.log(`Indexed ${essays.length} essays to Algolia.`);
+  console.log(`Successfully indexed ${essays.length} essays to Algolia.`);
 }
 
 main().catch(err => {
