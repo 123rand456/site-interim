@@ -52,6 +52,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
             <ul class="list-disc pl-5">
               <li>Cold Food</li>
               <li>Vocal Fry & Intentional Rasp</li>
+              <li>Lemon</li>
             </ul>
           </div>
         </details>
@@ -65,6 +66,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li>Nightclubs</li>
               <li>Alcohol</li>
               <li>Coffee</li>
+              <li>Smoking</li>
               <li>IYKYK Energy</li>
               <li>Acronyms</li>
             </ul>
@@ -93,20 +95,47 @@ import MainLayout from '../../layouts/MainLayout.astro';
         <details class="mt-4 border border-gray-200 rounded">
           <summary
             class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
+            >Videos</summary
+          >
+          <div class="px-3 py-2">
+            <ul class="list-disc pl-5">
+              <li>
+                <a href="https://www.youtube.com/watch?v=LCEmiRjPEtQ"
+                  >Andrej Karpathy: Software Is Changing (Again)</a>
+              </li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="mt-4 border border-gray-200 rounded">
+          <summary
+            class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
             >Blogs</summary
           >
           <div class="px-3 py-2">
             <ul class="list-disc pl-5">
               <li><a href="https://scottaaronson.blog/">Scott Aaronson</a></li>
+              <li><a href="https://www.jefftk.com/">Jeff Kaufman</a></li>
               <li><a href="https://www.benkuhn.net/">Ben Kuhn</a></li>
+              <li><a href="https://tbenthompson.com/">Ben Thompson</a></li>
+              <li><a href="https://simonwillison.net/">Simon Willison</a></li>
               <li><a href="https://www.byran.ee/">Bryan Huang</a></li>
               <li><a href="https://cpojer.net/">Christoph Nakazawa</a></li>
               <li><a href="https://www.linusakesson.net/">Linus Åkesson</a></li>
               <li>
                 <a href="https://www.kitchensoap.com/about-me/">John Allspaw</a>
               </li>
+              <li><a href="https://brooker.co.za/blog/">Marc Brooker</a></li>
               <li><a href="https://zachholman.com/posts">Zach Holmann</a></li>
+              <li>
+                <a href="https://carloarg02.medium.com/">Carlos Arguelles</a>
+              </li>
               <li><a href="https://usesthis.com/">Many people</a></li>
+              <li><a href="https://nelhage.com/">Nelson Elhage</a></li>
+              <li>
+                <a href="https://programmingisterrible.com/"
+                  >Progamming is Terrible</a>
+              </li>
             </ul>
           </div>
         </details>
@@ -119,25 +148,85 @@ import MainLayout from '../../layouts/MainLayout.astro';
           <div class="px-3 py-2">
             <ul class="list-disc pl-5">
               <li>
+                <a href="https://www.benkuhn.net/progessays/"
+                  >Essays on programming I think about a lot</a
+                >
+              </li>
+              <li>
                 <a
                   href="https://www.sma.org.sg/UploadedImg/files/CMEP/Practice%205.pdf"
-                  >Bedside Manners</a>
+                  >Bedside Manners</a
+                >
               </li>
               <li>
                 <a
                   href="https://vadimkravcenko.com/shorts/habits-of-great-software-engineers/"
-                  >Habits of great software engineers</a>
+                  >Habits of great software engineers</a
+                >
               </li>
               <li>
                 <a
                   href="https://www.kitchensoap.com/2017/08/12/multiple-perspectives-on-technical-problems-and-solutions/"
-                  >Multiple Perspectives on Technical Problems and Solutions</a>
+                  >Multiple Perspectives on Technical Problems and Solutions</a
+                >
               </li>
               <li>
                 <a
                   href="https://www.themarginalian.org/2013/04/17/the-art-of-conversation-martine-etiquette-1866/"
                   >The Art of Conversation: Timeless, Timely Do’s and Don’ts
-                  from 1866</a>
+                  from 1866</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.lesswrong.com/posts/CSZnj2YNMKGfsMbZA/specializing-in-problems-we-don-t-understand"
+                  >Specializing in Problems We Don't Understand</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://milan.cvitkovic.net/writing/things_youre_allowed_to_do/"
+                  >Things you're allowed to do</a
+                >
+              </li>
+              <li>
+                <a href="https://www.benkuhn.net/weeklyessays/"
+                  >My favourite essays of life advice</a
+                >
+              </li>
+
+              <li>
+                <a
+                  href="https://autotranslucence.wordpress.com/2018/03/30/becoming-a-magician/"
+                >
+                  Becoming a Magician
+                </a>
+              </li>
+              <li>
+                <a
+                  href="http://johnsalvatier.org/blog/2017/reality-has-a-surprising-amount-of-detail"
+                >
+                  Reality has a surprising amount of detail
+                </a>
+              </li>
+              <li>
+                <a href="https://mindingourway.com/rest-in-motion/">
+                  Rest in motion
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.jefftk.com/p/the-privilege-of-earning-to-give"
+                >
+                  The Privilege of Earning to Give
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.lesswrong.com/posts/bjjbp5i5G8bekJuxv/study-guide"
+                >
+                  Study Guide
+                </a>
               </li>
             </ul>
           </div>
@@ -176,10 +265,16 @@ import MainLayout from '../../layouts/MainLayout.astro';
         <details class="mt-4 border border-gray-200 rounded">
           <summary
             class="cursor-pointer px-3 py-2 text-base font-medium bg-gray-100"
-            >Music</summary
+            >Videos</summary
           >
           <div class="px-3 py-2">
-            <ul class="list-disc pl-5"></ul>
+            <ul class="list-disc pl-5">
+              <li>
+                <a href="https://www.youtube.com/watch?v=LCEmiRjPEtQ"
+                  >Andrej Karpathy: Software Is Changing (Again)</a
+                >
+              </li>
+            </ul>
           </div>
         </details>
       </div>
