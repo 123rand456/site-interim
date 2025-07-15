@@ -133,6 +133,7 @@ This implementation ensures:
 - [x] Improve page styling with nested directional links
 - [x] Add toggle drop down
 - [ ] Add recommendation
+- [ ] Make essay format to be like LessWrong Articles
 - [x] Add comments
 - [x] Properly secure admin interface
 - [ ] Add rss feed
