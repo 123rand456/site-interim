@@ -1,4 +1,4 @@
-# Chizubo's Essays and Research
+# BBB's Essays and Research
 
 A personal website inspired by gwern.net, built with Astro and Tailwind CSS.
 
@@ -70,6 +70,90 @@ The project follows these styling principles:
 - **Shared styles and patterns**: Place in `/styles` directory
 - **Global styles and CSS variables**: Use `/styles/theme.css` or `/styles/global.css`
 - **Light/Dark Mode**: Implemented using CSS variables and Tailwind's dark mode
+
+## Creating New Essays
+
+When you create a new essay, the following workflow ensures it's properly integrated into your site:
+
+### 1. Create the Markdown File
+
+Create a new `.md` file in `src/pages/essays/` with the following frontmatter structure:
+
+```markdown
+---
+layout: ../../layouts/EssayLayout.astro
+title: 'Your Essay Title'
+description: 'A brief description of your essay'
+dateCreated: 'YYYY-MM-DD'
+dateUpdated: 'YYYY-MM-DD'
+confidence: 'likely' # or 'uncertain', 'unlikely'
+category: 'Computation' # Choose from available categories
+importance: '4' # Scale of 1-5
+tags:
+  - tag1
+  - tag2
+  - tag3
+---
+
+## Your Essay Content
+
+Your markdown content goes here...
+```
+
+### 2. Available Categories
+
+Choose from these predefined categories (defined in `src/utils/constants.ts`):
+
+- Astrophysics
+- Biophysics
+- Biosecurity
+- Cellular & Molecular Biology
+- Chemistry
+- Computation
+- Ecology
+- Geophysics & Climate
+- Immunology
+- Materials Science
+- Mechanical Engineering
+- Metascience
+- Nanoscale Fabrication
+- Neuroscience
+- Physics
+- Physiology & Medicine
+- Social Science
+- Space Engineering
+- Synthetic Biology
+- Philosophy
+
+### 3. What Happens Automatically
+
+When you create a new essay:
+
+1. **Build Process**: The essay is automatically included in the build when you run `npm run build`
+2. **Reading Metrics**: Word count and reading time are calculated automatically
+3. **Search Indexing**: The essay is indexed in Algolia for search functionality
+4. **Essays List**: The essay appears on `/essays` with proper sorting by date
+5. **Homepage**: The essay appears on the homepage categorized by topic
+6. **Comments**: The essay gets a comments section powered by Supabase
+7. **SEO**: Proper meta tags and Open Graph data are generated
+
+### 4. Automated Deployment
+
+The deployment process is fully automated:
+
+1. **Search Indexing**: Runs automatically during `npm run build` (which Vercel executes)
+2. **Deployment**: Push to GitHub to trigger Vercel deployment
+3. **Verification**: Check that your essay appears correctly on your site
+
+#### Manual Commands (if needed)
+
+- `npm run index-search` - Manually update search index
+- `npm run build:no-index` - Build without search indexing (for testing)
+- `npm run build` - Full build with search indexing
+
+### 5. File Naming Convention
+
+Use kebab-case for filenames (e.g., `my-essay-title.md`). The filename becomes the URL slug.
 
 ## Authentication Flow
 
