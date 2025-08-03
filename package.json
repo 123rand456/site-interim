@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "astro check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:setup": "npm install && echo 'Puppeteer installed for enhanced browser testing'"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.7",
@@ -57,7 +58,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
     "prettier": "^3.5.3",
-    "prettier-plugin-astro": "^0.14.1"
+    "prettier-plugin-astro": "^0.14.1",
+    "puppeteer": "^22.0.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro}": [
