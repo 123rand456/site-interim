@@ -10,6 +10,7 @@ import {
   sanitizeText,
   sanitizeEmail,
   checkCommentRateLimit,
+  recordCommentSubmission,
 } from '../utils/sanitize';
 import { logSecurityEvent } from '../utils/security-monitor';
 import '../utils/rate-limit-info';
@@ -224,6 +225,9 @@ export default function SupabaseComments({ essaySlug }) {
       });
 
       if (error) throw error;
+
+      // Record successful submission for rate limiting
+      recordCommentSubmission();
 
       updateState({
         comments: [...state.comments, data],

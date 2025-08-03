@@ -94,6 +94,15 @@ export function checkCommentRateLimit(): boolean {
     }
   }
 
-  localStorage.setItem('lastCommentSubmission', now.toString());
+  // Don't set timestamp here - only after successful submission
   return true;
+}
+
+/**
+ * Record successful comment submission for rate limiting
+ * Call this ONLY after successful Supabase submission
+ */
+export function recordCommentSubmission(): void {
+  const now = Date.now();
+  localStorage.setItem('lastCommentSubmission', now.toString());
 }
