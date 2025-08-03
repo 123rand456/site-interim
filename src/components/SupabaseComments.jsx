@@ -12,6 +12,7 @@ import {
   checkCommentRateLimit,
 } from '../utils/sanitize';
 import { logSecurityEvent } from '../utils/security-monitor';
+import '../utils/rate-limit-info';
 
 // Helper Components
 const CommentBadge = ({ type, children }) => {
