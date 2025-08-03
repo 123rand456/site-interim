@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, getCurrentAdmin } from '../utils/supabase';
 import { base } from '../utils/constants';
+import { logSecurityEvent } from '../utils/security-monitor';
 
 type AdminUser = {
   id: string;
@@ -57,6 +58,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     if (error) {
+      logSecurityEvent('failed_auth', {
+        action: 'magic_link_request_failed',
+        email: email,
+        error_message: error.message,
+      });
       throw error;
     }
   };
