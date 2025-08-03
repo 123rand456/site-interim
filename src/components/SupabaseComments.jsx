@@ -5,6 +5,13 @@ import {
   setSessionConfig,
   canEditComment,
 } from '../utils/supabase';
+import {
+  sanitizeHtml,
+  sanitizeText,
+  sanitizeEmail,
+  checkCommentRateLimit,
+} from '../utils/sanitize';
+import { logSecurityEvent } from '../utils/security-monitor';
 
 // Helper Components
 const CommentBadge = ({ type, children }) => {
@@ -166,15 +173,51 @@ export default function SupabaseComments({ essaySlug }) {
     if (!state.newComment.name.trim() || !state.newComment.content.trim())
       return;
 
+    // Rate limiting check
+    if (!checkCommentRateLimit()) {
+      logSecurityEvent('rate_limit_hit', {
+        action: 'comment_submission',
+        essay_slug: essaySlug,
+      });
+      updateState({
+        error: 'Please wait 30 seconds between comments to prevent spam.',
+      });
+      return;
+    }
+
+    // Input validation and sanitization
+    const sanitizedName = sanitizeText(state.newComment.name);
+    const sanitizedEmail = sanitizeEmail(state.newComment.email);
+    const sanitizedContent = sanitizeHtml(state.newComment.content);
+
+    if (!sanitizedName || !sanitizedContent) {
+      logSecurityEvent('invalid_input', {
+        action: 'comment_validation_failed',
+        original_name: state.newComment.name,
+        original_content_length: state.newComment.content.length,
+      });
+      updateState({
+        error: 'Please provide valid name and content for your comment.',
+      });
+      return;
+    }
+
+    if (sanitizedContent.length > 2000) {
+      updateState({
+        error: 'Comment is too long. Please keep it under 2000 characters.',
+      });
+      return;
+    }
+
     updateState({ isSubmitting: true, error: null });
 
     try {
       const sessionId = getSessionId();
       const { data, error } = await supabase.rpc('insert_comment', {
         p_essay_slug: essaySlug,
-        p_author_name: state.newComment.name.trim(),
-        p_author_email: state.newComment.email.trim() || null,
-        p_content: state.newComment.content.trim(),
+        p_author_name: sanitizedName,
+        p_author_email: sanitizedEmail || null,
+        p_content: sanitizedContent,
         p_parent_id: state.replyingTo || null,
         p_session_id: sessionId,
       });
@@ -200,10 +243,27 @@ export default function SupabaseComments({ essaySlug }) {
       return;
     }
 
+    // Sanitize the edited content
+    const sanitizedContent = sanitizeHtml(newContent);
+    if (!sanitizedContent) {
+      updateState({ error: 'Please provide valid content for your comment.' });
+      return;
+    }
+
+    if (sanitizedContent.length > 2000) {
+      updateState({
+        error: 'Comment is too long. Please keep it under 2000 characters.',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('comments')
-        .update({ content: newContent, updated_at: new Date().toISOString() })
+        .update({
+          content: sanitizedContent,
+          updated_at: new Date().toISOString(),
+        })
         .eq('id', commentId)
         .eq('session_id', getSessionId());
 
@@ -214,7 +274,7 @@ export default function SupabaseComments({ essaySlug }) {
           comment.id === commentId
             ? {
                 ...comment,
-                content: newContent,
+                content: sanitizedContent,
                 updated_at: new Date().toISOString(),
               }
             : comment
