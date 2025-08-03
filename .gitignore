@@ -26,3 +26,13 @@ pnpm-debug.log*
 # cursor
 .cursor/
 .vercel
+
+# ccsetup generated directories
+.claude/
+agents/
+docs/
+plans/
+tickets/
+CLAUDE.md
+GEMINI.md
+ROADMAP.md

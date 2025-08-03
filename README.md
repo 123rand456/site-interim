@@ -210,22 +210,6 @@ This implementation ensures:
 - Verification of admin status
 - Session management with secure tokens
 
-## To-Do
-
-- [x] Add search functionality
-- [x] Add essay indexing
-- [x] Improve page styling with nested directional links
-- [x] Add toggle drop down
-- [ ] Add recommendation
-- [ ] Make essay format to be like LessWrong Articles
-- [x] Add comments
-- [x] Properly secure admin interface
-- [ ] Add rss feed
-- [x] Optimize for mobile screen
-- [ ] Change UI admin
-- [ ] Add Dropcaps (?)
-- [ ] Get Domain Name
-
 ## Credits
 
 - Icons from [SVG Silh](https://svgsilh.com/)
