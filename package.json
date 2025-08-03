@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/algolia-index.mjs",
+    "build": "astro build && npm run index-search",
+    "build:no-index": "astro build",
+    "index-search": "node scripts/algolia-index.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.astro",
