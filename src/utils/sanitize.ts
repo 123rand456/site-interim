@@ -77,9 +77,10 @@ export function sanitizeEmail(email: string): string {
 }
 
 /**
- * Rate limiting check for comments (client-side validation)
- * Note: This is supplementary to server-side rate limiting
- * @returns boolean indicating if user can submit
+ * Client-side rate limiting check (backup/UX enhancement)
+ * Note: Primary rate limiting is enforced server-side via Supabase
+ * This provides immediate user feedback before server validation
+ * @returns boolean indicating if user can submit (client-side check only)
  */
 export function checkCommentRateLimit(): boolean {
   const lastSubmission = localStorage.getItem('lastCommentSubmission');
@@ -87,7 +88,7 @@ export function checkCommentRateLimit(): boolean {
 
   if (lastSubmission) {
     const timeDiff = now - parseInt(lastSubmission);
-    const minInterval = 30 * 1000; // 30 seconds minimum between comments
+    const minInterval = 30 * 1000; // 30 seconds minimum between comments (client-side UX)
 
     if (timeDiff < minInterval) {
       return false;
