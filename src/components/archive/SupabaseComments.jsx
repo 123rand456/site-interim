@@ -215,13 +215,18 @@ export default function SupabaseComments({ essaySlug }) {
 
     try {
       const sessionId = getSessionId();
-      const { data, error } = await supabase.rpc('insert_comment', {
+
+      // IP address will be detected server-side by the function
+      // For client-side, we let the server extract it from request headers
+
+      const { data, error } = await supabase.rpc('insert_comment_secure', {
         p_essay_slug: essaySlug,
         p_author_name: sanitizedName,
         p_author_email: sanitizedEmail || null,
         p_content: sanitizedContent,
         p_parent_id: state.replyingTo || null,
         p_session_id: sessionId,
+        p_ip_address: null, // IP will be extracted server-side from request context
       });
 
       if (error) throw error;

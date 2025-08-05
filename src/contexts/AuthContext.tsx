@@ -58,11 +58,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     if (error) {
-      logSecurityEvent('failed_auth', {
-        action: 'magic_link_request_failed',
-        email: email,
-        error_message: error.message,
-      });
+      // Log security event server-side using new Supabase function
+      try {
+        await supabase.rpc('log_security_event', {
+          p_event_type: 'failed_auth',
+          p_identifier: email,
+          p_details: {
+            action: 'magic_link_request_failed',
+            email: email,
+            error_message: error.message,
+            timestamp: new Date().toISOString(),
+          },
+          p_severity: 'warning',
+        });
+      } catch (logError) {
+        // Fallback to client-side logging if server-side fails
+        logSecurityEvent('failed_auth', {
+          action: 'magic_link_request_failed',
+          email: email,
+          error_message: error.message,
+          log_error: logError.message,
+        });
+      }
       throw error;
     }
   };
