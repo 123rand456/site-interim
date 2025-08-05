@@ -1,11 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabase';
 
+// TypeScript interfaces for type safety
+interface SecurityEvent {
+  id: string;
+  event_type: string;
+  identifier: string | null;
+  details: Record<string, any> | null;
+  severity: 'info' | 'warning' | 'error' | 'critical';
+  created_at: string;
+}
+
+interface RateLimit {
+  id: string;
+  identifier: string;
+  action_type: string;
+  count: number;
+  window_start: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface EventStats {
+  [eventType: string]: number;
+}
+
+interface RateLimitStats {
+  [actionType: string]: number;
+}
+
 export default function SecurityDashboard() {
-  const [securityEvents, setSecurityEvents] = useState([]);
-  const [rateLimitStats, setRateLimitStats] = useState([]);
+  const [securityEvents, setSecurityEvents] = useState<SecurityEvent[]>([]);
+  const [rateLimitStats, setRateLimitStats] = useState<RateLimit[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadSecurityData();
@@ -15,7 +43,7 @@ export default function SecurityDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  const loadSecurityData = async () => {
+  const loadSecurityData = async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
@@ -32,7 +60,7 @@ export default function SecurityDashboard() {
         .limit(50);
 
       if (eventsError) {
-        // Security events error
+        console.warn('Security events error:', eventsError);
         setSecurityEvents([]);
       } else {
         setSecurityEvents(events || []);
@@ -50,31 +78,37 @@ export default function SecurityDashboard() {
         .limit(100);
 
       if (rateError) {
-        // Rate limits error
+        console.warn('Rate limits error:', rateError);
         setRateLimitStats([]);
       } else {
-        // Error loading security data
         setRateLimitStats(rateStats || []);
       }
-    } catch (err) {
+    } catch (err: any) {
       setError(`Failed to load security data: ${err.message}`);
+      console.error('Error loading security data:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Process stats for display
-  const eventStats = securityEvents.reduce((acc, event) => {
-    acc[event.event_type] = (acc[event.event_type] || 0) + 1;
-    return acc;
-  }, {});
+  // Process stats for display with proper typing
+  const eventStats: EventStats = securityEvents.reduce(
+    (acc: EventStats, event) => {
+      acc[event.event_type] = (acc[event.event_type] || 0) + 1;
+      return acc;
+    },
+    {}
+  );
 
-  const rateLimitsByAction = rateLimitStats.reduce((acc, limit) => {
-    acc[limit.action_type] = (acc[limit.action_type] || 0) + limit.count;
-    return acc;
-  }, {});
+  const rateLimitsByAction: RateLimitStats = rateLimitStats.reduce(
+    (acc: RateLimitStats, limit) => {
+      acc[limit.action_type] = (acc[limit.action_type] || 0) + limit.count;
+      return acc;
+    },
+    {}
+  );
 
-  const formatDate = timestamp => {
+  const formatDate = (timestamp: string): string => {
     return new Date(timestamp).toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -82,6 +116,19 @@ export default function SecurityDashboard() {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const getSeverityColor = (severity: SecurityEvent['severity']): string => {
+    switch (severity) {
+      case 'critical':
+        return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+      case 'warning':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
+      case 'error':
+        return 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+    }
   };
 
   if (loading) {
@@ -217,15 +264,7 @@ export default function SecurityDashboard() {
                     </td>
                     <td className="py-2 px-3">
                       <span
-                        className={`px-2 py-1 rounded text-xs font-medium ${
-                          event.severity === 'critical'
-                            ? 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
-                            : event.severity === 'warning'
-                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
-                              : event.severity === 'error'
-                                ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400'
-                                : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
-                        }`}
+                        className={`px-2 py-1 rounded text-xs font-medium ${getSeverityColor(event.severity)}`}
                       >
                         {event.severity}
                       </span>

@@ -16,12 +16,21 @@ interface SearchProps {
   base?: string;
 }
 
+// Type assertion for Astro environment variables
+interface ImportMetaEnv {
+  PUBLIC_ALGOLIA_APP_ID: string;
+  PUBLIC_ALGOLIA_SEARCH_KEY: string;
+  PUBLIC_ALGOLIA_INDEX_NAME: string;
+}
+
+const env = (import.meta as unknown as { env: ImportMetaEnv }).env;
+
 const searchClient = algoliasearch(
-  (import.meta as any).env.PUBLIC_ALGOLIA_APP_ID,
-  (import.meta as any).env.PUBLIC_ALGOLIA_SEARCH_KEY
+  env.PUBLIC_ALGOLIA_APP_ID,
+  env.PUBLIC_ALGOLIA_SEARCH_KEY
 );
 
-const indexName = (import.meta as any).env.PUBLIC_ALGOLIA_INDEX_NAME;
+const indexName = env.PUBLIC_ALGOLIA_INDEX_NAME;
 
 const Search: React.FC<SearchProps> = ({ base = '/' }) => {
   const searchBoxRef = useRef<HTMLDivElement>(null);

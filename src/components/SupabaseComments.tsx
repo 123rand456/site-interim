@@ -206,8 +206,10 @@ const SupabaseComments: React.FC<SupabaseCommentsProps> = ({ essaySlug }) => {
 
         if (error) throw error;
         updateState({ comments: data || [] });
-      } catch (err: any) {
-        updateState({ error: `Failed to load comments: ${err.message}` });
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Unknown error occurred';
+        updateState({ error: `Failed to load comments: ${errorMessage}` });
       } finally {
         updateState({ loading: false });
       }
@@ -217,10 +219,12 @@ const SupabaseComments: React.FC<SupabaseCommentsProps> = ({ essaySlug }) => {
       try {
         await setSessionConfig();
         await loadComments();
-      } catch (err: any) {
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Unknown error occurred';
         setState(prev => ({
           ...prev,
-          error: `Failed to initialize comments: ${err.message}`,
+          error: `Failed to initialize comments: ${errorMessage}`,
         }));
       }
     };
@@ -300,8 +304,10 @@ const SupabaseComments: React.FC<SupabaseCommentsProps> = ({ essaySlug }) => {
         newComment: { name: '', email: '', content: '' },
         replyingTo: null,
       });
-    } catch (err: any) {
-      updateState({ error: `Failed to post comment: ${err.message}` });
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      updateState({ error: `Failed to post comment: ${errorMessage}` });
     } finally {
       updateState({ isSubmitting: false });
     }
@@ -356,8 +362,10 @@ const SupabaseComments: React.FC<SupabaseCommentsProps> = ({ essaySlug }) => {
         editingComment: null,
         editContent: '',
       });
-    } catch (err: any) {
-      updateState({ error: `Failed to update comment: ${err.message}` });
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      updateState({ error: `Failed to update comment: ${errorMessage}` });
     }
   };
 
@@ -382,8 +390,10 @@ const SupabaseComments: React.FC<SupabaseCommentsProps> = ({ essaySlug }) => {
       updateState({
         comments: state.comments.filter(comment => comment.id !== commentId),
       });
-    } catch (err: any) {
-      updateState({ error: `Failed to delete comment: ${err.message}` });
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      updateState({ error: `Failed to delete comment: ${errorMessage}` });
     }
   };
 
