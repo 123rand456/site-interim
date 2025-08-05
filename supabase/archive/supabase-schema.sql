@@ -1,11 +1,22 @@
 -- Drop existing tables and recreate with proper RLS policies
 DROP TABLE IF EXISTS comments CASCADE;
 DROP TABLE IF EXISTS admin_users CASCADE;
+DROP TABLE IF EXISTS user_profiles CASCADE;
 
 -- Create admin_users table (maybe consider user_roles in future, this suffices for now)
 CREATE TABLE admin_users (
   id UUID REFERENCES auth.users ON DELETE CASCADE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  PRIMARY KEY (id)
+);
+
+-- Create user_profiles table (for extended user data)
+CREATE TABLE user_profiles (
+  id UUID REFERENCES auth.users ON DELETE CASCADE,
+  email TEXT,
+  is_admin BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   PRIMARY KEY (id)
 );
 
@@ -33,6 +44,7 @@ CREATE INDEX idx_comments_session ON comments(session_id);
 -- Enable Row Level Security (RLS)
 ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 
 -- Drop existing policies
 DROP POLICY IF EXISTS "Anyone can read approved comments" ON comments;
@@ -103,6 +115,24 @@ CREATE POLICY "check_own_admin_status" ON admin_users
   USING (
     -- Only allow users to read rows where the id matches their own auth.uid()
     id = auth.uid()
+  );
+
+-- User Profiles Policies
+-- Allow users to view their own profile
+CREATE POLICY "users_can_view_own_profile" ON user_profiles
+  FOR SELECT USING (id = auth.uid());
+
+-- Allow profile creation for authenticated users
+CREATE POLICY "allow_profile_creation" ON user_profiles
+  FOR INSERT WITH CHECK (id = auth.uid());
+
+-- Allow admins to manage all profiles
+CREATE POLICY "admins_can_manage_profiles" ON user_profiles
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM admin_users
+      WHERE admin_users.id = auth.uid()
+    )
   );
 
 -- Create a function to automatically update the updated_at timestamp

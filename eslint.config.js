@@ -56,14 +56,14 @@ export default [
         'error',
         { argsIgnorePattern: '^_' },
       ],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
 
       // React
       'react/react-in-jsx-scope': 'off', // Not needed with React 17+
       'react/prop-types': 'off', // Using TypeScript for prop validation
 
       // General
-      'no-console': 'warn',
+      'no-console': 'off',
       'prefer-const': 'error',
       'no-var': 'error',
     },
@@ -94,7 +94,7 @@ export default [
       'react/prop-types': 'off',
 
       // General
-      'no-console': 'warn',
+      'no-console': 'off',
       'prefer-const': 'error',
       'no-var': 'error',
     },

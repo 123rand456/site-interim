@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   supabase,
   getSessionId,
   setSessionConfig,
   canEditComment,
+  type Comment as SupabaseComment,
 } from '../utils/supabase';
 import {
   sanitizeHtml,
@@ -15,8 +16,57 @@ import {
 import { logSecurityEvent } from '../utils/security-monitor';
 import '../utils/rate-limit-info';
 
+// Extend the Supabase Comment type for our component
+interface Comment extends SupabaseComment {
+  replies?: Comment[];
+}
+
+interface CommentState {
+  comments: Comment[];
+  newComment: {
+    name: string;
+    email: string;
+    content: string;
+  };
+  replyingTo: string | null;
+  editingComment: string | null;
+  editContent: string;
+  isSubmitting: boolean;
+  loading: boolean;
+  error: string | null;
+  currentTime: Date;
+}
+
+interface CommentBadgeProps {
+  type: 'pending' | 'user' | 'reply';
+  children: React.ReactNode;
+}
+
+interface CommentActionsProps {
+  canEdit: boolean;
+  onEdit: () => void;
+  onDelete: () => void;
+  onReply: () => void;
+}
+
+interface EditFormProps {
+  content: string;
+  onChange: (content: string) => void;
+  onSave: () => void;
+  onCancel: () => void;
+}
+
+interface ReplyContextProps {
+  comment: Comment;
+  onCancel: () => void;
+}
+
+interface SupabaseCommentsProps {
+  essaySlug: string;
+}
+
 // Helper Components
-const CommentBadge = ({ type, children }) => {
+const CommentBadge: React.FC<CommentBadgeProps> = ({ type, children }) => {
   const styles = {
     pending:
       'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-400',
@@ -30,7 +80,12 @@ const CommentBadge = ({ type, children }) => {
   );
 };
 
-const CommentActions = ({ canEdit, onEdit, onDelete, onReply }) => (
+const CommentActions: React.FC<CommentActionsProps> = ({
+  canEdit,
+  onEdit,
+  onDelete,
+  onReply,
+}) => (
   <div className="flex gap-2">
     {canEdit && (
       <>
@@ -57,7 +112,12 @@ const CommentActions = ({ canEdit, onEdit, onDelete, onReply }) => (
   </div>
 );
 
-const EditForm = ({ content, onChange, onSave, onCancel }) => (
+const EditForm: React.FC<EditFormProps> = ({
+  content,
+  onChange,
+  onSave,
+  onCancel,
+}) => (
   <div className="mt-2">
     <textarea
       value={content}
@@ -82,7 +142,7 @@ const EditForm = ({ content, onChange, onSave, onCancel }) => (
   </div>
 );
 
-const ReplyIndicator = () => (
+const ReplyIndicator: React.FC = () => (
   <div className="flex items-center mb-2">
     <div className="w-6 h-px bg-blue-300 dark:bg-blue-600"></div>
     <span className="text-xs text-blue-600 dark:text-blue-400 ml-2 font-medium">
@@ -91,7 +151,7 @@ const ReplyIndicator = () => (
   </div>
 );
 
-const ReplyContext = ({ comment, onCancel }) => (
+const ReplyContext: React.FC<ReplyContextProps> = ({ comment, onCancel }) => (
   <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded">
     <div className="flex justify-between items-center">
       <div>
@@ -113,8 +173,8 @@ const ReplyContext = ({ comment, onCancel }) => (
   </div>
 );
 
-export default function SupabaseComments({ essaySlug }) {
-  const [state, setState] = useState({
+const SupabaseComments: React.FC<SupabaseCommentsProps> = ({ essaySlug }) => {
+  const [state, setState] = useState<CommentState>({
     comments: [],
     newComment: { name: '', email: '', content: '' },
     replyingTo: null,
@@ -135,7 +195,7 @@ export default function SupabaseComments({ essaySlug }) {
   }, []);
 
   useEffect(() => {
-    const loadComments = async () => {
+    const loadComments = async (): Promise<void> => {
       try {
         updateState({ loading: true });
         const { data, error } = await supabase
@@ -147,20 +207,24 @@ export default function SupabaseComments({ essaySlug }) {
         if (error) throw error;
         updateState({ comments: data || [] });
       } catch (err) {
-        updateState({ error: `Failed to load comments: ${err.message}` });
+        const errorMessage =
+          err instanceof Error ? err.message : 'Unknown error occurred';
+        updateState({ error: `Failed to load comments: ${errorMessage}` });
       } finally {
         updateState({ loading: false });
       }
     };
 
-    const initializeComments = async () => {
+    const initializeComments = async (): Promise<void> => {
       try {
         await setSessionConfig();
         await loadComments();
       } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Unknown error occurred';
         setState(prev => ({
           ...prev,
-          error: `Failed to initialize comments: ${err.message}`,
+          error: `Failed to initialize comments: ${errorMessage}`,
         }));
       }
     };
@@ -168,9 +232,10 @@ export default function SupabaseComments({ essaySlug }) {
     initializeComments();
   }, [essaySlug]);
 
-  const updateState = updates => setState(prev => ({ ...prev, ...updates }));
+  const updateState = (updates: Partial<CommentState>): void =>
+    setState(prev => ({ ...prev, ...updates }));
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     if (!state.newComment.name.trim() || !state.newComment.content.trim())
       return;
@@ -215,18 +280,23 @@ export default function SupabaseComments({ essaySlug }) {
 
     try {
       const sessionId = getSessionId();
-      const { data, error } = await supabase.rpc('insert_comment', {
+
+      // IP address will be detected server-side by the function
+      // For client-side, we let the server extract it from request headers
+
+      const { data, error } = await supabase.rpc('insert_comment_secure', {
         p_essay_slug: essaySlug,
         p_author_name: sanitizedName,
         p_author_email: sanitizedEmail || null,
         p_content: sanitizedContent,
         p_parent_id: state.replyingTo || null,
         p_session_id: sessionId,
+        p_ip_address: null, // IP will be extracted server-side from request context
       });
 
       if (error) throw error;
 
-      // Record successful submission for rate limiting
+      // Record successful submission for rate limiting (client-side UX)
       recordCommentSubmission();
 
       updateState({
@@ -235,13 +305,18 @@ export default function SupabaseComments({ essaySlug }) {
         replyingTo: null,
       });
     } catch (err) {
-      updateState({ error: `Failed to post comment: ${err.message}` });
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      updateState({ error: `Failed to post comment: ${errorMessage}` });
     } finally {
       updateState({ isSubmitting: false });
     }
   };
 
-  const handleEdit = async (commentId, newContent) => {
+  const handleEdit = async (
+    commentId: string,
+    newContent: string
+  ): Promise<void> => {
     const comment = state.comments.find(c => c.id === commentId);
     if (!comment || !canEditComment(comment)) {
       updateState({ error: 'You can no longer edit this comment' });
@@ -288,11 +363,13 @@ export default function SupabaseComments({ essaySlug }) {
         editContent: '',
       });
     } catch (err) {
-      updateState({ error: `Failed to update comment: ${err.message}` });
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      updateState({ error: `Failed to update comment: ${errorMessage}` });
     }
   };
 
-  const handleDelete = async commentId => {
+  const handleDelete = async (commentId: string): Promise<void> => {
     const comment = state.comments.find(c => c.id === commentId);
     if (!comment || !canEditComment(comment)) {
       updateState({ error: 'You can no longer delete this comment' });
@@ -314,14 +391,17 @@ export default function SupabaseComments({ essaySlug }) {
         comments: state.comments.filter(comment => comment.id !== commentId),
       });
     } catch (err) {
-      updateState({ error: `Failed to delete comment: ${err.message}` });
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      updateState({ error: `Failed to delete comment: ${errorMessage}` });
     }
   };
 
   // Utility functions
-  const getTimeRemaining = comment => {
+  const getTimeRemaining = (comment: Comment): string | null => {
     const diffMinutes =
-      (state.currentTime - new Date(comment.created_at)) / (1000 * 60);
+      (state.currentTime.getTime() - new Date(comment.created_at).getTime()) /
+      (1000 * 60);
     const remaining = Math.max(0, 5 - diffMinutes);
     if (remaining <= 0) return null;
     const minutes = Math.floor(remaining);
@@ -329,7 +409,7 @@ export default function SupabaseComments({ essaySlug }) {
     return `${minutes}m ${seconds}s left to edit`;
   };
 
-  const formatDate = timestamp =>
+  const formatDate = (timestamp: string): string =>
     new Date(timestamp).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -338,27 +418,32 @@ export default function SupabaseComments({ essaySlug }) {
       minute: '2-digit',
     });
 
-  const organizeComments = comments => {
-    const commentMap = new Map();
-    const topLevel = [];
+  const organizeComments = (comments: Comment[]): Comment[] => {
+    const commentMap = new Map<string, Comment>();
+    const topLevel: Comment[] = [];
 
     comments.forEach(comment =>
       commentMap.set(comment.id, { ...comment, replies: [] })
     );
     comments.forEach(comment => {
       if (comment.parent_id && commentMap.has(comment.parent_id)) {
-        commentMap
-          .get(comment.parent_id)
-          .replies.push(commentMap.get(comment.id));
+        const parentComment = commentMap.get(comment.parent_id)!;
+        const childComment = commentMap.get(comment.id)!;
+        if (!parentComment.replies) parentComment.replies = [];
+        parentComment.replies.push(childComment);
       } else {
-        topLevel.push(commentMap.get(comment.id));
+        const topLevelComment = commentMap.get(comment.id);
+        if (topLevelComment) topLevel.push(topLevelComment);
       }
     });
 
     return topLevel;
   };
 
-  const renderComment = (comment, depth = 0) => {
+  const renderComment = (
+    comment: Comment,
+    depth: number = 0
+  ): React.ReactElement => {
     const isApproved = comment.is_approved;
     const canEdit = canEditComment(comment);
     const timeRemaining = getTimeRemaining(comment);
@@ -422,7 +507,7 @@ export default function SupabaseComments({ essaySlug }) {
                 updateState({ replyingTo: comment.id });
                 document
                   .querySelector('#comment-form')
-                  .scrollIntoView({ behavior: 'smooth' });
+                  ?.scrollIntoView({ behavior: 'smooth' });
               }}
             />
           </div>
@@ -443,7 +528,7 @@ export default function SupabaseComments({ essaySlug }) {
           )}
         </div>
 
-        {comment.replies?.length > 0 && (
+        {comment.replies && comment.replies.length > 0 && (
           <div className="border-l-2 border-gray-200 dark:border-gray-700 ml-4 pl-4">
             {comment.replies.map(reply => renderComment(reply, depth + 1))}
           </div>
@@ -582,4 +667,6 @@ export default function SupabaseComments({ essaySlug }) {
       </div>
     </div>
   );
-}
+};
+
+export default SupabaseComments;

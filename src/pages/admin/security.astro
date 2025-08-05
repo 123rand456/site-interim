@@ -1,20 +1,19 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import CommentAdmin from '../../components/CommentAdmin';
+import SecurityDashboard from '../../components/SecurityDashboard';
 ---
 
-<MainLayout title="Comment Administration">
+<MainLayout title="Security Dashboard">
   <div id="admin-content" style="display: none;">
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-4xl font-bold">Comment Administration</h1>
-      <a
-        href="/admin/security"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Security Dashboard
-      </a>
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2">Security Dashboard</h1>
+        <p class="text-gray-600 dark:text-gray-400">
+          Monitor security events and rate limiting
+        </p>
+      </div>
+      <SecurityDashboard client:load />
     </div>
-    <CommentAdmin client:load />
   </div>
 
   <div id="loading" class="flex min-h-screen items-center justify-center">
@@ -36,37 +35,44 @@ import CommentAdmin from '../../components/CommentAdmin';
       const showContent = (show: boolean) => {
         const loadingElement = document.getElementById('loading');
         const contentElement = document.getElementById('admin-content');
-
-        if (loadingElement && contentElement) {
+        if (loadingElement) {
           loadingElement.style.display = show ? 'none' : 'flex';
+        }
+        if (contentElement) {
           contentElement.style.display = show ? 'block' : 'none';
         }
       };
 
       try {
-        const { getCurrentAdmin } = await import('../../utils/supabase');
-        const { base } = await import('../../utils/constants');
+        updateStatus('Connecting to database...');
 
-        updateStatus('Verifying admin access...');
+        // Import Supabase client
+        const { getCurrentAdmin } = await import('../../utils/supabase');
+
+        updateStatus('Checking admin status...');
         const admin = await getCurrentAdmin();
 
         if (!admin) {
-          window.location.href = base;
+          updateStatus('Access denied. Redirecting...');
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1000);
           return;
         }
 
-        updateStatus('Access granted!');
+        updateStatus('Loading security dashboard...');
         showContent(true);
       } catch (error) {
-        const { base } = await import('../../utils/constants');
-        const errorMessage =
-          error instanceof Error ? error.message : 'Unknown error';
-        updateStatus(`Access check failed: ${errorMessage}`);
+        console.error('Access check failed:', error);
+        updateStatus('Failed to verify access. Please try again.');
         setTimeout(() => {
-          window.location.href = base;
+          window.location.href = '/';
         }, 2000);
       }
     }
+
+    // Run access check when page loads
     checkAccess();
   </script>
 </MainLayout>
+
