@@ -29,13 +29,10 @@ const sections = [
       {
         id: 'work',
         title: 'Work',
-        metadata: { timestamp: '2024', status: 'current' },
         subsections: [
           {
             id: 'projects',
             title: 'Projects',
-            metadata: { importance: 'core' },
-            subsections: [],
           },
         ],
       },
@@ -55,7 +52,7 @@ const sections = [
     title: 'Contact',
   },
   {
-    id: 'collaboration style',
+    id: 'collaboration-style',
     title: 'Collaboration Style',
   },
 ];
@@ -73,31 +70,77 @@ const sections = [
       <PageMetadata {...metadata} />
     </div>
 
-    <div class="flex gap-8 relative">
-      {/* Table of Contents - Aligned with first paragraph */}
-      <aside class="w-64 flex-shrink-0 sticky" style="top: 2rem;">
-        <TableOfContents sections={sections} />
+    {/* Mobile-First Layout: Stack on mobile, side-by-side on desktop */}
+    <div class="flex flex-col lg:flex-row lg:gap-8 relative">
+      {/* Mobile ToC Toggle Button */}
+      <div class="lg:hidden mb-6">
+        <button
+          id="toc-toggle"
+          class="w-full flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+          aria-expanded="false"
+          aria-controls="mobile-toc"
+        >
+          <span class="font-medium text-gray-900 dark:text-gray-100"
+            >Table of Contents</span
+          >
+          <svg
+            class="w-5 h-5 text-gray-500 transition-transform duration-200"
+            id="toc-chevron"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        {/* Mobile ToC Dropdown */}
+        <div
+          id="mobile-toc"
+          class="hidden mt-3 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg"
+        >
+          <TableOfContents sections={sections} />
+        </div>
+      </div>
+
+      {/* Desktop ToC Sidebar */}
+      <aside
+        class="hidden lg:block lg:w-64 lg:flex-shrink-0 lg:sticky lg:top-8 lg:self-start"
+      >
+        <div
+          class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+        >
+          <TableOfContents sections={sections} />
+        </div>
       </aside>
 
-      {/* Main Content */}
-      <main class="flex-1">
+      {/* Main Content - Full width on mobile, flex-1 on desktop */}
+      <main class="w-full lg:flex-1">
         {/* Initial Description */}
         <div class="mb-12">
           <p class="text-lg text-gray-600 dark:text-gray-400">
             This page is about me; for information about my website, see <a
-              href="/about-site">About This Website</a
+              href="/about-site"
+              class="text-blue-600 dark:text-blue-400 hover:underline"
+              >About This Website</a
             >.
           </p>
         </div>
 
-        {/* PERSONAL section with right alignment and divider */}
-        <div class="relative">
-          <h2 class="text-right text-3xl font-bold mb-8 pr-4">PERSONAL</h2>
+        {/* PERSONAL section with mobile-friendly right alignment */}
+        <section id="personal" class="mb-16">
+          <h2 class="text-right text-2xl sm:text-3xl font-bold mb-8 pr-4">
+            PERSONAL
+          </h2>
           <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
 
-          {/* Quote section */}
+          {/* Quote section with mobile-responsive padding */}
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "A transition from an author's book to his conversation..."
             <footer class="mt-2 text-sm">
@@ -107,7 +150,7 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "If you are rich and sophisticated, but not too rich or too
             sophisticated, then you are in the sweet spot for a lot of people
@@ -119,7 +162,7 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "We should glorify the journey of achieving something meaningful,
             not the dream of wealth and power. Glorify the skills you build
@@ -128,7 +171,7 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "If the error rate you see is low, the error rate you don't see is
             high."
@@ -138,7 +181,7 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "Point of view is worth 80 IQ points"
             <footer class="mt-2 text-sm">
@@ -147,7 +190,7 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "Anything that's human is mentionable and anything mentionable is
             manageable. When we can talk about our feelings, they become less
@@ -159,7 +202,7 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "Really you want to charge an amount of money that is so absurd that
             most people won't pay it, so that (1) you have very few clients and
@@ -172,16 +215,16 @@ const sections = [
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "The limits of my language means the limits of my world."
             <footer class="mt-2 text-sm">
-              — Ludwig Wittgenstein, Tractatus Logico-Philosophicus (1922)
+              — Ludwig Wittgenstein, Tractus Logico-Philosophicus (1922)
             </footer>
           </blockquote>
 
           <blockquote
-            class="italic text-gray-600 dark:text-gray-400 pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
+            class="italic text-gray-600 dark:text-gray-400 pl-4 sm:pl-8 border-l-4 border-gray-300 dark:border-gray-700 my-8"
           >
             "Having a fast connection between New York and Chicago, or a good
             high school resume, is nothing. Having a faster connection between
@@ -194,65 +237,201 @@ const sections = [
             </footer>
           </blockquote>
 
-          {/* Content sections */}
-          <div class="relative -ml-64">
-            <section id="work" class="mb-8">
-              <h2 class="text-left text-3xl font-bold mb-8 pr-4">
-                POSITIONAL GOODS
-              </h2>
-              <div class="border-t border-gray-300 dark:border-gray-700 my-4">
-              </div>
-              <p>Your work content...</p>
+          {/* Subsections within Personal */}
+          <section id="work" class="mt-12 mb-8">
+            <h3 class="text-left text-xl sm:text-2xl font-bold mb-6">WORK</h3>
+            <div class="border-t border-gray-300 dark:border-gray-700 my-4">
+            </div>
+
+            <section id="projects" class="mt-8 mb-6">
+              <h4 class="text-left text-lg sm:text-xl font-semibold mb-4">
+                Projects
+              </h4>
+              <p class="text-gray-600 dark:text-gray-400">
+                Details about my current and past projects...
+              </p>
+            </section>
+          </section>
+
+          <section id="websites" class="mb-8">
+            <h3 class="text-left text-xl sm:text-2xl font-bold mb-6">
+              WEBSITES
+            </h3>
+            <div class="border-t border-gray-300 dark:border-gray-700 my-4">
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              Links to my websites and online presence...
+            </p>
+          </section>
+
+          <section id="uses-this" class="mb-8">
+            <h3 class="text-left text-xl sm:text-2xl font-bold mb-6">
+              USES THIS
+            </h3>
+            <div class="border-t border-gray-300 dark:border-gray-700 my-4">
+            </div>
+
+            <section id="software" class="mt-8 mb-6">
+              <h4 class="text-left text-lg sm:text-xl font-semibold mb-4">
+                Software
+              </h4>
+              <p class="text-gray-600 dark:text-gray-400">
+                Software tools and applications I use...
+              </p>
             </section>
 
-            <section id="profile" class="mb-8">
-              <h2 class="text-left text-3xl font-bold mb-8 pr-4">PROFILE</h2>
-              <div class="border-t border-gray-300 dark:border-gray-700 my-4">
-              </div>
-              <p>Incorrect cliches...</p>
+            <section id="hardware" class="mt-8 mb-6">
+              <h4 class="text-left text-lg sm:text-xl font-semibold mb-4">
+                Hardware
+              </h4>
+              <p class="text-gray-600 dark:text-gray-400">
+                Hardware setup and devices I use...
+              </p>
             </section>
-          </div>
+          </section>
+        </section>
 
-          {/* Other sections... */}
-        </div>
+        {/* CONTACT section */}
+        <section id="contact" class="mb-16">
+          <h2 class="text-left text-2xl sm:text-3xl font-bold mb-8">CONTACT</h2>
+          <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+          <p class="text-gray-600 dark:text-gray-400">
+            How to get in touch with me...
+          </p>
+        </section>
+
+        {/* COLLABORATION STYLE section */}
+        <section id="collaboration-style" class="mb-16">
+          <h2 class="text-left text-2xl sm:text-3xl font-bold mb-8">
+            COLLABORATION STYLE
+          </h2>
+          <div class="border-t border-gray-300 dark:border-gray-700 my-4"></div>
+          <p class="text-gray-600 dark:text-gray-400">
+            My preferred working and collaboration style...
+          </p>
+        </section>
       </main>
     </div>
   </div>
 </MainLayout>
 
 <script>
-  // Optional: Add active class to navigation items based on scroll position
-  const sections = document.querySelectorAll('section');
-  const navLinks = document.querySelectorAll('aside nav a');
+  // Mobile ToC Toggle Functionality
+  const tocToggle = document.getElementById('toc-toggle');
+  const mobileToc = document.getElementById('mobile-toc');
+  const tocChevron = document.getElementById('toc-chevron');
 
-  function updateActiveSection() {
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      const scrollPosition = window.scrollY;
+  if (tocToggle && mobileToc && tocChevron) {
+    tocToggle.addEventListener('click', () => {
+      const isExpanded = tocToggle.getAttribute('aria-expanded') === 'true';
 
-      if (
-        scrollPosition >= sectionTop - 100 &&
-        scrollPosition < sectionTop + sectionHeight - 100
-      ) {
-        const id = section.getAttribute('id');
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${id}`) {
-            link.classList.add('active');
-          }
-        });
+      // Toggle visibility
+      mobileToc.classList.toggle('hidden');
+
+      // Update ARIA state
+      tocToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+
+      // Rotate chevron
+      if (isExpanded) {
+        tocChevron.style.transform = 'rotate(0deg)';
+      } else {
+        tocChevron.style.transform = 'rotate(180deg)';
       }
     });
   }
 
+  // Enhanced section highlighting functionality
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('aside nav a, #mobile-toc nav a');
+
+  function updateActiveSection() {
+    let currentSection = '';
+
+    sections.forEach(section => {
+      const htmlElement = section as HTMLElement;
+      const sectionTop = htmlElement.offsetTop;
+      const sectionHeight = htmlElement.clientHeight;
+      const scrollPosition = window.scrollY + 100; // Add offset for header
+
+      if (
+        scrollPosition >= sectionTop &&
+        scrollPosition < sectionTop + sectionHeight
+      ) {
+        currentSection = section.getAttribute('id') || '';
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      const href = link.getAttribute('href');
+      if (href === `#${currentSection}`) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // Smooth scroll for ToC links
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+
+        // Close mobile ToC after clicking a link
+        if (mobileToc && !mobileToc.classList.contains('hidden')) {
+          mobileToc.classList.add('hidden');
+          if (tocToggle) {
+            tocToggle.setAttribute('aria-expanded', 'false');
+          }
+          if (tocChevron) {
+            tocChevron.style.transform = 'rotate(0deg)';
+          }
+        }
+      }
+    });
+  });
+
   window.addEventListener('scroll', updateActiveSection);
+  // Call once to set initial state
+  updateActiveSection();
 </script>
 
 <style>
-  /* Add any additional custom styles */
-  .metadata-container {
-    max-width: 36rem;
-    margin: 0 auto;
+  /* Mobile-responsive styles */
+  @media (max-width: 1023px) {
+    .metadata-container {
+      max-width: 100%;
+      margin: 0;
+    }
+  }
+
+  /* Ensure smooth ToC transitions */
+  #mobile-toc {
+    transition: all 0.3s ease-in-out;
+  }
+
+  #toc-chevron {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  /* Section scroll margin for proper anchoring */
+  section[id] {
+    scroll-margin-top: 2rem;
+  }
+
+  /* Enhanced active link styling */
+  nav a.active {
+    background-color: var(--toc-hover-bg);
+    font-weight: 600;
+    color: var(--link-active);
   }
 </style>

@@ -36,21 +36,149 @@ const breadcrumbItems = [
   description={frontmatter.description}
   breadcrumbItems={breadcrumbItems}
 >
-  <h1 class="text-4xl font-bold mb-4 text-center">{frontmatter.title}</h1>
+  <!-- Essay Header - Mobile optimized -->
+  <div class="mb-8 sm:mb-12">
+    <h1 class="text-3xl sm:text-4xl font-bold mb-4 text-center leading-tight">
+      {frontmatter.title}
+    </h1>
 
-  <div class="mb-8">
-    <PageMetadata
-      {...frontmatter}
-      wordCount={metrics.wordCount}
-      readingTime={metrics.readTimeMinutes}
-    />
+    <div class="mb-8">
+      <PageMetadata
+        {...frontmatter}
+        wordCount={metrics.wordCount}
+        readingTime={metrics.readTimeMinutes}
+      />
+    </div>
   </div>
 
-  <div class="prose dark:prose-invert max-w-none">
-    <slot />
-    <!-- Markdown content gets rendered here -->
-  </div>
+  <!-- Essay Content - Responsive prose container -->
+  <article class="prose prose-gray dark:prose-invert max-w-none">
+    <!-- Mobile-optimized prose styling -->
+    <div
+      class="prose-headings:scroll-mt-16
+      prose-h1:text-2xl sm:prose-h1:text-3xl
+      prose-h2:text-xl sm:prose-h2:text-2xl
+      prose-h3:text-lg sm:prose-h3:text-xl
+      prose-p:leading-relaxed
+      prose-img:rounded-lg
+      prose-img:shadow-md
+      prose-a:text-blue-600
+      prose-a:no-underline
+      hover:prose-a:underline
+      dark:prose-a:text-blue-400
+      prose-code:text-sm
+      prose-code:bg-gray-100
+      dark:prose-code:bg-gray-800
+      prose-code:px-1
+      prose-code:py-0.5
+      prose-code:rounded
+      prose-pre:text-sm
+      prose-blockquote:border-l-4
+      prose-blockquote:border-gray-300
+      dark:prose-blockquote:border-gray-600
+      prose-blockquote:pl-4
+      sm:prose-blockquote:pl-6
+      prose-ul:my-4
+      prose-ol:my-4
+      prose-li:my-1
+      prose-table:table-auto
+      prose-table:border-collapse
+      prose-th:border
+      prose-td:border
+      prose-th:border-gray-300
+      prose-td:border-gray-300
+      dark:prose-th:border-gray-600
+      dark:prose-td:border-gray-600
+      prose-th:px-3
+      prose-td:px-3
+      prose-th:py-2
+      prose-td:py-2"
+    >
+      <slot />
+      <!-- Markdown content gets rendered here -->
+    </div>
+  </article>
 
-  <!-- Supabase Comments Section -->
-  <SupabaseComments client:load essaySlug={slug} />
+  <!-- Comments Section - Mobile optimized -->
+  <div class="mt-12 sm:mt-16">
+    <div class="border-t border-gray-200 dark:border-gray-700 pt-8 sm:pt-12">
+      <SupabaseComments client:load essaySlug={slug} />
+    </div>
+  </div>
 </MainLayout>
+
+<style>
+  /* Mobile-first responsive enhancements */
+
+  /* Ensure images are responsive within prose */
+  article img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+  }
+
+  /* Better table handling on mobile */
+  @media (max-width: 640px) {
+    article table {
+      font-size: 0.875rem;
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    article th,
+    article td {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  /* Code block improvements for mobile */
+  @media (max-width: 640px) {
+    article pre {
+      font-size: 0.8rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    article :not(pre) > code {
+      font-size: 0.8rem;
+      word-break: break-word;
+    }
+  }
+
+  /* Better blockquote spacing on mobile */
+  @media (max-width: 640px) {
+    article blockquote {
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 1rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Ensure proper line height for readability */
+  article p {
+    line-height: 1.75;
+  }
+
+  @media (max-width: 640px) {
+    article p {
+      line-height: 1.6;
+    }
+  }
+
+  /* Smooth scroll behavior for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus styles for accessibility */
+  article a:focus,
+  article a:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+</style>
