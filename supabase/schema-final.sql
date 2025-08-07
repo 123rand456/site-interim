@@ -483,7 +483,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 -- ANALYTICS FUNCTIONS
 -- ====================
 
--- Function to track page view
+-- Function to track page view (WORKING VERSION)
 CREATE OR REPLACE FUNCTION public.track_page_view(
     p_page_path TEXT,
     p_page_title TEXT DEFAULT NULL,
@@ -505,6 +505,7 @@ AS $$
 DECLARE
     view_id UUID;
 BEGIN
+    -- Insert page view record
     INSERT INTO public.page_views (
         page_path, page_title, referrer, user_agent, session_id, ip_address,
         viewport_width, viewport_height, screen_width, screen_height, timezone, language
@@ -513,11 +514,9 @@ BEGIN
         p_viewport_width, p_viewport_height, p_screen_width, p_screen_height, p_timezone, p_language
     ) RETURNING id INTO view_id;
     
-    -- Update content analytics
+    -- Update content analytics (simplified to avoid conflicts)
     INSERT INTO public.content_analytics (content_path, content_type, total_views, unique_views)
-    VALUES (p_page_path, 
-            CASE WHEN p_page_path LIKE '%/essays/%' THEN 'essay' ELSE 'page' END,
-            1, 1)
+    VALUES (p_page_path, 'page', 1, 1)
     ON CONFLICT (content_path) 
     DO UPDATE SET 
         total_views = content_analytics.total_views + 1,
