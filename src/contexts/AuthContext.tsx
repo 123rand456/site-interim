@@ -46,6 +46,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Auto-refresh session to prevent magic link expiration
+  useEffect(() => {
+    const refreshInterval = setInterval(
+      async () => {
+        try {
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+
+          if (session && session.expires_at) {
+            const now = Math.floor(Date.now() / 1000);
+            const expiresAt = session.expires_at;
+            const timeUntilExpiry = expiresAt - now;
+
+            // If session expires in less than 10 minutes, try to refresh
+            if (timeUntilExpiry < 600) {
+              console.log('Session expiring soon, attempting refresh...');
+              const { error } = await supabase.auth.refreshSession();
+
+              if (error) {
+                console.warn('Session refresh failed:', error);
+              } else {
+                console.log('Session refreshed successfully');
+              }
+            }
+          }
+        } catch (error) {
+          console.warn('Session refresh check failed:', error);
+        }
+      },
+      5 * 60 * 1000
+    ); // Check every 5 minutes
+
+    return () => clearInterval(refreshInterval);
+  }, []);
+
   const signIn = async (email: string) => {
     const redirectUrl = `${window.location.origin}${base}auth/callback`;
 
@@ -85,9 +121,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-    setAdmin(null);
+    try {
+      // Check session validity first
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        // If no valid session, just clear local state
+        console.log('No valid session for logout, clearing local state...');
+        setAdmin(null);
+        return;
+      }
+
+      // Check if session is expired
+      const now = Math.floor(Date.now() / 1000);
+      if (session.expires_at && session.expires_at < now) {
+        console.log('Session expired, clearing local state...');
+        setAdmin(null);
+        return;
+      }
+
+      // Valid session - attempt normal logout
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.warn('Supabase signOut failed:', error);
+        // Still clear local state even if server signOut fails
+      }
+
+      setAdmin(null);
+    } catch (error) {
+      console.error('SignOut error:', error);
+      // Always clear local state, even on error
+      setAdmin(null);
+    }
   };
 
   const value = {

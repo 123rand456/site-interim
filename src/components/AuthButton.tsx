@@ -43,21 +43,34 @@ export default function AuthButton() {
   }
 
   if (admin) {
+    const handleSignOut = async () => {
+      try {
+        console.log('Signing out...');
+        await signOut();
+        console.log('Signed out successfully');
+        // Redirect to home after logout
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Sign out failed:', error);
+        alert('Failed to sign out. Please try again.');
+      }
+    };
+
     return (
       <div className="relative group">
         <button
-          onClick={() => signOut()}
-          className="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+          onClick={handleSignOut}
+          className="flex items-center justify-center w-8 h-8 rounded hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
           title="Sign Out"
         >
           <img
             src={`${base}admin-sign-in.svg`}
-            alt="Admin"
-            className="h-5 w-5"
+            alt="Admin - Click to Sign Out"
+            className="h-5 w-5 pointer-events-none"
           />
         </button>
         <span className="settings-tooltip group-hover:opacity-100">
-          Signed in as {admin.email}
+          Click to sign out ({admin.email})
         </span>
       </div>
     );

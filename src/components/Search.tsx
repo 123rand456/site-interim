@@ -1,211 +1,264 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import algoliasearch from 'algoliasearch/lite';
-import instantsearch from 'instantsearch.js';
-import { searchBox, hits } from 'instantsearch.js/es/widgets';
+import { trackSearchQuery } from '../utils/analytics';
 
-// TypeScript interfaces
-interface SearchHit {
+interface SearchProps {
+  base: string;
+}
+
+interface SearchResult {
   objectID: string;
   title: string;
   description: string;
-  slug: string;
-  content?: string;
+  url: string;
+  category: string;
+  tags: string[];
+  hierarchy: {
+    lvl0: string;
+    lvl1: string | null;
+    lvl2: string | null;
+  };
 }
 
-interface SearchProps {
-  base?: string;
-}
+export default function Search({ base }: SearchProps) {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-// Type assertion for Astro environment variables
-interface ImportMetaEnv {
-  PUBLIC_ALGOLIA_APP_ID: string;
-  PUBLIC_ALGOLIA_SEARCH_KEY: string;
-  PUBLIC_ALGOLIA_INDEX_NAME: string;
-}
+  // Initialize Algolia client
+  const env = (import.meta as any).env;
+  const searchClient = algoliasearch(
+    env.PUBLIC_ALGOLIA_APP_ID,
+    env.PUBLIC_ALGOLIA_SEARCH_API_KEY
+  );
+  const index = searchClient.initIndex(env.PUBLIC_ALGOLIA_INDEX_NAME);
 
-const env = (import.meta as unknown as { env: ImportMetaEnv }).env;
-
-const searchClient = algoliasearch(
-  env.PUBLIC_ALGOLIA_APP_ID,
-  env.PUBLIC_ALGOLIA_SEARCH_KEY
-);
-
-const indexName = env.PUBLIC_ALGOLIA_INDEX_NAME;
-
-const Search: React.FC<SearchProps> = ({ base = '/' }) => {
-  const searchBoxRef = useRef<HTMLDivElement>(null);
-  const hitsRef = useRef<HTMLDivElement>(null);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
-
+  // Debounced search effect
   useEffect(() => {
-    if (!searchBoxRef.current || !hitsRef.current) return;
-
-    const search = instantsearch({
-      indexName,
-      searchClient,
-      insights: false,
-    });
-
-    search.addWidgets([
-      searchBox({
-        container: searchBoxRef.current,
-        placeholder: 'Search essays...',
-        showReset: false,
-        showSubmit: false,
-        cssClasses: {
-          input: 'ais-SearchBox-input',
-        },
-        queryHook: (inputValue: string, searchFn: (query: string) => void) => {
-          setQuery(inputValue);
-          searchFn(inputValue);
-        },
-      }),
-      hits({
-        container: hitsRef.current,
-        templates: {
-          item: (hit: SearchHit) => `
-            <a href="${base}essays/${hit.slug}" 
-               style="display:block;text-decoration:none;color:inherit;" 
-               onmousedown="window.location=this.href">
-              <div>
-                <div style="font-weight:bold;">${hit.title}</div>
-                <div style="font-size:0.95em;color:#555;">${hit.description}</div>
-              </div>
-            </a>
-          `,
-        },
-      }),
-    ]);
-
-    search.start();
-
-    // Show/hide dropdown on focus/blur
-    const input = searchBoxRef.current.querySelector('input');
-    if (input) {
-      const handleFocus = () => setIsFocused(true);
-      const handleBlur = () => setIsFocused(false);
-
-      input.addEventListener('focus', handleFocus);
-      input.addEventListener('blur', handleBlur);
-
-      // Cleanup function
-      return () => {
-        search.dispose();
-        input.removeEventListener('focus', handleFocus);
-        input.removeEventListener('blur', handleBlur);
-      };
+    if (!query.trim()) {
+      setResults([]);
+      setIsOpen(false);
+      return;
     }
 
-    return () => {
-      search.dispose();
-    };
-  }, [base]);
+    const timeoutId = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const { hits } = await index.search(query, {
+          hitsPerPage: 8,
+          attributesToRetrieve: [
+            'title',
+            'description',
+            'url',
+            'category',
+            'tags',
+            'hierarchy',
+          ],
+          attributesToHighlight: ['title', 'description'],
+        });
 
-  // Custom clear handler
-  const handleClear = (): void => {
-    const input = searchBoxRef.current?.querySelector('input');
-    if (input) {
-      input.value = '';
-      input.dispatchEvent(new Event('input', { bubbles: true }));
+        setResults(hits as SearchResult[]);
+        setIsOpen(hits.length > 0);
+        setSelectedIndex(-1);
+
+        // Track search query - don't wait for it
+        trackSearchQuery(query, hits.length).catch(console.debug);
+      } catch (error) {
+        console.error('Search error:', error);
+        setResults([]);
+        setIsOpen(false);
+      } finally {
+        setLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]); // Remove index from dependencies to prevent re-renders
+
+  // Handle result click with useCallback to stabilize reference
+  const handleResultClick = useCallback(
+    async (result: SearchResult) => {
+      // Track clicked result
+      await trackSearchQuery(query, results.length, result.url);
+
+      // Navigate to result
+      window.location.href = base + result.url;
+
+      // Close search
+      setIsOpen(false);
       setQuery('');
-      input.focus();
-    }
+      setSelectedIndex(-1);
+    },
+    [query, results.length, base]
+  );
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setSelectedIndex(prev =>
+            prev < results.length - 1 ? prev + 1 : prev
+          );
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1));
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (selectedIndex >= 0 && results[selectedIndex]) {
+            handleResultClick(results[selectedIndex]);
+          }
+          break;
+        case 'Escape':
+          setIsOpen(false);
+          setSelectedIndex(-1);
+          inputRef.current?.blur();
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, results, selectedIndex, handleResultClick]);
+
+  // Click outside to close
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setSelectedIndex(-1);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const highlightText = (text: string, highlight: string) => {
+    if (!highlight.trim()) return text;
+
+    const regex = new RegExp(
+      `(${highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+      'gi'
+    );
+    const parts = text.split(regex);
+
+    return parts.map((part, index) =>
+      regex.test(part) ? (
+        <mark key={index} className="bg-yellow-200 dark:bg-yellow-800">
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
   };
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        zIndex: 20,
-        minWidth: 250,
-        maxWidth: 350,
-      }}
-    >
-      <div style={{ position: 'relative' }}>
-        <div ref={searchBoxRef} />
-        {query && (
-          <button
-            type="button"
-            aria-label="Clear search"
-            onClick={handleClear}
-            style={{
-              position: 'absolute',
-              right: 10,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-              zIndex: 2,
-            }}
-          >
-            {/* SVG cross icon */}
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+    <div ref={searchRef} className="relative w-full max-w-lg mx-auto">
+      {/* Search Input */}
+      <div className="relative">
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Search essays..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          onFocus={() => query.trim() && results.length > 0 && setIsOpen(true)}
+          className="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg 
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                     dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+          aria-label="Search essays"
+          aria-haspopup="listbox"
+        />
+
+        {/* Search Icon */}
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          {loading ? (
+            <div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+          ) : (
+            <svg
+              className="h-4 w-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
-                d="M6 6l8 8M14 6l-8 8"
-                stroke="#888"
-                strokeWidth="2"
                 strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-          </button>
-        )}
+          )}
+        </div>
       </div>
-      <div
-        ref={hitsRef}
-        style={{
-          background: 'white',
-          border: '1px solid #e5e7eb',
-          borderTop: 'none',
-          borderRadius: '0 0 0.5rem 0.5rem',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
-          position: 'absolute',
-          width: '100%',
-          maxHeight: 300,
-          overflowY: 'auto',
-          marginTop: -4,
-          display: isFocused ? 'block' : 'none',
-        }}
-        className="algolia-hits-dropdown"
-      />
-      <style>{`
-        .ais-SearchBox-input {
-          width: 100%;
-          padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-          border: 1px solid #e5e7eb;
-          border-radius: 0.5rem;
-          font-size: 1rem;
-          background: #fff;
-          color: #222;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-          outline: none;
-          transition: border 0.2s;
-        }
-        .ais-SearchBox-input:focus {
-          border-color: #2563eb;
-        }
-        .algolia-hits-dropdown .ais-Hits-item {
-          padding: 0.75rem 1rem;
-          cursor: pointer;
-          border-bottom: 1px solid #f3f4f6;
-          transition: background 0.15s;
-        }
-        .algolia-hits-dropdown .ais-Hits-item:last-child {
-          border-bottom: none;
-        }
-        .algolia-hits-dropdown .ais-Hits-item:hover {
-          background: #f3f4f6;
-        }
-        .ais-SearchBox-input::-webkit-search-cancel-button {
-          -webkit-appearance: none;
-          appearance: none;
-          display: none;
-        }
-      `}</style>
+
+      {/* Search Results Dropdown */}
+      {isOpen && (
+        <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-auto">
+          {results.length > 0 ? (
+            <ul role="listbox" className="py-1">
+              {results.map((result, index) => (
+                <li
+                  key={result.objectID}
+                  role="option"
+                  aria-selected={selectedIndex === index}
+                >
+                  <button
+                    onClick={() => handleResultClick(result)}
+                    className={`w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors
+                               ${selectedIndex === index ? 'bg-gray-50 dark:bg-gray-700' : ''}`}
+                  >
+                    <div className="space-y-1">
+                      <h3 className="font-medium text-gray-900 dark:text-white">
+                        {highlightText(result.title, query)}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                        {highlightText(result.description, query)}
+                      </p>
+                      <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">
+                          {result.category}
+                        </span>
+                        {result.tags &&
+                          result.tags.slice(0, 2).map(tag => (
+                            <span
+                              key={tag}
+                              className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                      </div>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            query.trim() &&
+            !loading && (
+              <div className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 text-center">
+                No results found for &ldquo;{query}&rdquo;
+              </div>
+            )
+          )}
+        </div>
+      )}
     </div>
   );
-};
-
-export default Search;
+}
