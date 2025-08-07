@@ -1,0 +1,29 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import AnalyticsDashboard from '../../components/AnalyticsDashboard';
+import { base } from '../../utils/constants';
+
+// Create breadcrumb items for analytics page
+const breadcrumbItems = [
+  {
+    title: 'Admin',
+    url: `${base}admin`,
+  },
+  {
+    title: 'Analytics',
+    url: `${base}admin/analytics`,
+    isCurrent: true,
+  },
+];
+---
+
+<MainLayout
+  title="Analytics - Admin"
+  description="Analytics dashboard for tracking site performance and user engagement"
+  breadcrumbItems={breadcrumbItems}
+>
+  <div class="max-w-7xl mx-auto">
+    <AnalyticsDashboard client:load />
+  </div>
+</MainLayout>
+

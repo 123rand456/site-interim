@@ -3,6 +3,8 @@
 import MainLayout from './MainLayout.astro';
 import PageMetadata from '../components/PageMetadata.astro';
 import SupabaseComments from '../components/SupabaseComments';
+import AnalyticsTracker from '../components/AnalyticsTracker';
+import EssayStatsDisplay from '../components/EssayStatsDisplay';
 import { base } from '../utils/constants';
 import { getReadingMetrics } from '../utils/readingMetrics';
 
@@ -29,6 +31,35 @@ const breadcrumbItems = [
     isCurrent: true,
   },
 ];
+
+// Structured data for SEO/GEO
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  author: {
+    '@type': 'Person',
+    name: 'Chizubo',
+    url: 'https://mienstream.com/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: "Chizubo's Essays and Research",
+    url: 'https://mienstream.com',
+  },
+  datePublished: frontmatter.dateCreated,
+  dateModified: frontmatter.dateUpdated,
+  wordCount: metrics.wordCount,
+  timeRequired: `PT${metrics.readTimeMinutes}M`,
+  keywords: frontmatter.tags?.join(', '),
+  articleSection: frontmatter.category,
+  url: `https://mienstream.com${Astro.url.pathname}`,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `https://mienstream.com${Astro.url.pathname}`,
+  },
+};
 ---
 
 <MainLayout
@@ -36,6 +67,21 @@ const breadcrumbItems = [
   description={frontmatter.description}
   breadcrumbItems={breadcrumbItems}
 >
+  <!-- Structured Data for SEO/GEO -->
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(structuredData)}
+  />
+
+  <!-- Analytics Tracker -->
+  <AnalyticsTracker
+    client:load
+    pagePath={Astro.url.pathname}
+    pageTitle={frontmatter.title}
+    essaySlug={slug}
+    enableReadingTracking={true}
+  />
+
   <!-- Essay Header - Mobile optimized -->
   <div class="mb-8 sm:mb-12">
     <h1 class="text-3xl sm:text-4xl font-bold mb-4 text-center leading-tight">
@@ -48,6 +94,16 @@ const breadcrumbItems = [
         wordCount={metrics.wordCount}
         readingTime={metrics.readTimeMinutes}
       />
+
+      <!-- Essay view count -->
+      <div class="text-center mt-4">
+        <EssayStatsDisplay
+          client:load
+          essayPath={Astro.url.pathname}
+          showDetailed={true}
+          className="justify-center text-sm text-gray-600 dark:text-gray-400"
+        />
+      </div>
     </div>
   </div>
 

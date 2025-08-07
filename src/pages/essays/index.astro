@@ -1,38 +1,72 @@
 ---
-import { base } from '../../utils/constants';
 import MainLayout from '../../layouts/MainLayout.astro';
-import {
-  formatReadingMetrics,
-  getReadingMetrics,
-} from '../../utils/readingMetrics';
+import EssayStatsDisplay from '../../components/EssayStatsDisplay';
+import { base, CATEGORIES } from '../../utils/constants';
 
 const posts = await Promise.all(
-  Object.entries(import.meta.glob('./*.md', { eager: true })).map(
-    async entry => {
-      const resolved = entry[1] as {
+  Object.entries(import.meta.glob('./*.md')).map(
+    async ([url, post]: [string, any]) => {
+      const resolvedPost = (await post()) as {
         url: string;
-        frontmatter: any;
-        rawContent: () => string;
+        frontmatter: {
+          title: string;
+          description: string;
+          date?: string;
+          dateCreated?: string;
+          dateUpdated?: string;
+          category?: string;
+          tags?: string[];
+          confidence?: string;
+          importance?: string;
+        };
       };
-
-      const content =
-        typeof resolved.rawContent === 'function' ? resolved.rawContent() : '';
+      // Extract slug from filename
+      const slug = url.replace('./', '').replace('.md', '');
       return {
-        url: resolved.url,
-        frontmatter: resolved.frontmatter,
-        readingMetrics: getReadingMetrics(content),
+        url: `${base}essays/${slug}`,
+        slug,
+        frontmatter: resolvedPost.frontmatter,
       };
     }
   )
 );
 
-posts.sort(
-  (a, b) =>
-    new Date(b.frontmatter.dateUpdated).getTime() -
-    new Date(a.frontmatter.dateUpdated).getTime()
-);
+// Precompute most recent date for each post for optimized sorting
+const postsWithDate = posts.map(post => {
+  const fm = post.frontmatter as {
+    date?: string;
+    dateCreated?: string;
+    dateUpdated?: string;
+  };
+  const dateStr = fm.dateUpdated ?? fm.dateCreated ?? fm.date;
+  return {
+    ...post,
+    _sortDate: dateStr ? new Date(dateStr).getTime() : 0,
+  };
+});
 
-// Define breadcrumb items
+// Group posts by category
+const categoriesMap = new Map();
+for (const post of postsWithDate) {
+  const cat = post.frontmatter.category || 'Uncategorized';
+  if (!categoriesMap.has(cat)) categoriesMap.set(cat, []);
+  categoriesMap.get(cat).push(post);
+}
+
+// Sort posts in each category by date (most recent first)
+for (const postsArr of categoriesMap.values()) {
+  postsArr.sort(
+    (a: (typeof postsWithDate)[0], b: (typeof postsWithDate)[0]) =>
+      b._sortDate - a._sortDate
+  );
+}
+
+// Filter CATEGORIES to only include those with posts
+const categoriesWithPosts = CATEGORIES.filter(cat =>
+  categoriesMap.has(cat.key)
+).sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
+
+// Create breadcrumb items for Essays page
 const breadcrumbItems = [
   {
     title: 'Essays',
@@ -44,41 +78,122 @@ const breadcrumbItems = [
 
 <MainLayout
   title="Essays"
-  description="A collection of essays on various topics"
+  description="A collection of essays on technology, science, and philosophy."
   breadcrumbItems={breadcrumbItems}
 >
-  <h1 class="text-4xl font-bold mb-8">Essays</h1>
-  <div class="space-y-8">
-    {
-      posts.map(post => (
-        <article class="border-b border-gray-200 dark:border-gray-700 pb-8">
-          <h2 class="text-2xl font-semibold mb-2">
-            <a
-              href={post.url}
-              class="hover:text-blue-600 dark:hover:text-blue-400"
-            >
-              {post.frontmatter.title}
-            </a>
-          </h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">
-            {post.frontmatter.description}
-          </p>
-          <div class="flex items-center text-sm text-gray-500 dark:text-gray-500 space-x-4">
-            <time datetime={post.frontmatter.dateUpdated}>
-              {new Date(post.frontmatter.dateUpdated).toLocaleDateString(
-                'en-US',
-                {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                }
-              )}
-            </time>
-            <span>·</span>
-            <span>{formatReadingMetrics(post.readingMetrics)}</span>
-          </div>
-        </article>
-      ))
-    }
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Essays</h1>
+
+    <div class="space-y-12">
+      {
+        categoriesWithPosts.map(category => {
+          const categoryPosts = categoriesMap.get(category.key);
+          return (
+            <section class="category-section">
+              <h2 class="text-2xl font-semibold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">
+                {category.label}
+              </h2>
+
+              <div class="space-y-6">
+                {categoryPosts.map((post: any) => (
+                  <article class="essay-card">
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                      <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-xl font-semibold">
+                          <a
+                            href={post.url}
+                            class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          >
+                            {post.frontmatter.title}
+                          </a>
+                        </h3>
+                        <EssayStatsDisplay
+                          client:load
+                          essayPath={`/essays/${post.slug}`}
+                          className="flex-shrink-0 ml-4"
+                        />
+                      </div>
+
+                      <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                        {post.frontmatter.description}
+                      </p>
+
+                      <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                        {/* Date */}
+                        <span>
+                          {new Date(
+                            post.frontmatter.dateUpdated ||
+                              post.frontmatter.dateCreated ||
+                              post.frontmatter.date ||
+                              ''
+                          ).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </span>
+
+                        {/* Confidence badge */}
+                        {post.frontmatter.confidence && (
+                          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            {post.frontmatter.confidence}
+                          </span>
+                        )}
+
+                        {/* Importance badge */}
+                        {post.frontmatter.importance && (
+                          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                            {post.frontmatter.importance}/5
+                          </span>
+                        )}
+
+                        {/* Tags */}
+                        {post.frontmatter.tags &&
+                          post.frontmatter.tags.length > 0 && (
+                            <div class="flex flex-wrap gap-1">
+                              {post.frontmatter.tags
+                                .slice(0, 3)
+                                .map((tag: string) => (
+                                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                                    {tag}
+                                  </span>
+                                ))}
+                              {post.frontmatter.tags.length > 3 && (
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                                  +{post.frontmatter.tags.length - 3}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                      </div>
+
+                      {/* Detailed stats for larger screens */}
+                      <div class="hidden sm:block mt-4">
+                        <EssayStatsDisplay
+                          client:load
+                          essayPath={`/essays/${post.slug}`}
+                          showDetailed={true}
+                          className="pt-3 border-t border-gray-100 dark:border-gray-800"
+                        />
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
   </div>
 </MainLayout>
+
+<style>
+  .essay-card {
+    transition: transform 0.2s ease;
+  }
+
+  .essay-card:hover {
+    transform: translateY(-2px);
+  }
+</style>
