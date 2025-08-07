@@ -30,14 +30,14 @@ that maximize meaning and value for the readers, I pick words that fit the metre
 The main trigger was when I got to read [Ben's sagely advice](https://www.benkuhn.net/writing/) on
 blogging as an awesome avenue to gain even more awesome friendships.\*
 
-Points by Ben that made way too much sense when playing out to their logical conclusions:
+**Points by Ben that made way too much sense when playing out to their logical conclusions:**
 
-- around 25% of his friends, he either first met them through one of his blogs OR
-- his friendships was significantly reinforced by commenting on each other's posts
-- another 25% or more he met indirectly through one of these people (who are disproportionately
+- Around 25% of his friends, he either first met them through one of his blogs OR
+- His friendships was significantly reinforced by commenting on each other's posts
+- Another 25% or more he met indirectly through one of these people (who are disproportionately
   likely to have friends that he like a lot)
 
-This is important. Over the course of my life, I realized that I deeply value friendship.
+**This is important.** Over the course of my life, I realized that I deeply value friendship.
 
 ## Reciprocal Arrangements
 
@@ -61,8 +61,9 @@ pursuing or dropping this budding acquaintance-friendship.
 
 _Source: [Wait But Why](https://waitbutwhy.com)_
 
-So, on to the hunt for my sources of enjoyment, and thereby establishing which billions of variables
-in the universe are actually relevant to me when it comes to people I want to be friends with.
+**So, on to the hunt for my sources of enjoyment**, and thereby establishing which billions of
+variables in the universe are actually relevant to me when it comes to people I want to be friends
+with.
 
 ## Everybody worships
 
@@ -73,26 +74,31 @@ their internal mental patterns — emotions, engagement, thoughts/worries etc. T
 **hilarity**[^2] or exhilarating verbal facility.
 
 > If you worship money and things, if they are where you tap real meaning in life, then you will
-> never have enough, never feel you have enough. It’s the truth. Worship your body and beauty and
+> never have enough, never feel you have enough. It's the truth. Worship your body and beauty and
 > sexual allure and you will always feel ugly. And when time and age start showing, you will die a
-> million deaths before they finally grieve you. On one level, we all know this stuff already. It’s
+> million deaths before they finally grieve you. On one level, we all know this stuff already. It's
 > been codified as myths, proverbs, clichés, epigrams, parables; the skeleton of every great story.
 > The whole trick is keeping the truth up front in daily consciousness. Worship power, you will end
 > up feeling weak and afraid, and you will need ever more power over others to numb you to your own
 > fear. Worship your intellect, being seen as smart, you will end up feeling stupid, a fraud, always
 > on the verge of being found out. But the insidious thing about these forms of worship is not that
-> they’re evil or sinful, it’s that they’re unconscious. They are default settings. They’re the kind
+> they're evil or sinful, it's that they're unconscious. They are default settings. They're the kind
 > of worship you just gradually slip into, day after day, getting more and more selective about what
-> you see and how you measure value without ever being fully aware that that’s what you’re doing.
+> you see and how you measure value without ever being fully aware that that's what you're doing.
 > [^3]
 
 One thing I care about in friends is whether we'll have interesting conversations. I become
 especially invigorated, whenever such interactions temporarily prove/disprove hypotheses I have.
 
-Other things that matter to me: taste[^4];self-knowledge and reflective mindset; the confidence and
-the ability to project self-assurance; the ability to read others and empathize with their point of
-view; and a capacity to tolerate conflict. Intelligence, while an importance attribute, is
-overrated.
+**Other things that matter to me in friendships:**
+
+- **Taste**[^4] and aesthetic sensibility
+- **Self-knowledge** and reflective mindset
+- **Confidence** and the ability to project self-assurance
+- **Empathy** - the ability to read others and empathize with their point of view
+- **Conflict tolerance** - a capacity to handle disagreement constructively
+
+Intelligence, while an important attribute, is overrated.
 
 The bottom line is basically somebody to talk to, someone to depend on and somebody to enjoy. Across
 the entire life course, these expectations remain the same, but the circumstances under which
@@ -124,9 +130,9 @@ overhear tell you the kinds of people you are around.
 
 Whether I like it or not, it's hard not to be influenced by those around me. When I pay attention to
 what I do and say, I feel a state of internal division and weakness that sets me further away from a
-meta goal of mine: "to live in truth" — to act diligently towards some well-articulated, defined and
-temporary end. The feeling of alienation when no one around me cares about the same things as I do,
-is also bitter. And I wonder why my consumption of desserts has gone up...
+meta goal of mine: **"to live in truth"** — to act diligently towards some well-articulated, defined
+and temporary end. The feeling of alienation when no one around me cares about the same things as I
+do, is also bitter. And I wonder why my consumption of desserts has gone up...
 
 > A city speaks to you mostly by accident — in things you see through windows, in conversations you
 > overhear. It's not something you have to seek out, but something you can't turn off. One of the
@@ -134,9 +140,9 @@ is also bitter. And I wonder why my consumption of desserts has gone up...
 > interrogative intonation in declarative sentences. But on average I'll take Cambridge
 > conversations over New York or Silicon Valley ones. [^6]
 
-As Feynman once said, the first principle is that you must not fool yourself — and you are the
-easiest person to fool. Anyway, this first blog post is in hope of laying down a trail for others to
-follow, if they want to.
+As Feynman once said, **the first principle is that you must not fool yourself — and you are the
+easiest person to fool**. Anyway, this first blog post is in hope of laying down a trail for others
+to follow, if they want to.
 
 I will be making my own criteria for **failure** and success timely and clear, at least for myself.
 Though, a side-goal would also be for others to understand what I am doing, so that you can evaluate
