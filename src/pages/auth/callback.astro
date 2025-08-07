@@ -1,5 +1,17 @@
 ---
-// Only log page load, no server-side auth
+import { base } from '../../utils/constants';
+
+// Handle auth callback redirect
+const url = new URL(Astro.request.url);
+const code = url.searchParams.get('code');
+
+if (code) {
+  // Redirect to main admin dashboard instead of comments
+  return Astro.redirect(`${base}admin`);
+}
+
+// If no code, redirect to home
+return Astro.redirect(`${base}`);
 ---
 
 <!doctype html>
@@ -26,7 +38,7 @@
             data: { session: existingSession },
           } = await supabase.auth.getSession();
           if (existingSession) {
-            window.location.href = `${base}admin/comments`;
+            window.location.href = `${base}admin`;
             return;
           }
 
@@ -68,7 +80,7 @@
 
           // Add a small delay to ensure session is fully propagated
           await new Promise(resolve => setTimeout(resolve, 1000));
-          window.location.href = `${base}admin/comments`;
+          window.location.href = `${base}admin`;
         } catch (error) {
           updateStatus(
             `An error occurred: ${error instanceof Error ? error.message : 'Unknown error'}. Redirecting...`
@@ -90,4 +102,3 @@
     </div>
   </body>
 </html>
-

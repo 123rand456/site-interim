@@ -1,0 +1,258 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { base } from '../../utils/constants';
+
+// Create breadcrumb items for main admin page
+const breadcrumbItems = [
+  {
+    title: 'Admin',
+    url: `${base}admin`,
+    isCurrent: true,
+  },
+];
+---
+
+<MainLayout
+  title="Admin Dashboard"
+  description="Administrative dashboard for managing site content and analytics"
+  breadcrumbItems={breadcrumbItems}
+>
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8 flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+          Admin Dashboard
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">
+          Manage your site content, security, and analytics
+        </p>
+      </div>
+
+      <!-- Logout Button -->
+      <button
+        id="logout-btn"
+        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center space-x-2"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"
+          ></path>
+        </svg>
+        <span>Sign Out</span>
+      </button>
+    </div>
+
+    <!-- Admin Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <!-- Analytics Card -->
+      <a
+        href={`${base}admin/analytics`}
+        class="block p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center mb-4">
+          <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+            <svg
+              class="w-6 h-6 text-blue-600 dark:text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Analytics
+          </h3>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+          View page views, reading engagement, popular content, and search
+          analytics
+        </p>
+        <div
+          class="flex items-center text-blue-600 dark:text-blue-400 text-sm font-medium"
+        >
+          View Analytics
+          <svg
+            class="w-4 h-4 ml-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Comments Card -->
+      <a
+        href={`${base}admin/comments`}
+        class="block p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center mb-4">
+          <div class="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+            <svg
+              class="w-6 h-6 text-green-600 dark:text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Comments
+          </h3>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+          Moderate and manage reader comments on essays
+        </p>
+        <div
+          class="flex items-center text-green-600 dark:text-green-400 text-sm font-medium"
+        >
+          Manage Comments
+          <svg
+            class="w-4 h-4 ml-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Security Card -->
+      <a
+        href={`${base}admin/security`}
+        class="block p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center mb-4">
+          <div class="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
+            <svg
+              class="w-6 h-6 text-red-600 dark:text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Security
+          </h3>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+          Monitor security events, rate limiting, and access logs
+        </p>
+        <div
+          class="flex items-center text-red-600 dark:text-red-400 text-sm font-medium"
+        >
+          Security Dashboard
+          <svg
+            class="w-4 h-4 ml-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <!-- Quick Note -->
+    <div
+      class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-center"
+    >
+      <p class="text-blue-800 dark:text-blue-200">
+        Welcome to your admin dashboard! Use the cards above to access different
+        management areas.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Use the shared Supabase instance instead of creating a new one
+    import { supabase } from '../../utils/supabase';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.getElementById('logout-btn');
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          console.log('🚪 FORCE LOGOUT - bypassing all auth state');
+
+          // Disable button to prevent multiple clicks
+          const buttonEl = logoutBtn as HTMLButtonElement;
+          buttonEl.disabled = true;
+          logoutBtn.innerHTML = '<span>Signing Out...</span>';
+
+          try {
+            // Try Supabase logout but don't wait for it
+            supabase.auth
+              .signOut()
+              .catch(e => console.warn('Supabase signOut failed:', e));
+
+            // Immediately clear everything
+            console.log('🧹 Force clearing all auth data');
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Clear any auth cookies
+            document.cookie.split(';').forEach(function (c) {
+              document.cookie = c
+                .replace(/^ +/, '')
+                .replace(
+                  /=.*/,
+                  '=;expires=' + new Date().toUTCString() + ';path=/'
+                );
+            });
+          } catch (error) {
+            console.error('❌ Logout error (ignoring):', error);
+          }
+
+          // FORCE redirect immediately - don't wait for anything
+          console.log('🏠 FORCE redirecting to home');
+          window.location.href = '/';
+        });
+      }
+    });
+  </script>
+</MainLayout>
+
