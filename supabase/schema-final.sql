@@ -198,45 +198,72 @@ DROP POLICY IF EXISTS "security_events_admin_policy" ON security_events;
 ALTER TABLE public.page_views ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow anonymous page view tracking" ON public.page_views
-    FOR INSERT TO anon
+    FOR INSERT TO anon, authenticated
     WITH CHECK (true);
 
 CREATE POLICY "Allow admins to read page views" ON public.page_views
     FOR SELECT TO authenticated
-    USING (auth.uid() IN (SELECT user_id FROM public.admins));
+    USING (
+        EXISTS (
+            SELECT 1 FROM admin_users 
+            WHERE admin_users.id = (select auth.uid())
+        )
+    );
 
 -- Reading sessions: Insert and update for tracking, admin read
 ALTER TABLE public.reading_sessions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow anonymous reading session tracking" ON public.reading_sessions
-    FOR INSERT TO anon
+    FOR INSERT TO anon, authenticated
     WITH CHECK (true);
 
 CREATE POLICY "Allow anonymous reading session updates" ON public.reading_sessions
-    FOR UPDATE TO anon
-    USING (true);
+    FOR UPDATE TO anon, authenticated
+    USING (true)
+    WITH CHECK (true);
 
 CREATE POLICY "Allow admins to read reading sessions" ON public.reading_sessions
     FOR SELECT TO authenticated
-    USING (auth.uid() IN (SELECT user_id FROM public.admins));
+    USING (
+        EXISTS (
+            SELECT 1 FROM admin_users 
+            WHERE admin_users.id = (select auth.uid())
+        )
+    );
 
 -- Search queries: Insert only, admin read
 ALTER TABLE public.search_queries ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow anonymous search tracking" ON public.search_queries
-    FOR INSERT TO anon
+    FOR INSERT TO anon, authenticated
     WITH CHECK (true);
 
 CREATE POLICY "Allow admins to read search queries" ON public.search_queries
     FOR SELECT TO authenticated
-    USING (auth.uid() IN (SELECT user_id FROM public.admins));
+    USING (
+        EXISTS (
+            SELECT 1 FROM admin_users 
+            WHERE admin_users.id = (select auth.uid())
+        )
+    );
 
 -- Content analytics: Admin only
 ALTER TABLE public.content_analytics ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Allow admins full access to content analytics" ON public.content_analytics
     FOR ALL TO authenticated
-    USING (auth.uid() IN (SELECT user_id FROM public.admins));
+    USING (
+        EXISTS (
+            SELECT 1 FROM admin_users 
+            WHERE admin_users.id = (select auth.uid())
+        )
+    )
+    WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM admin_users 
+            WHERE admin_users.id = (select auth.uid())
+        )
+    );
 
 -- User profiles policies
 CREATE POLICY "user_profiles_select_policy" ON user_profiles
@@ -594,6 +621,7 @@ CREATE OR REPLACE FUNCTION public.get_daily_views(
 RETURNS TABLE(date DATE, views BIGINT)
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public
 AS $$
 BEGIN
     RETURN QUERY
