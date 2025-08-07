@@ -47,15 +47,51 @@ export async function getSingleContentStats(
   pagePath: string
 ): Promise<ContentStats | null> {
   try {
+    console.log('🔍 Fetching stats for path:', pagePath);
+
+    // First try content_analytics table
     const { data, error } = await supabase
       .from('content_analytics')
       .select('*')
       .eq('content_path', pagePath)
       .single();
 
-    if (error || !data) {
+    if (error) {
+      console.log(
+        '📭 No content_analytics data, checking page_views directly...'
+      );
+
+      // Fallback: count page_views directly
+      const { count, error: countError } = await supabase
+        .from('page_views')
+        .select('*', { count: 'exact', head: true })
+        .eq('page_path', pagePath);
+
+      if (countError) {
+        console.log('❌ Error counting page views:', countError);
+        return null;
+      }
+
+      if (count && count > 0) {
+        console.log('✅ Found', count, 'page views');
+        return {
+          page_path: pagePath,
+          total_views: count,
+          unique_views: count,
+          average_reading_time_seconds: 0,
+          average_scroll_depth_percent: 0,
+        };
+      }
+
       return null;
     }
+
+    if (!data) {
+      console.log('📭 No data found for path:', pagePath);
+      return null;
+    }
+
+    console.log('✅ Found stats:', data);
 
     return {
       page_path: data.content_path,
