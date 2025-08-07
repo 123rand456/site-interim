@@ -5,6 +5,7 @@ import { base } from '../utils/constants';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import Search from '../components/Search';
 import AuthButtonWrapper from '../components/AuthButtonWrapper';
+import RSSButton from '../components/RSSButton';
 
 interface Props {
   title?: string;
@@ -46,6 +47,13 @@ const {
       }}
     />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <!-- RSS autodiscovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed"
+      href={`${base}rss.xml`}
+    />
   </head>
   <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <!-- Header -->
@@ -86,6 +94,7 @@ const {
                   class="nav-link hover:text-gray-600 dark:hover:text-gray-300"
                   >Recs</a
                 >
+                <RSSButton variant="nav" href={`${base}rss.xml`} client:load />
                 <!-- <AuthButtonWrapper client:load /> -->
               </div>
             </div>
@@ -148,6 +157,13 @@ const {
                 <img src={`${base}dark-theme.svg`} alt="Dark" class="h-5 w-5" />
               </button>
               <span class="settings-tooltip group-hover:opacity-100">Dark</span>
+            </div>
+
+            <div class="relative group">
+              <RSSButton variant="icon" href={`${base}rss.xml`} client:load />
+              <span class="settings-tooltip group-hover:opacity-100"
+                >RSS Feed</span
+              >
             </div>
 
             <div class="relative group">
