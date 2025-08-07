@@ -189,6 +189,7 @@ export default function Search({ base }: SearchProps) {
           onChange={e => setQuery(e.target.value)}
           onFocus={() => query.trim() && results.length > 0 && setIsOpen(true)}
           className="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg 
+                     bg-white text-gray-900 placeholder-gray-500
                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
                      dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
           aria-label="Search essays"
