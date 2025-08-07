@@ -23,22 +23,24 @@ import MainLayout from '../../layouts/MainLayout.astro';
   </section>
 
   <div class="flex flex-col gap-4">
-    <details class="bg-green-900 text-white rounded" open>
+    <details class="bg-green-900 dark:bg-green-800 text-white rounded" open>
       <summary
-        class="cursor-pointer px-4 py-3 text-lg font-medium hover:bg-green-800 transition-colors"
+        class="cursor-pointer px-4 py-3 text-lg font-medium hover:bg-green-800 dark:hover:bg-green-700 transition-colors"
         >Overall</summary
       >
       <div
-        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900"
+        class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-b px-4 py-4 border-t border-gray-900 dark:border-gray-600"
       >
         <p class="mb-4">My favourite things per se are talking to people...</p>
         <!-- Nested dropdowns with improved mobile touch targets -->
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Free Things</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5 space-y-1">
               <li>Sneezing</li>
               <li>Libraries</li>
@@ -46,12 +48,14 @@ import MainLayout from '../../layouts/MainLayout.astro';
             </ul>
           </div>
         </details>
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Underrated Things</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5 space-y-1">
               <li>Cold Food</li>
               <li>Vocal Fry & Intentional Rasp</li>
@@ -59,12 +63,14 @@ import MainLayout from '../../layouts/MainLayout.astro';
             </ul>
           </div>
         </details>
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Overrated Things</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5 space-y-1">
               <li>Nightclubs</li>
               <li>Alcohol</li>
@@ -78,140 +84,144 @@ import MainLayout from '../../layouts/MainLayout.astro';
       </div>
     </details>
 
-    <details class="bg-green-900 text-white rounded">
+    <details class="bg-green-900 dark:bg-green-800 text-white rounded">
       <summary
-        class="cursor-pointer px-4 py-3 text-lg font-medium hover:bg-green-800 transition-colors"
+        class="cursor-pointer px-4 py-3 text-lg font-medium hover:bg-green-800 dark:hover:bg-green-700 transition-colors"
         >Writing</summary
       >
       <div
-        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900"
+        class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-b px-4 py-4 border-t border-gray-900 dark:border-gray-600"
       >
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Books</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5"></ul>
           </div>
         </details>
 
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Blogs</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5 space-y-2">
               <li class="break-words">
                 <a
                   href="https://scottaaronson.blog/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Scott Aaronson</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://www.jefftk.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Jeff Kaufman</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://www.benkuhn.net/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Ben Kuhn</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://tbenthompson.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Ben Thompson</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://simonwillison.net/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Simon Willison</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://www.byran.ee/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Bryan Huang</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://aphyr.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Kyle Kingsbury</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://cpojer.net/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Christoph Nakazawa</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://www.linusakesson.net/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Linus Åkesson</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://sockpuppet.org/about/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Thomas & Erin</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://www.kitchensoap.com/about-me/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >John Allspaw</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://brooker.co.za/blog/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Marc Brooker</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://zachholman.com/posts"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Zach Holmann</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://carloarg02.medium.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Carlos Arguelles</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://usesthis.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Many people</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://nelhage.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Nelson Elhage</a>
               </li>
               <li class="break-words">
                 <a
                   href="https://programmingisterrible.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Programming is Terrible</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://nicholas.carlini.com/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                   >Nicholas Carlini</a
                 >
               </li>
@@ -219,45 +229,47 @@ import MainLayout from '../../layouts/MainLayout.astro';
           </div>
         </details>
 
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Articles</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5 space-y-3">
               <li class="break-words">
                 <a
                   href="https://www.benkuhn.net/progessays/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Essays on programming I think about a lot</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://www.sma.org.sg/UploadedImg/files/CMEP/Practice%205.pdf"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Bedside Manners</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://vadimkravcenko.com/shorts/habits-of-great-software-engineers/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Habits of great software engineers</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://www.kitchensoap.com/2017/08/12/multiple-perspectives-on-technical-problems-and-solutions/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Multiple Perspectives on Technical Problems and Solutions</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://www.themarginalian.org/2013/04/17/the-art-of-conversation-martine-etiquette-1866/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >The Art of Conversation: Timeless, Timely Do's and Don'ts
                   from 1866</a
                 >
@@ -265,21 +277,21 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="https://www.lesswrong.com/posts/CSZnj2YNMKGfsMbZA/specializing-in-problems-we-don-t-understand"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Specializing in Problems We Don't Understand</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://milan.cvitkovic.net/writing/things_youre_allowed_to_do/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Things you're allowed to do</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://www.benkuhn.net/weeklyessays/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >My favourite essays of life advice</a
                 >
               </li>
@@ -287,7 +299,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="https://autotranslucence.wordpress.com/2018/03/30/becoming-a-magician/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   Becoming a Magician
                 </a>
@@ -295,7 +307,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="http://johnsalvatier.org/blog/2017/reality-has-a-surprising-amount-of-detail"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   Reality has a surprising amount of detail
                 </a>
@@ -303,7 +315,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="https://mindingourway.com/rest-in-motion/"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   Rest in motion
                 </a>
@@ -311,7 +323,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="https://www.jefftk.com/p/the-privilege-of-earning-to-give"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   The Privilege of Earning to Give
                 </a>
@@ -319,7 +331,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="https://www.lesswrong.com/posts/bjjbp5i5G8bekJuxv/study-guide"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   Study Guide
                 </a>
@@ -328,7 +340,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li class="break-words">
                 <a
                   href="https://www.lesswrong.com/posts/pT48swb8LoPowiAzR/everyday-lessons-from-high-dimensional-optimization"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   Everyday Lessons from High-Dimensional Optimization
                 </a>
@@ -339,42 +351,46 @@ import MainLayout from '../../layouts/MainLayout.astro';
       </div>
     </details>
 
-    <details class="bg-green-900 text-white rounded">
+    <details class="bg-green-900 dark:bg-green-800 text-white rounded">
       <summary
-        class="cursor-pointer px-4 py-3 text-lg font-medium hover:bg-green-800 transition-colors"
+        class="cursor-pointer px-4 py-3 text-lg font-medium hover:bg-green-800 dark:hover:bg-green-700 transition-colors"
         >Misc</summary
       >
       <div
-        class="bg-white text-gray-900 rounded-b px-4 py-4 border-t border-gray-900"
+        class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-b px-4 py-4 border-t border-gray-900 dark:border-gray-600"
       >
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Restaurants & Cafes</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5"></ul>
           </div>
         </details>
 
-        <details class="mt-4 border border-gray-200 rounded">
+        <details
+          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
+        >
           <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 hover:bg-gray-200 transition-colors min-h-[44px] flex items-center"
+            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
             >Videos</summary
           >
-          <div class="px-3 py-3">
+          <div class="px-3 py-3 bg-white dark:bg-gray-900">
             <ul class="list-disc pl-5 space-y-3">
               <li class="break-words">
                 <a
                   href="https://www.youtube.com/watch?v=LCEmiRjPEtQ"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                   >Andrej Karpathy: Software Is Changing (Again)</a
                 >
               </li>
               <li class="break-words">
                 <a
                   href="https://www.youtube.com/watch?v=AF3XJT9YKpM"
-                  class="text-blue-600 hover:text-blue-800 hover:underline block sm:inline"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   Prof. Judy Fan: Cognitive Tools for Making the Invisible
                   Visible
@@ -413,6 +429,40 @@ import MainLayout from '../../layouts/MainLayout.astro';
 
   details[open] > summary {
     border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* Fix for nested summary elements - ensure they maintain proper background */
+  details details summary {
+    background: #f59e0b; /* orange theme for light mode */
+    color: #fff; /* white text */
+    border-radius: 0.375rem;
+    border: 1px solid #d97706;
+  }
+
+  details details summary:hover {
+    background: #d97706; /* slightly darker orange on hover */
+  }
+
+  /* Dark mode overrides for nested summaries */
+  :global(.dark) details details summary {
+    background: #d97706; /* darker orange for dark mode */
+    color: #fff; /* white text */
+    border-color: #b45309;
+  }
+
+  :global(.dark) details details summary:hover {
+    background: #b45309; /* even darker orange on hover in dark mode */
+  }
+
+  /* Ensure open state maintains proper styling */
+  details[open] details summary {
+    background: #f59e0b; /* keep orange when expanded */
+    color: #fff;
+  }
+
+  :global(.dark) details[open] details summary {
+    background: #d97706; /* keep orange when expanded in dark mode */
+    color: #fff;
   }
 
   /* Improve link styling for better mobile readability */
