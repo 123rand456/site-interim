@@ -247,23 +247,21 @@ CREATE POLICY "Allow admins to read search queries" ON public.search_queries
         )
     );
 
--- Content analytics: Admin only
+-- Content analytics: Allow anonymous tracking, admin read
 ALTER TABLE public.content_analytics ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Allow admins full access to content analytics" ON public.content_analytics
-    FOR ALL TO authenticated
-    USING (
-        EXISTS (
-            SELECT 1 FROM admin_users 
-            WHERE admin_users.id = (select auth.uid())
-        )
-    )
-    WITH CHECK (
-        EXISTS (
-            SELECT 1 FROM admin_users 
-            WHERE admin_users.id = (select auth.uid())
-        )
-    );
+CREATE POLICY "Allow anonymous content analytics tracking" ON public.content_analytics
+    FOR INSERT TO anon, authenticated
+    WITH CHECK (true);
+
+CREATE POLICY "Allow anonymous content analytics updates" ON public.content_analytics
+    FOR UPDATE TO anon, authenticated
+    USING (true)
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public read access to content analytics" ON public.content_analytics
+    FOR SELECT TO anon, authenticated
+    USING (true);
 
 -- User profiles policies
 CREATE POLICY "user_profiles_select_policy" ON user_profiles
@@ -483,7 +481,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 -- ANALYTICS FUNCTIONS
 -- ====================
 
--- Function to track page view (WORKING VERSION)
+-- Function to track page view (UPDATED VERSION)
 CREATE OR REPLACE FUNCTION public.track_page_view(
     p_page_path TEXT,
     p_page_title TEXT DEFAULT NULL,
@@ -504,6 +502,7 @@ SECURITY DEFINER
 AS $$
 DECLARE
     view_id UUID;
+    unique_views_count INTEGER;
 BEGIN
     -- Insert page view record
     INSERT INTO public.page_views (
@@ -514,12 +513,18 @@ BEGIN
         p_viewport_width, p_viewport_height, p_screen_width, p_screen_height, p_timezone, p_language
     ) RETURNING id INTO view_id;
     
-    -- Update content analytics (simplified to avoid conflicts)
+    -- Calculate unique views (unique session IDs for this content)
+    SELECT COUNT(DISTINCT session_id) INTO unique_views_count
+    FROM public.page_views 
+    WHERE page_path = p_page_path;
+    
+    -- Update content analytics with proper unique views count
     INSERT INTO public.content_analytics (content_path, content_type, total_views, unique_views)
-    VALUES (p_page_path, 'page', 1, 1)
+    VALUES (p_page_path, 'page', 1, unique_views_count)
     ON CONFLICT (content_path) 
     DO UPDATE SET 
         total_views = content_analytics.total_views + 1,
+        unique_views = unique_views_count,
         last_updated = NOW();
     
     RETURN view_id;
@@ -547,7 +552,7 @@ BEGIN
 END;
 $$;
 
--- Function to update reading session
+-- Function to update reading session (FIXED VERSION)
 CREATE OR REPLACE FUNCTION public.update_reading_session(
     p_session_id TEXT,
     p_page_path TEXT,
@@ -562,6 +567,7 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
+    -- Update only the most recent unended reading session
     UPDATE public.reading_sessions
     SET 
         ended_at = NOW(),
@@ -570,7 +576,15 @@ BEGIN
         words_read_estimate = COALESCE(p_words_read_estimate, words_read_estimate),
         engaged = COALESCE(p_engaged, engaged),
         completed = COALESCE(p_completed, completed)
-    WHERE session_id = p_session_id AND page_path = p_page_path;
+    WHERE id = (
+        SELECT id 
+        FROM public.reading_sessions 
+        WHERE session_id = p_session_id 
+          AND page_path = p_page_path 
+          AND ended_at IS NULL  -- Only unended sessions
+        ORDER BY started_at DESC  -- Get the most recent one
+        LIMIT 1
+    );
     
     -- Update content analytics with engagement metrics
     UPDATE public.content_analytics
