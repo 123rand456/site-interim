@@ -66,14 +66,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const { error } = await supabase.auth.refreshSession();
 
               if (error) {
-                console.warn('Session refresh failed:', error);
+                console.warn('Session refresh failed');
               } else {
                 console.log('Session refreshed successfully');
               }
             }
           }
-        } catch (error) {
-          console.warn('Session refresh check failed:', error);
+        } catch {
+          console.warn('Session refresh check failed');
         }
       },
       5 * 60 * 1000
@@ -146,13 +146,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Valid session - attempt normal logout
       const { error } = await supabase.auth.signOut();
       if (error) {
-        console.warn('Supabase signOut failed:', error);
+        console.warn('Supabase signOut failed');
         // Still clear local state even if server signOut fails
       }
 
       setAdmin(null);
-    } catch (error) {
-      console.error('SignOut error:', error);
+    } catch {
+      console.error('SignOut error');
       // Always clear local state, even on error
       setAdmin(null);
     }

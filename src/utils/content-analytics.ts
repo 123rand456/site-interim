@@ -36,8 +36,8 @@ export async function getContentStats(
     });
 
     return statsMap;
-  } catch (error) {
-    console.error('Error fetching content stats:', error);
+  } catch {
+    console.error('Error fetching content stats');
     return {};
   }
 }
@@ -47,7 +47,7 @@ export async function getSingleContentStats(
   pagePath: string
 ): Promise<ContentStats | null> {
   try {
-    console.log('🔍 Fetching stats for path:', pagePath);
+    // Fetching stats for path
 
     // First try content_analytics table
     const { data, error } = await supabase
@@ -57,9 +57,7 @@ export async function getSingleContentStats(
       .single();
 
     if (error) {
-      console.log(
-        '📭 No content_analytics data, checking page_views directly...'
-      );
+      // No content_analytics data, checking page_views directly
 
       // Fallback: count page_views directly
       const { count, error: countError } = await supabase
@@ -68,12 +66,10 @@ export async function getSingleContentStats(
         .eq('page_path', pagePath);
 
       if (countError) {
-        console.log('❌ Error counting page views:', countError);
         return null;
       }
 
       if (count && count > 0) {
-        console.log('✅ Found', count, 'page views');
         return {
           page_path: pagePath,
           total_views: count,
@@ -87,11 +83,8 @@ export async function getSingleContentStats(
     }
 
     if (!data) {
-      console.log('📭 No data found for path:', pagePath);
       return null;
     }
-
-    console.log('✅ Found stats:', data);
 
     return {
       page_path: data.content_path,
@@ -100,8 +93,7 @@ export async function getSingleContentStats(
       average_reading_time_seconds: data.average_reading_time_seconds || 0,
       average_scroll_depth_percent: data.average_scroll_depth_percent || 0,
     };
-  } catch (error) {
-    console.error('Error fetching single content stats:', error);
+  } catch {
     return null;
   }
 }

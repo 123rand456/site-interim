@@ -25,55 +25,9 @@ export async function trackPageView(
   _additionalData?: Record<string, any>
 ): Promise<void> {
   try {
-    console.log('📈 trackPageView: Starting for', pagePath);
-
-    // Debug Supabase client
-    console.log('🔧 Supabase client check:', {
-      hasClient: !!supabase,
-      hasAuth: !!supabase.auth,
-      hasRpc: !!supabase.rpc,
-      url:
-        (import.meta as any).env.PUBLIC_SUPABASE_URL?.substring(0, 20) + '...',
-      hasKey: !!(import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY,
-    });
-
-    // Test basic Supabase connection with timeout
-    try {
-      console.log('🔌 Testing basic Supabase connection...');
-
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Basic query timeout')), 5000)
-      );
-
-      const queryPromise = supabase.from('page_views').select('count').limit(1);
-
-      const { error: testError } = (await Promise.race([
-        queryPromise,
-        timeoutPromise,
-      ])) as any;
-
-      if (testError) {
-        console.error('❌ Basic Supabase query failed:', testError);
-      } else {
-        console.log('✅ Basic Supabase query successful');
-      }
-    } catch (error) {
-      console.error('❌ Basic Supabase connection failed:', error);
-    }
-
-    console.log('🔄 Moving to RPC call...');
-
-    // Supabase tracking with privacy-respecting data
     const sessionId = getSessionId();
-    console.log(
-      '📝 About to call track_page_view RPC with session:',
-      sessionId
-    );
 
     try {
-      console.log('🌐 Starting RPC call to Supabase...');
-      console.log('⏱️ Setting up timeout...');
-
       // Add timeout to prevent hanging
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('RPC timeout')), 10000)
@@ -93,26 +47,7 @@ export async function trackPageView(
         p_language: navigator.language,
       });
 
-      console.log('📡 RPC call initiated, waiting for response...');
-
-      // Try a simple RPC call first to test connectivity
-      try {
-        console.log('🧪 Testing simple RPC call...');
-        const { error: simpleError } = await supabase.rpc('get_daily_views', {
-          p_start_date: '2025-01-01',
-          p_end_date: '2025-01-31',
-        });
-
-        if (simpleError) {
-          console.error('❌ Simple RPC failed:', simpleError);
-        } else {
-          console.log('✅ Simple RPC successful');
-        }
-      } catch (error) {
-        console.error('❌ Simple RPC exception:', error);
-      }
-
-      const { data, error } = (await Promise.race([
+      const { error } = (await Promise.race([
         rpcPromise,
         timeoutPromise,
       ])) as any;
@@ -121,13 +56,6 @@ export async function trackPageView(
         console.error('❌ track_page_view RPC failed:', error);
         return;
       }
-
-      console.log(
-        '✅ trackPageView: Successfully tracked',
-        pagePath,
-        'with ID:',
-        data
-      );
     } catch (error) {
       console.error('❌ track_page_view RPC exception:', error);
     }

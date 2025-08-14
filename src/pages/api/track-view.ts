@@ -8,10 +8,7 @@ export const POST: APIRoute = async ({ request }) => {
     const supabaseUrl = (import.meta as any).env.PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY;
 
-    console.log('🔧 Environment check:', {
-      hasUrl: !!supabaseUrl,
-      hasKey: !!supabaseAnonKey,
-    });
+    // Environment check completed
 
     if (!supabaseUrl || !supabaseAnonKey) {
       console.error('❌ Missing environment variables');
@@ -36,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
       userAgent,
     } = body;
 
-    console.log('🔧 API called with:', { pagePath, pageTitle, sessionId });
+    // API called with page tracking data
 
     // Get real IP address from server (try multiple headers)
     const forwardedFor = request.headers.get('x-forwarded-for');
@@ -44,18 +41,13 @@ export const POST: APIRoute = async ({ request }) => {
     const cfConnectingIP = request.headers.get('cf-connecting-ip'); // Cloudflare
     const clientIP = forwardedFor || realIP || cfConnectingIP || '127.0.0.1'; // Use valid localhost IP
 
-    console.log('🌐 IP Headers:', {
-      'x-forwarded-for': forwardedFor,
-      'x-real-ip': realIP,
-      'cf-connecting-ip': cfConnectingIP,
-      'final-ip': clientIP,
-    });
+    // IP address extracted from headers
 
     // Create a fresh Supabase client for this request
     const { createClient } = await import('@supabase/supabase-js');
     const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
-    console.log('✅ Supabase client created');
+    // Supabase client created
 
     // Use the same RPC function that bypasses RLS
     const { data, error } = await supabaseClient.rpc('track_page_view', {
@@ -74,18 +66,18 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (error) {
-      console.error('❌ Server-side tracking error:', error);
+      console.error('❌ Server-side tracking error');
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
       });
     }
 
-    console.log('✅ Server-side tracking successful:', data);
+    console.log('✅ Server-side tracking successful');
     return new Response(JSON.stringify({ success: true, id: data.id }), {
       status: 200,
     });
   } catch (error) {
-    console.error('❌ API error:', error);
+    console.error('❌ API error');
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
     });
