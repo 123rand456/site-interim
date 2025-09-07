@@ -2,8 +2,8 @@
 layout: ../../layouts/EssayLayout.astro
 title: 'POV: You are Valedictorian'
 description: ''
-dateCreated: '2025-07-09'
-dateUpdated: '2025-07-09'
+dateCreated: '2025-09-07'
+dateUpdated: '2025-09-07'
 confidence: 'unlikely'
 category: 'Random'
 importance: '0'
