@@ -25,7 +25,8 @@ export const CATEGORIES = [
   { key: 'Random', label: 'Random' },
   { key: 'Social Science', label: 'Social Science' },
   { key: 'Space Engineering', label: 'Space Engineering' },
-  { key: 'Synthetic Biology', label: 'Synthetic Biology ' },
+  { key: 'Synthetic Biology', label: 'Synthetic Biology' },
+  { key: 'Technology', label: 'Technology' },
   { key: 'Philosophy', label: 'Philosophy' },
 
   // Add more as needed
