@@ -31,23 +31,8 @@ import MainLayout from '../../layouts/MainLayout.astro';
       <div
         class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-b px-4 py-4 border-t border-gray-900 dark:border-gray-600"
       >
-        <p class="mb-4">My favourite things per se are talking to people...</p>
+        <p class="mb-4">My favourite things</p>
         <!-- Nested dropdowns with improved mobile touch targets -->
-        <details
-          class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
-        >
-          <summary
-            class="cursor-pointer px-3 py-3 text-base font-medium bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors min-h-[44px] flex items-center text-gray-900 dark:text-gray-100"
-            >Free Things</summary
-          >
-          <div class="px-3 py-3 bg-white dark:bg-gray-900">
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Sneezing</li>
-              <li>Libraries</li>
-              <li>Cold water</li>
-            </ul>
-          </div>
-        </details>
         <details
           class="mt-4 border border-gray-200 dark:border-gray-600 rounded"
         >
@@ -61,6 +46,10 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li>Vocal Fry & Intentional Rasp</li>
               <li>Lemon</li>
               <li>Classical Music</li>
+              <li>Handwritten letters</li>
+              <li>Skincare</li>
+              <li>Ricotta</li>
+              <li>Sake</li>
             </ul>
           </div>
         </details>
@@ -78,7 +67,6 @@ import MainLayout from '../../layouts/MainLayout.astro';
               <li>Coffee</li>
               <li>Smoking</li>
               <li>IYKYK Energy</li>
-              <li>Acronyms</li>
             </ul>
           </div>
         </details>
@@ -101,7 +89,14 @@ import MainLayout from '../../layouts/MainLayout.astro';
             >Books</summary
           >
           <div class="px-3 py-3 bg-white dark:bg-gray-900">
-            <ul class="list-disc pl-5"></ul>
+            <ul class="list-disc pl-5 space-y-2">
+              <li class="break-words">
+                <a
+                  href=""
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
+                ></a>
+              </li>
+            </ul>
           </div>
         </details>
 
@@ -135,6 +130,14 @@ import MainLayout from '../../layouts/MainLayout.astro';
                   >Ben Kuhn</a
                 >
               </li>
+              <li class="break-words">
+                <a
+                  href="https://www.thepsmiths.com/"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
+                  >Mr and Mrs Psmith Bookshelf</a
+                >
+              </li>
+
               <li class="break-words">
                 <a
                   href="https://tbenthompson.com/"
@@ -425,6 +428,14 @@ import MainLayout from '../../layouts/MainLayout.astro';
                   class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
                 >
                   The Deep Work of Bootstrapping
+                </a>
+              </li>
+              <li class="break-words">
+                <a
+                  href="https://www.youtube.com/watch?v=xWYb7tImErI"
+                  class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block sm:inline"
+                >
+                  The Only Trait for Success in the AI Era—How to Build It
                 </a>
               </li>
             </ul>
