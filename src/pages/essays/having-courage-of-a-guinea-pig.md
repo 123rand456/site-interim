@@ -5,7 +5,7 @@ description:
   'A two pound meat potato with zero offense of defense abilities, that will scream at an ape 100
   times its size if its lettuce is wilted '
 dateCreated: '2025-07-17'
-dateUpdated: '2025-07-19'
+dateUpdated: '2025-10-17'
 confidence: 'uncertain'
 category: 'Philosophy'
 importance: '4'
@@ -13,22 +13,14 @@ tags:
   - society
 ---
 
-I've never had a blog before, even though I had thoughts. Thoughts which were more often than not
-amorphous — indubitably due to the fact that I never once stopped to articulate them. I was (still
-am) a coward. Putting my writing out in public is difficult. What if the things that I write about
-are so uninteresting and at most, serve as mere proxies which others used to gauge what a
-insight-porn-ish nitwit I am.
+Putting my writing out in public is difficult. Everything I can imagine saying or writing sounds
+cringey or content-free. I'm also terrible in the subtle art of nonstandard sentence construction.
+Instead of picking words that maximize meaning and value for the readers, I pick words that fit the
+metre and rhyme scheme. Yet, nobody cares. So here goes.
 
-Everything I can imagine saying or writing sounds cringey or content-free. Did you know there are
-different kinds of dashes: — - – (em dash, normal dash, en dash)? I did not.
-
-I'm also terrible in the subtle art of nonstandard sentence construction. Instead of picking words
-that maximize meaning and value for the readers, I pick words that fit the metre and rhyme scheme.
-
-## Why now
-
-The main trigger was when I got to read [Ben's sagely advice](https://www.benkuhn.net/writing/) on
-blogging as an awesome avenue to gain even more awesome friendships.\*
+I got to read [Ben's sagely advice](https://www.benkuhn.net/writing/) on blogging as an awesome
+avenue to gain even more **awesome** friendships. I don't really favor social media as a way to
+forge meaningful friendships or connections.
 
 **Points by Ben that made way too much sense when playing out to their logical conclusions:**
 
@@ -37,20 +29,26 @@ blogging as an awesome avenue to gain even more awesome friendships.\*
 - Another 25% or more he met indirectly through one of these people (who are disproportionately
   likely to have friends that he like a lot)
 
-**This is important.** Over the course of my life, I realized that I deeply value friendship.
+Also, I was looking back on the kinds of _"friendships"_ that I've held on to. I got tired of going
+above and beyond, which stemmed from some introspection on how much of a "terrible" friend I was
+last time. Yes, I wasn’t showing up for others; but still I can't help thinking shouldn't real
+friendships and kinships be resilient enough to withstand your hard times, at least a little?
+_“Maybe I don’t weigh that high in their priority list.”_ That hurts. When the friendships didn’t
+last, my mind linked the loss to your my lowest self: “It happened because I wasn’t enough.” But
+that’s a brutal conclusion, and one that’s hard to unlearn. Some people will take my effort as a
+given. Others simply…aren’t capable of reciprocating in the way I would appreciate. I sometimes envy
+those whose careers grew beside their friendships; how they built both craft and kinship in tandem.
+But envy, I’ve realized, only points me toward what I crave most: connection with resonance.
 
-## Reciprocal Arrangements
+## Hierarchy of Relationships
 
-> In the hierarchy of relationships, friendships are at the bottom. Romantic partners, parents,
-> children — all these come first. [^1]
-
-The poignant point about friendships lies in its inherent voluntary nature. Since you can choose to
-enter, you can also choose to get out. There are no fail-safes in friendships, unlike in other kinds
-of relationships e.g., marriages, birth families, business partners.
-
-Some time back, I was asked if I thought of Person X as a friend or acquaintance. I was puzzled
-because weren't everyone **friends**? Isn't someone a friend if this is a person 1) I've talked to
-before and 2) bear no negative sentiments towards? Hmm...
+> Romantic partners, parents, children — all these come first. [^1] The poignant point about
+> friendships lies in its inherent voluntary nature. Since you can choose to enter, you can also
+> choose to get out. There are no fail-safes in friendships, unlike in other kinds of relationships
+> e.g., marriages, birth families, business partners. Our cultural script has taught that “family”
+> is supposed to be the most natural, automatic, unconditional bond. But in reality, real connection
+> requires shared values, emotional safety, and mutual curiosity. If that’s missing, even if people
+> are kind or well-meaning, you can feel… alone in the same room.
 
 Our world is a high-dimensional one. Any number of factors could conceivably matter when it comes to
 the quality of a relationship between you and another party. The graph below presents a more
@@ -61,17 +59,28 @@ pursuing or dropping this budding acquaintance-friendship.
 
 _Source: [Wait But Why](https://waitbutwhy.com)_
 
-**So, on to the hunt for my sources of enjoyment**, and thereby establishing which billions of
-variables in the universe are actually relevant to me when it comes to people I want to be friends
-with.
+Friendships are meant to be spaces where you feel more like yourself, not less. If being around
+people makes you feel like you're hiding or enduring something, then it means you're either with the
+wrong people, or still working on being safe enough with yourself to show up as you are. Or both.
+
+Or, to put it in reverse, the kinds of people I don’t find myself drawn to. Those who listen only to
+respond, who compress others into neat categories for easier handling. They mistake earnestness for
+naivety. They often confuse quick judgment for discernment, and tend to flatten everything into a
+teachable moment. There’s a kind of quiet shoeboxing that happens, where a person’s complexity gets
+packed away into a single, comfortable label.
+
+I find that conversations with such people rarely breathe. Everything becomes an evaluation instead
+of an exchange; a performance of understanding rather than the real thing. I prefer people who
+engage with things, not over them; who can hold curiosity without needing to assert hierarchy. It’s
+not that I need to be agreed with. I just need to feel that the other person is listening. I’m not
+asking for perfect sympathy, only reciprocity, a willingness to be surprised, to stay a little
+uncertain together.
 
 ## Everybody worships
 
-Based on personal experience, a directly relevant variable i.e., which variables mediate the
-influence of everything else, boils down to **the choice of what they think about**. What they
-consciously decide has meaning and what doesn't. It is usually a direct forerunner to an estimate of
-their internal mental patterns — emotions, engagement, thoughts/worries etc. Their curiosity,
-**hilarity**[^2] or exhilarating verbal facility.
+Based on personal experience, what they consciously decide has meaning and what doesn't, is usually
+a direct forerunner to an estimate oftheir internal mental patterns, their
+curiosity,**hilarity**[^2] or exhilarating verbal facility.
 
 > If you worship money and things, if they are where you tap real meaning in life, then you will
 > never have enough, never feel you have enough. It's the truth. Worship your body and beauty and
@@ -87,18 +96,19 @@ their internal mental patterns — emotions, engagement, thoughts/worries etc. T
 > you see and how you measure value without ever being fully aware that that's what you're doing.
 > [^3]
 
-One thing I care about in friends is whether we'll have interesting conversations. I become
-especially invigorated, whenever such interactions temporarily prove/disprove hypotheses I have.
+**What genuinely makes my inner world soften and say, “Yes, that.”:**
 
-**Other things that matter to me in friendships:**
-
+- Calm, slow energy, not hyper or performative
+- Slightly awkward or introverted but self-aware
+- Soft-spoken or thoughtful in conversation
+- A quiet kind of confidence (not cocky, just settled)
+- Makes space for my thoughts without needing to fix them
+- Doesn’t over-praise, just sees me and treats that as enough
+- Gives attention without making me feel scrutinized
+- Generous in spirit, helps without making it a performance
 - **Taste**[^4] and aesthetic sensibility
-- **Self-knowledge** and reflective mindset
-- **Confidence** and the ability to project self-assurance
-- **Empathy** - the ability to read others and empathize with their point of view
 - **Conflict tolerance** - a capacity to handle disagreement constructively
-
-Intelligence, while an important attribute, is overrated.
+- Doesn't gossip to belittle others
 
 The bottom line is basically somebody to talk to, someone to depend on and somebody to enjoy. Across
 the entire life course, these expectations remain the same, but the circumstances under which
@@ -106,33 +116,62 @@ they're accomplished change.
 
 ### Relevant objections
 
-#### "BORING PEOPLE FIND OTHERS BORING"
-
 It's true that sometimes, we might be over presumptuous in holding some kinds of inclinations as
 superior to others. Some people prefer to spend their free time checking social media and getting
-sad. Others prefer to read books [^5]. Who's to decide which one is interesting/better?
-
-But I disagree that there are no boring people. I don't mean to be binary about this. You can be
-simultaneously boring and unboring. People are mercifully, individuals with loves and hates,
-ambitions and generosity, potential and idlesness all mixed up inside them.
+sad. Others prefer to read books [^5]. Who's to decide which one is interesting/better? But I
+disagree that there are no boring people. I don't mean to be binary about this. You can be
+simultaneously boring and unboring. People are mercifully, individuals with loves and
+hates,ambitions and generosity, potential and idlesness all mixed up inside them.
 
 And sometimes, I get stuck in a group conversation with people I don't find interesting. The topics,
-meh. The people, meh. The vibe, meh. I'm meh sometimes too.
+meh. The people, meh. The vibe, meh. I'm meh sometimes too. Some say that rather than changing from
+the inside out, you bring the outside in. You might have had some of these friendships that I'm
+about to touch on. Or currently, in some of them.
 
-Maybe its age, but I've started giving more conscious thought to my conduct and what the sum of all
-my choices added up to be. Some say that rather than changing from the inside out, you bring the
-outside in.
+#### Actively draining friendships
+
+These are the ones that actually chip away at your self-worth. You leave interactions feeling worse
+about yourself (anxious, small, dismissed). They may criticize, compete, gossip, or only reach out
+when they want something. You feel like you’re working during the friendship (managing their moods,
+overgiving, keeping peace).
+
+#### Flat friendships
+
+There's no hostility, but also no spark. Conversations feel shallow or repetitive. You don’t feel
+seen in your real self. You don’t leave drained, just… indifferent. Like you ate a meal that didn’t
+fill you.
+
+How do we enjoy our discernment without it tipping into over-critical / guilt-tripping territory:
+
+#### Shift from moral judgement → noticing patterns
+
+Instead of labeling someone as “bad” for flaunting or victim energy, note it as a pattern that
+doesn’t match your values or energy. “This doesn’t vibe with me” vs “This person is a bad human.”
+Then, ask: Does noticing this pattern drain me or help me decide where to invest? It's healthy if
+it’s helping you choose where to spend energy. But pause and redirect if it’s ruminating or “ranking
+people” in your head → pause and redirect.
+
+#### Use curiosity instead of critique
+
+When someone shows a minor ick, try a mental note: “Interesting, why do they do this?” It satisfies
+your brain’s pattern-recognition without attaching a moral label. Example: Someone brags about xyz.
+Instead of “ugh”, it's more “Hmm, they value status differently; I probably won’t connect here.”
+It's like sampling music playlists. You’re not supposed to vibe with every track; you’re just
+testing for rhythm. Sometimes you’ll find one song that makes you feel “yes, this is my kind of
+sound,” and that’s worth waiting for.
+
+#### Reinforce positive judgment
+
+When you see green flags, notice and appreciate them explicitly in your mind. “This person actually
+adds warmth / listens / notices small details.” This helps you balance critical noticing with
+positive noticing, so your radar stays constructive, not bitter.
 
 ## Cities and Circuses
 
-According to PG, different cities whispers different things to you. The kind of conversations you
-overhear tell you the kinds of people you are around.
-
-Whether I like it or not, it's hard not to be influenced by those around me. When I pay attention to
-what I do and say, I feel a state of internal division and weakness that sets me further away from a
-meta goal of mine: **"to live in truth"** — to act diligently towards some well-articulated, defined
-and temporary end. The feeling of alienation when no one around me cares about the same things as I
-do, is also bitter. And I wonder why my consumption of desserts has gone up...
+Is geographical location a key factor when it comes to the kinds of people you experience? According
+to PG, different cities whispers different things to you. The kind of conversations you overhear
+tell you the kinds of people you are around. Whether I like it or not, it's hard not to be
+influenced by those around me.
 
 > A city speaks to you mostly by accident — in things you see through windows, in conversations you
 > overhear. It's not something you have to seek out, but something you can't turn off. One of the
@@ -140,19 +179,24 @@ do, is also bitter. And I wonder why my consumption of desserts has gone up...
 > interrogative intonation in declarative sentences. But on average I'll take Cambridge
 > conversations over New York or Silicon Valley ones. [^6]
 
+## What's next
+
+1. Start from mutuality, not over-extension. Give small, see if it’s returned. If not, don’t scale
+   up. Reciprocity is a foundation, not a reward I earn by overgiving.
+
+2. Notice small acts. Do they hold space in conversation or bulldoze it? It’s okay to hope people
+   will come through. But it’s vital to notice when they don’t.
+
+3. Listen to how they talk about others. Do they describe people with warmth or judgment?
+
+4. Look for slow, quiet consistency. The people who truly care may not be loud, but they’ll show up.
+   In small, regular, unspectacular ways. And it’ll feel safe.
+
 As Feynman once said, **the first principle is that you must not fool yourself — and you are the
 easiest person to fool**. Anyway, this first blog post is in hope of laying down a trail for others
-to follow, if they want to.
-
-I will be making my own criteria for **failure** and success timely and clear, at least for myself.
-Though, a side-goal would also be for others to understand what I am doing, so that you can evaluate
-together with me.
-
-That said, any first-person text has a narrator of questionable credibility because humans tend to
-rationalise, justify and explain away some of our conduct and decisions. How reliable am I? Am I a
-believable three dimensional character that makes you want to keep reading what I expound on? I
-don't dwell on these type of questions for too long. Else, I'll go mad or become a post-modern
-philosopher.
+to follow, if they want to.That said, any first-person text has a narrator of questionable
+credibility because humans tend to rationalise, justify and explain away some of our conduct and
+decisions. How reliable am I?
 
 [^1]:
     [How Friendships Change in Adulthood](https://www.theatlantic.com/health/archive/2015/10/how-friendships-change-over-time-in-adulthood/411466/)
