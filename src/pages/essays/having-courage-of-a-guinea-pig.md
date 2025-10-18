@@ -30,11 +30,11 @@ meaningful friendships or connections (at least for me).
 Looking back on the kinds of _"friendships"_ that I've held on to, I got sick of going _above and
 beyond_ (very loosely defined). The overcompensation here probably stemmed from some past
 introspection on how much I wasn’t showing up for others when I was younger. When effort didn't
-translate into my desired outcomes, my mind linked the loss to your my lowest self: “It happened
-because I wasn’t enough.” Becaus shouldn't real friendships and kinships be resilient enough to
-withstand your hard times, at least a little? _“Maybe I don’t weigh that high in their priority
-list.”_ That’s a brutal conclusion, and one that’s hard to unlearn. I sometimes envy those whose
-careers grew beside their friendships; how they built both craft and kinship in tandem.
+translate into my desired outcomes, my mind linked the loss to my lowest self: “It happened because
+I wasn’t enough.” Because shouldn't real friendships and kinships be resilient enough to withstand
+your hard times, at least a little? _“Maybe I don’t weigh that high in their priority list.”_ That’s
+a brutal conclusion, and one that’s hard to unlearn. I sometimes envy those whose careers grew
+beside their friendships; how they built both craft and kinship in tandem.
 
 ## Hierarchy of relationships
 
@@ -93,7 +93,7 @@ a direct forerunner to an estimate of their internal mental patterns i.e., curio
 > you see and how you measure value without ever being fully aware that that's what you're doing.
 > [^3]
 
-## What genuinely makes my inner world soften and say, “Yes, that.”:\*\*
+## What genuinely makes my inner world soften”:
 
 - Calm, slow energy, not hyper or performative
 - Slightly awkward or introverted but self-aware
@@ -114,16 +114,15 @@ they're accomplished change.
 ### Relevant objections
 
 It's true that sometimes, we might be over presumptuous in holding some kinds of inclinations as
-superior to others. Some people prefer to spend their free time checking social media and getting
-sad. Others prefer to read books [^5]. Who's to decide which one is interesting/better? But
-Idisagree that there are no boring people. I don't mean to be binary about this. You can be
-simultaneously boring and unboring. People are mercifully, individuals with loves and
-hates,ambitions and generosity, potential and idlesness all mixed up inside them.
+superior to others. Who's to decide which one is interesting/better? But I disagree that there are
+no boring people. I don't mean to be binary about this. You can be simultaneously boring and
+unboring. People are mercifully, individuals with loves and hates,ambitions and generosity,
+potential and idlesness all mixed up inside them.
 
-And sometimes, I get stuck in a group conversation with people I don't find interesting. The topics,
-meh. The people, meh. The vibe, meh. I'm meh sometimes too. Some say that rather than changing from
-the inside out, you bring the outside in. You might have had some of these friendships that I'm
-about to touch on. Or currently, in some of them.
+Sometimes, I get stuck in a group conversation with people I don't find interesting. The topics,
+meh. The people, meh. The vibe, meh. I could be meh too. Some say that rather than changing from the
+inside out, you bring the outside in. You might have had some of these friendships that I'm about to
+touch on. Or currently, in some of them.
 
 #### Actively draining friendships
 
@@ -164,7 +163,7 @@ yourself — and you are the easiest person to fool**.
 > overhear. It's not something you have to seek out, but something you can't turn off. One of the
 > occupational hazards of living in Cambridge is overhearing the conversations of people who use
 > interrogative intonation in declarative sentences. But on average I'll take Cambridge
-> conversations over New York or Silicon Valley ones. [^6]
+> conversations over New York or Silicon Valley ones. [^5]
 
 ## Next steps
 
@@ -195,6 +194,4 @@ because humans tend to rationalise, justify and explain away some of our conduct
 
 [^4]: The odds of people with good taste having more developed characters is greater.
 
-[^5]: Performative reading at cafes is another matter altogether.
-
-[^6]: [Paul Graham: Cities](https://www.paulgraham.com/cities.html)
+[^5]: [Paul Graham: Cities](https://www.paulgraham.com/cities.html)
