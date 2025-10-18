@@ -93,7 +93,7 @@ a direct forerunner to an estimate of their internal mental patterns i.e., curio
 > you see and how you measure value without ever being fully aware that that's what you're doing.
 > [^3]
 
-## What genuinely makes my inner world soften”:
+## What genuinely makes my inner world soften:
 
 - Calm, slow energy, not hyper or performative
 - Slightly awkward or introverted but self-aware
@@ -140,9 +140,9 @@ Granted, we might tip into over-critical / guilt-tripping territory. So, how do 
 extent of this? There are some behaviours I'm trying to default to.
 
 1. Instead of labeling someone as “bad”, I'm trying to consciously note it as a pattern that doesn’t
-   match your values or energy. Does noticing this pattern drain me or help me decide where to
-   invest? It's healthy if it’s helping me choose where to spend energy. But if it’s ruminating or
-   “ranking people” in my head, gotta pause and redirect.
+   match my values or energy. Does noticing this pattern drain me or help me decide where to invest?
+   It's healthy if it’s helping me choose where to spend energy. But if it’s ruminating or “ranking
+   people” in my head, gotta pause and redirect.
 
 2. Start with curiosity rather than critique. When someone shows a minor ick, try a mental note:
    “Interesting, why do they do this?” Someone brags about xyz. Instead of “ugh”, it's more “Hmm,
@@ -164,8 +164,6 @@ yourself — and you are the easiest person to fool**.
 > occupational hazards of living in Cambridge is overhearing the conversations of people who use
 > interrogative intonation in declarative sentences. But on average I'll take Cambridge
 > conversations over New York or Silicon Valley ones. [^5]
-
-## Next steps
 
 My efforts weren't futile. I've learnt some lessons along the way which hopefully make this journey
 more worthwhile.
