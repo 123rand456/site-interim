@@ -503,13 +503,38 @@ AS $$
 DECLARE
     view_id UUID;
     unique_views_count INTEGER;
+    ip_text TEXT;
+    ip_inet INET;
 BEGIN
+    -- Extract client IP from headers if not provided
+    IF p_ip_address IS NULL THEN
+        ip_text := COALESCE(
+            current_setting('request.headers', true)::json->>'x-forwarded-for',
+            current_setting('request.headers', true)::json->>'x-real-ip',
+            current_setting('request.headers', true)::json->>'cf-connecting-ip',
+            NULL
+        );
+        IF ip_text IS NOT NULL THEN
+            IF position(',' in ip_text) > 0 THEN
+                ip_text := split_part(ip_text, ',', 1);
+            END IF;
+            ip_text := trim(ip_text);
+            BEGIN
+                ip_inet := ip_text::inet;
+            EXCEPTION WHEN others THEN
+                ip_inet := NULL;
+            END;
+        END IF;
+    ELSE
+        ip_inet := p_ip_address;
+    END IF;
+
     -- Insert page view record
     INSERT INTO public.page_views (
         page_path, page_title, referrer, user_agent, session_id, ip_address,
         viewport_width, viewport_height, screen_width, screen_height, timezone, language
     ) VALUES (
-        p_page_path, p_page_title, p_referrer, p_user_agent, p_session_id, p_ip_address,
+        p_page_path, p_page_title, p_referrer, p_user_agent, p_session_id, ip_inet,
         p_viewport_width, p_viewport_height, p_screen_width, p_screen_height, p_timezone, p_language
     ) RETURNING id INTO view_id;
     
@@ -530,6 +555,30 @@ BEGIN
     RETURN view_id;
 END;
 $$;
+
+-- View: classify source app based on referrer and user agent
+CREATE OR REPLACE VIEW public.page_views_with_source AS
+SELECT
+  pv.*,
+  CASE
+    -- X / Twitter
+    WHEN pv.referrer ILIKE '%t.co%' OR pv.referrer ILIKE '%x.com%' OR pv.user_agent ILIKE '%Twitter%' THEN 'twitter'
+    WHEN pv.referrer ILIKE '%l.instagram.com%' OR pv.user_agent ILIKE '%Instagram%' THEN 'instagram'
+    WHEN pv.referrer ILIKE '%lnkd.in%' OR pv.referrer ILIKE '%linkedin.com%' OR pv.user_agent ILIKE '%LinkedIn%' THEN 'linkedin'
+    -- Reddit variants
+    WHEN pv.referrer ILIKE '%reddit.com%' OR pv.referrer ILIKE '%out.reddit.com%' OR pv.referrer ILIKE '%amp.reddit.com%' OR pv.referrer ILIKE '%reddit.app.link%' OR pv.referrer ILIKE '%redd.it%' OR pv.user_agent ILIKE '%Reddit%' THEN 'reddit'
+    WHEN pv.referrer ILIKE '%t.me%' OR pv.referrer ILIKE '%telegram%' OR pv.user_agent ILIKE '%Telegram%' THEN 'telegram'
+    WHEN pv.referrer ILIKE '%facebook.com%' OR pv.user_agent ILIKE '%FBAN%' THEN 'facebook'
+    WHEN pv.referrer IS NULL OR pv.referrer = '' THEN 'direct'
+    ELSE 'other'
+  END AS source_app
+FROM public.page_views pv;
+
+-- Ensure view respects caller privileges
+ALTER VIEW public.page_views_with_source SET (security_invoker = on);
+
+-- Allow authenticated clients to read the classified view
+GRANT SELECT ON public.page_views_with_source TO authenticated;
 
 -- Function to start reading session
 CREATE OR REPLACE FUNCTION public.start_reading_session(
