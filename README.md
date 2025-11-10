@@ -86,7 +86,7 @@ title: 'Your Essay Title'
 description: 'A brief description of your essay'
 dateCreated: 'YYYY-MM-DD'
 dateUpdated: 'YYYY-MM-DD'
-confidence: 'likely' # or 'uncertain', 'unlikely'
+confidence: 'likely', or 'uncertain', 'unlikely', 'NA'
 category: 'Computation' # Choose from available categories
 importance: '4' # Scale of 1-5
 tags:
