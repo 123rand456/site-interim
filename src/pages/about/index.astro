@@ -346,125 +346,127 @@ const sections = [
       </main>
     </div>
   </div>
-</MainLayout>
 
-<script>
-  // Mobile ToC Toggle Functionality
-  const tocToggle = document.getElementById('toc-toggle');
-  const mobileToc = document.getElementById('mobile-toc');
-  const tocChevron = document.getElementById('toc-chevron');
+  <script>
+    // Mobile ToC Toggle Functionality
+    const tocToggle = document.getElementById('toc-toggle');
+    const mobileToc = document.getElementById('mobile-toc');
+    const tocChevron = document.getElementById('toc-chevron');
 
-  if (tocToggle && mobileToc && tocChevron) {
-    tocToggle.addEventListener('click', () => {
-      const isExpanded = tocToggle.getAttribute('aria-expanded') === 'true';
+    if (tocToggle && mobileToc && tocChevron) {
+      tocToggle.addEventListener('click', () => {
+        const isExpanded = tocToggle.getAttribute('aria-expanded') === 'true';
 
-      // Toggle visibility
-      mobileToc.classList.toggle('hidden');
+        // Toggle visibility
+        mobileToc.classList.toggle('hidden');
 
-      // Update ARIA state
-      tocToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+        // Update ARIA state
+        tocToggle.setAttribute('aria-expanded', (!isExpanded).toString());
 
-      // Rotate chevron
-      if (isExpanded) {
-        tocChevron.style.transform = 'rotate(0deg)';
-      } else {
-        tocChevron.style.transform = 'rotate(180deg)';
-      }
-    });
-  }
+        // Rotate chevron
+        if (isExpanded) {
+          tocChevron.style.transform = 'rotate(0deg)';
+        } else {
+          tocChevron.style.transform = 'rotate(180deg)';
+        }
+      });
+    }
 
-  // Enhanced section highlighting functionality
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('aside nav a, #mobile-toc nav a');
+    // Enhanced section highlighting functionality
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll(
+      'aside nav a, #mobile-toc nav a'
+    );
 
-  function updateActiveSection() {
-    let currentSection = '';
+    function updateActiveSection() {
+      let currentSection = '';
 
-    sections.forEach(section => {
-      const htmlElement = section as HTMLElement;
-      const sectionTop = htmlElement.offsetTop;
-      const sectionHeight = htmlElement.clientHeight;
-      const scrollPosition = window.scrollY + 100; // Add offset for header
+      sections.forEach(section => {
+        const htmlElement = section as HTMLElement;
+        const sectionTop = htmlElement.offsetTop;
+        const sectionHeight = htmlElement.clientHeight;
+        const scrollPosition = window.scrollY + 100; // Add offset for header
 
-      if (
-        scrollPosition >= sectionTop &&
-        scrollPosition < sectionTop + sectionHeight
-      ) {
-        currentSection = section.getAttribute('id') || '';
-      }
-    });
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          currentSection = section.getAttribute('id') || '';
+        }
+      });
 
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const href = link.getAttribute('href');
+        if (href === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Smooth scroll for ToC links
     navLinks.forEach(link => {
-      link.classList.remove('active');
-      const href = link.getAttribute('href');
-      if (href === `#${currentSection}`) {
-        link.classList.add('active');
-      }
-    });
-  }
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        if (!href) return;
 
-  // Smooth scroll for ToC links
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const href = link.getAttribute('href');
-      if (!href) return;
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
 
-      const targetId = href.substring(1);
-      const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
 
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-
-        // Close mobile ToC after clicking a link
-        if (mobileToc && !mobileToc.classList.contains('hidden')) {
-          mobileToc.classList.add('hidden');
-          if (tocToggle) {
-            tocToggle.setAttribute('aria-expanded', 'false');
-          }
-          if (tocChevron) {
-            tocChevron.style.transform = 'rotate(0deg)';
+          // Close mobile ToC after clicking a link
+          if (mobileToc && !mobileToc.classList.contains('hidden')) {
+            mobileToc.classList.add('hidden');
+            if (tocToggle) {
+              tocToggle.setAttribute('aria-expanded', 'false');
+            }
+            if (tocChevron) {
+              tocChevron.style.transform = 'rotate(0deg)';
+            }
           }
         }
-      }
+      });
     });
-  });
 
-  window.addEventListener('scroll', updateActiveSection);
-  // Call once to set initial state
-  updateActiveSection();
-</script>
+    window.addEventListener('scroll', updateActiveSection);
+    // Call once to set initial state
+    updateActiveSection();
+  </script>
 
-<style>
-  /* Mobile-responsive styles */
-  @media (max-width: 1023px) {
-    .metadata-container {
-      max-width: 100%;
-      margin: 0;
+  <style>
+    /* Mobile-responsive styles */
+    @media (max-width: 1023px) {
+      .metadata-container {
+        max-width: 100%;
+        margin: 0;
+      }
     }
-  }
 
-  /* Ensure smooth ToC transitions */
-  #mobile-toc {
-    transition: all 0.3s ease-in-out;
-  }
+    /* Ensure smooth ToC transitions */
+    #mobile-toc {
+      transition: all 0.3s ease-in-out;
+    }
 
-  #toc-chevron {
-    transition: transform 0.2s ease-in-out;
-  }
+    #toc-chevron {
+      transition: transform 0.2s ease-in-out;
+    }
 
-  /* Section scroll margin for proper anchoring */
-  section[id] {
-    scroll-margin-top: 2rem;
-  }
+    /* Section scroll margin for proper anchoring */
+    section[id] {
+      scroll-margin-top: 2rem;
+    }
 
-  /* Enhanced active link styling */
-  nav a.active {
-    background-color: var(--toc-hover-bg);
-    font-weight: 600;
-    color: var(--link-active);
-  }
-</style>
+    /* Enhanced active link styling */
+    nav a.active {
+      background-color: var(--toc-hover-bg);
+      font-weight: 600;
+      color: var(--link-active);
+    }
+  </style>
+</MainLayout>
