@@ -5,7 +5,7 @@ description: 'repetition is a feature'
 dateCreated: '2025-12-25'
 dateUpdated: '2025-12-26'
 confidence: 'likely'
-category: 'Social'
+category: 'Social Science'
 importance: '5'
 tags:
   - communication
