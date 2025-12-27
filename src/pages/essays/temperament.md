@@ -306,94 +306,7 @@ nourishment can pave the way towards setting boundaries without confrontation.
 Understanding the distinction between stability and depth allows you to map relationships more
 accurately. Here's how different contexts require different escalation patterns:
 
-### A. Friendship / Social Context
-
-Escalation = shared time + mutual investment
-
-What to look for:
-
-- **Initiative:** They reach out unprompted
-- **Consistency:** ≥3 times over weeks
-- **Mild inconvenience:** Rescheduling, remembering, showing up
-
-**Allowed escalation:**
-
-- Slightly more availability
-- One-on-one hang
-- Small personal share
-
-**Hard no:**
-
-- Emotional caretaking
-- Over-giving
-- Repeated initiating after silence
-
-### Dating / Romantic Context
-
-Escalation = vulnerability + prioritization
-
-What to look for:
-
-- **Initiative:** They pursue, not just respond
-- **Consistency:** Plans + follow-through
-- **Inconvenience:** Travel, time, effort, planning
-
-**Allowed escalation:**
-
-- Express interest
-- Deeper sharing
-- Time prioritization
-
-**Hard no:**
-
-- Chasing ambiguity
-- "Proving" worth
-- Over-functioning emotionally
-
-**C. Work (Manager / Peer / Junior)** Escalation = trust + responsibility
-
-What to look for:
-
-- **Initiative:** They loop you in proactively
-- **Consistency:** Repeated collaboration
-- **Inconvenience:** Advocacy, covering, follow-through
-
-**Allowed escalation:**
-
-- Ownership
-- Candor
-- Mentorship
-
-**Hard no:**
-
-- Emotional disclosure
-- Over-accommodation
-- Doing invisible labor
-
-**D. Family (most misunderstood)** Escalation = emotional exposure
-
-The twist: Initiative is irrelevant (family is structural). Consistency is assumed. Inconvenience
-does not equal closeness.
-
-So the question becomes: "Is emotional openness met or dropped?"
-
-What to look for:
-
-- **Responsiveness to vulnerability:** Do they hold space or deflect?
-- **Reciprocal curiosity:** Do they ask or assume?
-- **Emotional safety:** Can you be honest without judgment?
-
-**Allowed escalation (only if historically met):**
-
-- Sharing struggles
-- Asking for emotional support
-- Expressing needs
-
-**Hard no:**
-
-- Forcing vulnerability hoping it will change them
-- Expecting depth from stable-only relationships
-- Confusing warmth with closeness
+![Relationship escalation patterns](/images/essays/temperament/relationship-escalations.svg)
 
 ## The paradox of initiation
 
@@ -536,75 +449,45 @@ builds trust without demanding it.
 When you receive any message, silently score it on four dimensions. Don't average them. One weak
 dimension already matters.
 
-**Dimension A — Initiation**
+![Scoring words](/images/essays/temperament/dimension-word-rubric.svg)
 
-- **Green:** They reached out without prompt
-- **Yellow:** They replied but didn't initiate
-- **Red:** You always initiate
-
-**Dimension B — Specificity**
-
-- **Green:** Mentions you, shared context, or timing
-- **Yellow:** Polite but generic
-- **Red:** Copy-paste energy ("hope all is well")
-
-**Dimension C — Proportionality**
-
-- **Green:** Warmth matches relationship stage
-- **Yellow:** Slightly inflated but harmless
-- **Red:** Big closeness language without history or follow-through
-
-**Dimension D — Movement**
-
-- **Green:** Leads to continuity (follow-up, presence, memory)
-- **Yellow:** Neutral completion, no momentum
-- **Red:** Vague future talk with no action
-
-**How to classify:**
-
-- 3–4 Greens → invest lightly
-- Mostly Yellow → mirror only
-- Any Red repeated → downgrade investment
+<!-- _Source: [Wait But Why](https://waitbutwhy.com)_ -->
 
 ### How to reply (this is where most people misstep)
 
 Your goal: acknowledge without escalating. You don't repay warmth with intensity. You repay it with
 clarity.
 
-**A. Replying to a GREEN message** Template: "Thank you—that's really kind of you. I appreciate it."
-Optional add-on (only if true): "Hope you're doing well too." Why this works: Confirms receipt.
-Matches warmth. Doesn't inflate. Leaves door open. Do not add: Emotional disclosure, immediate
-plans, over-enthusiasm. Let repetition do the work.
+**A. Replying to a GREEN message**: "That's really kind of you. I appreciate it." Optional add-on
+(only if true): "Hope you're doing well too." Why this works: Confirms receipt. Matches warmth.
+Doesn't inflate. Leaves door open. Do not add: Emotional disclosure, immediate plans,
+over-enthusiasm. Let repetition do the work.
 
-**B. Replying to a YELLOW message (neutral / polite)** Template: "Thanks—hope things are going well
-on your end." That's it. You're not cold. You're just not adding fuel.
+**B. Replying to a YELLOW message**: "Thanks. Hope things are going well on your end." That's it.
+You're not cold. You're just not adding fuel.
 
 **C. Replying to performative closeness (hedging language)** Example message: "You mean a lot to me,
-we should really catch up sometime!" Reply: "That's kind of you—hope you're well." Notice: You
-acknowledge. You don't echo. You don't plan. Then you watch behavior. If nothing changes →
+we should really catch up sometime!" Reply: "That's kind of you. Hope you're well." Notice:
+Youacknowledge. You don't echo. You don't plan. Then you watch behavior. If nothing changes →
 downgrade.
 
 ### The "What Changed?" Test (non-negotiable)
 
-After any warm message, ask yourself: "What concrete thing changed after this?"
-
-Acceptable answers:
+After any warm message, ask yourself: "What concrete thing changed after this?" Acceptable answers:
 
 - They followed up
 - They remembered later
 - They showed up
 - They initiated again
 
-If the answer is "nothing" twice, stop investing. Warmth without change = atmosphere, not structure.
+If the answer is "nothing" twice, stop investing.
 
-### A rule that will save you years
+### Warmth without change = atmosphere, not structure.
 
 **Never upgrade a relationship based on words alone.** Upgrade only when cost appears: time, effort,
 memory, adjustment. You don't need a lot, just some. Words can create continuity but only actions
 create progression. That’s why: you acknowledge positive signs; you don’t upgrade the relationship
-yet; you watch for repetition
-
-### How this protects you emotionally
+yet; you watch for **repetition**.
 
 This system does three things simultaneously:
 
@@ -612,33 +495,23 @@ This system does three things simultaneously:
 2. Prevents over-giving
 3. Preserves openness for genuinely aligned people
 
-You're not becoming guarded. You're becoming selective with dignity. When you feel tempted to invest
-more because something felt nice, say: "One clean signal is promising. Repetition decides." That
-sentence keeps you grounded.
-
-I can pause instead of reacting, calibrate cold reads to temperament, deploy questions for depth,
-and use subtle callbacks to anchor shared history. Conflict is less about confrontation and more
-about alignment with constraints. Misunderstanding is less about miscommunication and more about
-ignoring context and energy.
+When you feel tempted to invest more because something felt nice, say: "One clean signal is
+promising. Repetition decides." That sentence keeps you grounded.
 
 One of the trickiest dynamics involves boundaries with family. Family relationships often come with
 expectations: emotional labor, availability, deference. But those expectations don't always align
 with what the relationship actually provides. Accepting stable relationships without expecting depth
 is a form of boundary-setting. It allows you to engage without resentment, to show up without
-draining yourself, and to maintain the relationship on terms that respect your temperament.
+draining yourself, and to maintain the relationship on terms that respect your temperament. Conflict
+is less about confrontation and more about alignment with constraints. Misunderstanding is less
+about miscommunication and more about ignoring context and energy.
 
-Friendship and relationship dynamics further refine this framework. The people worth keeping respect
-boundaries, show up consistently, and respond to patterns rather than forcing alignment. Emotional
-clarity, steady baseline, reciprocity over performance, and being seen without being dissected are
-the patterns I've learned to prioritize. You don't want people who perform for your approval or who
-demand that you perform for theirs. You want the ones whose presence is a constant, not a variable.
-The real question isn't whether the exchange is perfectly balanced. The question is: Does this
-person show up when it matters? Do they remember? Do they invest effort without demanding a ledger?
-
-I've also learned the hard way that out of sight, out of mind. If someone drains me emotionally, if
-their presence feels like a weight rather than a constant, I don't need to maintain the connection
-out of guilt or social obligation. Low relational investment isn't a moral failing—it's data. It
-tells you where to allocate your energy.
+Emotional clarity, steady baseline, reciprocity over performance, and being seen without being
+dissected are the patterns I've learned to prioritize. You don't want people who perform for your
+approval or who demand that you perform for theirs. You want the ones whose presence is a constant,
+not a variable. The real question isn't whether the exchange is perfectly balanced. The question is:
+Does this person show up when it matters? Do they remember? Do they invest effort without demanding
+a ledger?
 
 ## Staying diagnostic, not prescriptive
 
@@ -651,79 +524,7 @@ This is not a scorecard. It is not a prescription. It is not a moral judgment. U
 patterns, both in yourself and in the way others interact with you. The goal is not perfection; it's
 discernment.
 
-### 1. Observation Stage
-
-**Notice micro-signals:** tone, body language, response latency. Does the person make eye contact?
-Do they lean in or pull back? How quickly do they respond to messages? These aren't definitive
-tells, but they're data points.
-
-**Identify whether the person is responsive, neutral, or avoidant.** Responsive people engage, ask
-follow-up questions, and initiate contact. Neutral people respond when prompted but don't escalate.
-Avoidant people delay, deflect, or disappear.
-
-**Avoid labeling; infer tendencies, don't diagnose.** Don't conclude "this person is insecure" or
-"this person has trust issues." Instead, notice patterns: "This person seems to warm up slowly" or
-"This person prefers clear structure before opening up."
-
-### 2. Engagement Stage
-
-**Ask disarming questions:** "What am I missing?" is my go-to. It's simple, non-threatening, and
-invites collaboration rather than defensiveness.
-
-**Pause before responding; 3–7 seconds is normal.** This feels absurdly long at first, but it gives
-you room to think, signals composure, and prevents reactive performance.
-
-**Match energy; avoid over-injecting humor or personal disclosure too early.** If someone is
-reserved, don't flood them with energy. If someone is expressive, don't hold back to the point of
-seeming disinterested. Calibration is everything.
-
-### 3. Reciprocity Monitoring
-
-**Track responses to invitations or follow-ups.** Did they accept? Decline with an alternative?
-Ignore? Each response is data.
-
-**Note repeated non-reciprocation; consider holding neutral or stopping investment.** If you've
-reached out two or three times without a reciprocal invitation, that's a pattern. It doesn't mean
-the person is bad or that you're unworthy. It means the relationship isn't balanced, and further
-investment may drain you.
-
-**Identify patterns in effort vs. attention received.** Are you the one always initiating? Always
-remembering? Always accommodating? If the effort is consistently one-sided, the relationship may
-offer belonging but not closeness.
-
-### 4. Boundaries & Hard No's
-
-**Clearly define your emotional bandwidth:** how much time and energy you'll invest. This isn't cold
-or transactional—it's protective. You can't pour from an empty cup. Fill your cup first.
-
-**Hard No examples:**
-
-- Ignoring repeated invitations from non-reciprocating contacts
-- Refusing unsolicited advice that assumes your constraints don't exist
-- Declining high-pressure social situations that drain rather than energize
-- Stopping hope-driven escalation after repeated attempts cause stress or self-criticism
-
-**Family adaptation:** Accept stable relationships without expecting depth. Limit emotionally
-draining interactions. It's okay to maintain distance while preserving the relationship.
-
-### 5. Hope vs. Emotional Cost
-
-**Evaluate: Is this initiation hope-driven and manageable?** Hope is not inherently bad. It's the
-engine of connection. But if hope becomes a burden i.e., if every unanswered message spirals into
-self-criticism—then the cost is too high.
-
-**If repeated attempts cause stress or self-criticism, pause or stop.** This isn't defeat. It's
-discernment. Some relationships aren't worth the emotional cost, and recognizing that is growth.
-
-**Document progress and small wins to reinforce positive social learning.** Did someone remember
-something you mentioned? Did they follow up? Did they show effort? Notice these moments. They're
-evidence that connection is possible, that your temperament isn't a barrier, and that the right
-people will meet you where you are.
-
-### Key framing here
-
-You're not trying to become someone else. You're trying to understand yourself better, allocate your
-energy wisely, and build relationships that respect your own constraints and that of others.
+![Stages and evaluating costs](/images/essays/temperament/stages-cost.svg)
 
 ## The real craft
 
