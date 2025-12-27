@@ -40,19 +40,20 @@ All commands are run from the root of the project, from a terminal.
 
 ### Standard Development
 
-These commands are used for typical local development with Astro's built-in server.
+| Command           | Status | Action                                      |
+| :---------------- | :----- | :------------------------------------------ |
+| `npm install`     | ✅     | Installs dependencies                       |
+| `npm run dev`     | ✅     | Starts local dev server at `localhost:4321` |
+| `npm run build`   | ✅     | Build your production site to `./dist/`     |
+| `npm run preview` | ❌     | **Does not work** with Vercel adapter       |
 
-| Command           | Action                                      |
-| :---------------- | :------------------------------------------ |
-| `npm install`     | Installs dependencies                       |
-| `npm run dev`     | Starts local dev server at `localhost:4321` |
-| `npm run build`   | Build your production site to `./dist/`     |
-| `npm run preview` | Preview your production build locally       |
+**Note:** `npm run preview` is not supported when using the `@astrojs/vercel` adapter. Use
+`vercel dev` instead (see below).
 
 ### Vercel Development
 
-Since this site is deployed on Vercel, you can use the Vercel CLI to closely emulate the production
-environment on your local machine.
+Since this site is deployed on Vercel and uses the Vercel adapter, use these commands to test your
+production build locally:
 
 | Command           | Action                                      |
 | :---------------- | :------------------------------------------ |
@@ -61,6 +62,52 @@ environment on your local machine.
 | `vercel link`     | Links your local repo to a Vercel project   |
 | `vercel deploy`   | Deploys the current version to preview      |
 | `vercel --prod`   | Deploys the current version to production   |
+
+### When to Use Which Command
+
+#### `npm run dev` vs `npm run build`
+
+**Use `npm run dev` when:**
+
+- **Writing/editing code** - Fast hot-reload, instant feedback on changes
+- **Debugging** - Source maps and unminified code for easier debugging
+- **Rapid iteration** - See changes immediately without rebuilding
+- **Development only** - Not optimized for production
+
+**Use `npm run build` when:**
+
+- **Before deploying** - Verify your site builds without errors
+- **Testing production output** - Check that optimizations work correctly
+- **CI/CD pipelines** - Automated builds (Vercel runs this automatically)
+- **Performance testing** - Test with minified, optimized code
+- **Catching build-time errors** - Find issues that only appear in production builds
+
+**Key Differences:**
+
+| Feature      | `npm run dev`   | `npm run build`     |
+| ------------ | --------------- | ------------------- |
+| Speed        | Fast startup    | Slower (full build) |
+| Optimization | None (dev mode) | Minified, optimized |
+| Hot Reload   | ✅ Yes          | ❌ No               |
+| Output       | In-memory       | `./dist/` folder    |
+| Use Case     | Development     | Production          |
+
+#### Complete Workflow
+
+**For day-to-day development:**
+
+- Use `npm run dev` - Fast hot-reload, instant feedback on changes
+
+**Before deploying/testing production build:**
+
+- Use `npm run build` - Ensures your site builds successfully
+- Use `vercel dev` - Test the production build locally with Vercel environment
+
+**For deployment:**
+
+- Push to GitHub - Automatic deployment via Vercel integration (recommended)
+- Use `vercel deploy` - Manual preview deployment for testing
+- Use `vercel --prod` - Manual production deployment (use with caution)
 
 ## Styling Guidelines
 
