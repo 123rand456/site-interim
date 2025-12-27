@@ -51,7 +51,7 @@ Our world is a high-dimensional one. Any number of factors could conceivably mat
 the quality of a relationship between you and another party. The graph below helps when I'm stuck
 between pursuing or dropping this budding acquaintance-friendship.
 
-![Friendship Graph from Wait But Why](/images/friendship-graph.png)
+![Friendship Graph from Wait But Why](/images/essays/guinea-pig/friendship-graph.png)
 
 _Source: [Wait But Why](https://waitbutwhy.com)_
 
