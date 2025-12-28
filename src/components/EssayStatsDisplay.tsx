@@ -25,8 +25,12 @@ export default function EssayStatsDisplay({
       try {
         const contentStats = await getSingleContentStats(essayPath);
         setStats(contentStats);
-      } catch {
-        console.error('Failed to fetch essay stats');
+        console.log(
+          `Stats for ${essayPath}:`,
+          contentStats ? `${contentStats.total_views} views` : 'No data'
+        );
+      } catch (error) {
+        console.error('Failed to fetch essay stats for', essayPath, error);
       } finally {
         setLoading(false);
       }

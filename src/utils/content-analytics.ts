@@ -47,7 +47,7 @@ export async function getSingleContentStats(
   pagePath: string
 ): Promise<ContentStats | null> {
   try {
-    // Fetching stats for path
+    console.log('📊 Fetching stats for:', pagePath);
 
     // First try content_analytics table
     const { data, error } = await supabase
@@ -57,7 +57,10 @@ export async function getSingleContentStats(
       .single();
 
     if (error) {
-      // No content_analytics data, checking page_views directly
+      console.log(
+        '⚠️ No content_analytics data, checking page_views directly. Error:',
+        error.message
+      );
 
       // Fallback: count page_views directly
       const { count, error: countError } = await supabase
@@ -66,8 +69,11 @@ export async function getSingleContentStats(
         .eq('page_path', pagePath);
 
       if (countError) {
+        console.error('❌ Failed to count page_views:', countError);
         return null;
       }
+
+      console.log('📈 Page views count:', count);
 
       if (count && count > 0) {
         return {
@@ -79,13 +85,16 @@ export async function getSingleContentStats(
         };
       }
 
+      console.log('ℹ️ No stats found for:', pagePath);
       return null;
     }
 
     if (!data) {
+      console.log('ℹ️ No data returned for:', pagePath);
       return null;
     }
 
+    console.log('✅ Stats found:', data);
     return {
       page_path: data.content_path,
       total_views: data.total_views || 0,
@@ -93,7 +102,8 @@ export async function getSingleContentStats(
       average_reading_time_seconds: data.average_reading_time_seconds || 0,
       average_scroll_depth_percent: data.average_scroll_depth_percent || 0,
     };
-  } catch {
+  } catch (error) {
+    console.error('❌ Exception in getSingleContentStats:', error);
     return null;
   }
 }
