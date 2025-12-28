@@ -106,7 +106,7 @@ export async function completeSignOut() {
     }
 
     // 2. Clear all localStorage items
-    const keysToRemove = [];
+    const keysToRemove: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key) keysToRemove.push(key);
