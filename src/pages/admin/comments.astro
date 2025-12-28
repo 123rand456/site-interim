@@ -31,6 +31,7 @@ import CommentAdmin from '../../components/CommentAdmin';
         if (statusElement) {
           statusElement.textContent = message;
         }
+        console.log('Status:', message);
       };
 
       const showContent = (show: boolean) => {
@@ -46,27 +47,88 @@ import CommentAdmin from '../../components/CommentAdmin';
       try {
         const { getCurrentAdmin } = await import('../../utils/supabase');
         const { base } = await import('../../utils/constants');
+        const { getValidSession, completeSignOut } = await import(
+          '../../utils/auth-helpers'
+        );
 
-        updateStatus('Verifying admin access...');
-        const admin = await getCurrentAdmin();
+        // Check session and validate expiration
+        updateStatus('Validating session...');
 
-        if (!admin) {
-          window.location.href = base;
+        const session = await getValidSession();
+
+        if (!session) {
+          updateStatus('No valid session found. Redirecting...');
+          await completeSignOut();
+          setTimeout(() => {
+            window.location.href = base;
+          }, 1000);
           return;
         }
 
-        updateStatus('Access granted!');
-        showContent(true);
+        console.log('User ID:', session.user.id);
+        console.log('User Email:', session.user.email);
+
+        updateStatus('Verifying admin access...');
+
+        try {
+          const admin = await getCurrentAdmin();
+          console.log('Admin result:', admin);
+
+          if (!admin) {
+            updateStatus('Not an admin user. Redirecting...');
+            await completeSignOut();
+            setTimeout(() => {
+              window.location.href = base;
+            }, 1000);
+            return;
+          }
+
+          updateStatus('Access granted!');
+          showContent(true);
+
+          // Set up periodic session validation (every 1 hour)
+          setInterval(async () => {
+            const currentSession = await getValidSession();
+            if (!currentSession) {
+              console.log('Session expired, redirecting...');
+              await completeSignOut();
+              window.location.href = base;
+            }
+          }, 3600000); // 1 hour
+        } catch (adminError) {
+          console.error('getCurrentAdmin error:', adminError);
+          updateStatus(
+            'Error checking admin status: ' +
+              (adminError instanceof Error
+                ? adminError.message
+                : 'Unknown error')
+          );
+          const { completeSignOut } = await import('../../utils/auth-helpers');
+          await completeSignOut();
+          setTimeout(() => {
+            window.location.href = base;
+          }, 3000);
+        }
       } catch (error) {
         const { base } = await import('../../utils/constants');
+        const { completeSignOut } = await import('../../utils/auth-helpers');
         const errorMessage =
           error instanceof Error ? error.message : 'Unknown error';
+        console.error('Access check failed:', error);
+
         updateStatus(`Access check failed: ${errorMessage}`);
+        await completeSignOut();
         setTimeout(() => {
           window.location.href = base;
         }, 2000);
       }
     }
-    checkAccess();
+
+    // Wait for page to be fully loaded before checking auth
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkAccess);
+    } else {
+      checkAccess();
+    }
   </script>
 </MainLayout>

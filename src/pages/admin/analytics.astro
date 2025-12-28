@@ -22,8 +22,126 @@ const breadcrumbItems = [
   description="Analytics dashboard for tracking site performance and user engagement"
   breadcrumbItems={breadcrumbItems}
 >
-  <div class="max-w-7xl mx-auto">
-    <AnalyticsDashboard client:load />
+  <div id="admin-content" style="display: none;">
+    <div class="max-w-7xl mx-auto">
+      <AnalyticsDashboard client:load />
+    </div>
   </div>
-</MainLayout>
 
+  <div id="loading" class="flex min-h-screen items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-2xl font-bold mb-4">Checking access...</h1>
+      <p id="status" class="text-gray-600">Please wait...</p>
+    </div>
+  </div>
+
+  <script>
+    async function checkAccess() {
+      const updateStatus = (message: string) => {
+        const statusElement = document.getElementById('status');
+        if (statusElement) {
+          statusElement.textContent = message;
+        }
+        console.log('Status:', message);
+      };
+
+      const showContent = (show: boolean) => {
+        const loadingElement = document.getElementById('loading');
+        const contentElement = document.getElementById('admin-content');
+        if (loadingElement) {
+          loadingElement.style.display = show ? 'none' : 'flex';
+        }
+        if (contentElement) {
+          contentElement.style.display = show ? 'block' : 'none';
+        }
+      };
+
+      try {
+        updateStatus('Connecting to database...');
+
+        // Import auth helpers
+        const { getCurrentAdmin } = await import('../../utils/supabase');
+        const { getValidSession, completeSignOut } = await import(
+          '../../utils/auth-helpers'
+        );
+
+        // Check and validate session
+        updateStatus('Validating session...');
+
+        const session = await getValidSession();
+
+        if (!session) {
+          updateStatus('No valid session found. Redirecting...');
+          await completeSignOut();
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1000);
+          return;
+        }
+
+        console.log('User ID:', session.user.id);
+        console.log('User Email:', session.user.email);
+
+        updateStatus('Checking admin status...');
+
+        try {
+          const admin = await getCurrentAdmin();
+          console.log('Admin result:', admin);
+
+          if (!admin) {
+            updateStatus('Not an admin user. Redirecting...');
+            await completeSignOut();
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
+            return;
+          }
+
+          updateStatus('Loading analytics dashboard...');
+          showContent(true);
+
+          // Set up periodic session validation (every 1 hour)
+          setInterval(async () => {
+            const currentSession = await getValidSession();
+            if (!currentSession) {
+              console.log('Session expired, redirecting...');
+              await completeSignOut();
+              window.location.href = '/';
+            }
+          }, 3600000); // 1 hour
+        } catch (adminError) {
+          console.error('getCurrentAdmin error:', adminError);
+          updateStatus(
+            'Error checking admin status: ' +
+              (adminError instanceof Error
+                ? adminError.message
+                : 'Unknown error')
+          );
+          const { completeSignOut } = await import('../../utils/auth-helpers');
+          await completeSignOut();
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 3000);
+        }
+      } catch (error) {
+        console.error('Access check failed:', error);
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error';
+        const { completeSignOut } = await import('../../utils/auth-helpers');
+
+        updateStatus('Failed to verify access: ' + errorMessage);
+        await completeSignOut();
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      }
+    }
+
+    // Wait for page to be fully loaded before checking auth
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkAccess);
+    } else {
+      checkAccess();
+    }
+  </script>
+</MainLayout>
