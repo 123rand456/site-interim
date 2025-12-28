@@ -1,0 +1,344 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+---
+
+<MainLayout
+  title="Admin Debug Tool"
+  description="Diagnostic tool for admin authentication issues"
+>
+  <div class="max-w-4xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Admin Authentication Diagnostic</h1>
+
+    <div class="space-y-4">
+      <div
+        class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4"
+      >
+        <p class="text-blue-800 dark:text-blue-200 mb-2">
+          <strong
+            >This page will help diagnose admin authentication issues</strong
+          >
+        </p>
+        <p class="text-sm text-blue-700 dark:text-blue-300">
+          Open your browser console (F12) to see detailed diagnostic information
+        </p>
+      </div>
+
+      <div id="results" class="space-y-4"></div>
+
+      <button
+        id="refresh-btn"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+      >
+        Run Diagnostics Again
+      </button>
+    </div>
+  </div>
+
+  <script>
+    interface DiagnosticResult {
+      name: string;
+      status: 'success' | 'error' | 'warning' | 'info';
+      message: string;
+      details?: any;
+    }
+
+    let results: DiagnosticResult[] = [];
+
+    function addResult(result: DiagnosticResult) {
+      results.push(result);
+      console.log(
+        `[${result.status.toUpperCase()}] ${result.name}:`,
+        result.message,
+        result.details || ''
+      );
+      displayResults();
+    }
+
+    function displayResults() {
+      const container = document.getElementById('results');
+      if (!container) return;
+
+      container.innerHTML = results
+        .map(r => {
+          const bgColor = {
+            success:
+              'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200',
+            error:
+              'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200',
+            warning:
+              'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800 text-yellow-800 dark:text-yellow-200',
+            info: 'bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200',
+          }[r.status];
+
+          const icon = {
+            success: '✅',
+            error: '❌',
+            warning: '⚠️',
+            info: 'ℹ️',
+          }[r.status];
+
+          return `
+          <div class="border rounded-lg p-4 ${bgColor}">
+            <div class="flex items-start">
+              <span class="text-2xl mr-3">${icon}</span>
+              <div class="flex-1">
+                <h3 class="font-semibold mb-1">${r.name}</h3>
+                <p class="text-sm">${r.message}</p>
+                ${r.details ? `<pre class="mt-2 text-xs overflow-x-auto bg-black/10 dark:bg-white/10 p-2 rounded">${JSON.stringify(r.details, null, 2)}</pre>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        })
+        .join('');
+    }
+
+    async function runDiagnostics() {
+      results = [];
+      displayResults();
+
+      try {
+        // Test 1: Import Supabase
+        addResult({
+          name: 'Step 1: Loading Supabase Client',
+          status: 'info',
+          message: 'Attempting to import Supabase utilities...',
+        });
+
+        const { supabase, getCurrentAdmin } = await import(
+          '../../utils/supabase'
+        );
+
+        addResult({
+          name: 'Step 1: Supabase Client',
+          status: 'success',
+          message: 'Supabase client loaded successfully',
+        });
+
+        // Test 2: Check Session
+        addResult({
+          name: 'Step 2: Checking Session',
+          status: 'info',
+          message: 'Retrieving authentication session...',
+        });
+
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          addResult({
+            name: 'Step 2: Session Error',
+            status: 'error',
+            message: 'Failed to get session',
+            details: sessionError,
+          });
+          return;
+        }
+
+        if (!session) {
+          addResult({
+            name: 'Step 2: No Session',
+            status: 'error',
+            message:
+              'No active session found. You need to sign in with a magic link.',
+            details:
+              'Click the admin icon in the header to request a magic link',
+          });
+          return;
+        }
+
+        addResult({
+          name: 'Step 2: Session Found',
+          status: 'success',
+          message: 'Active session detected',
+          details: {
+            user_id: session.user.id,
+            email: session.user.email,
+            expires_at: new Date(session.expires_at! * 1000).toLocaleString(),
+            token_length: session.access_token.length,
+          },
+        });
+
+        // Test 3: Check Token Expiration
+        const now = Math.floor(Date.now() / 1000);
+        const expiresIn = session.expires_at! - now;
+
+        if (expiresIn < 0) {
+          addResult({
+            name: 'Step 3: Session Expired',
+            status: 'error',
+            message: 'Your session has expired. Please sign in again.',
+            details: { expired_ago_seconds: Math.abs(expiresIn) },
+          });
+          return;
+        } else if (expiresIn < 600) {
+          addResult({
+            name: 'Step 3: Session Expiring Soon',
+            status: 'warning',
+            message: `Session expires in ${Math.floor(expiresIn / 60)} minutes. Consider refreshing.`,
+            details: { expires_in_seconds: expiresIn },
+          });
+        } else {
+          addResult({
+            name: 'Step 3: Session Valid',
+            status: 'success',
+            message: `Session valid for ${Math.floor(expiresIn / 60)} more minutes`,
+            details: { expires_in_seconds: expiresIn },
+          });
+        }
+
+        // Test 4: Direct admin_users Query
+        addResult({
+          name: 'Step 4: Querying admin_users Table',
+          status: 'info',
+          message: 'Checking if user exists in admin_users table...',
+        });
+
+        const { data: adminData, error: adminError } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+
+        if (adminError) {
+          if (adminError.code === 'PGRST116') {
+            addResult({
+              name: 'Step 4: Not in admin_users',
+              status: 'error',
+              message: 'Your user ID is not in the admin_users table',
+              details: {
+                error_code: adminError.code,
+                your_user_id: session.user.id,
+                fix:
+                  "Run this SQL in Supabase: INSERT INTO admin_users (id, email, is_active) VALUES ('" +
+                  session.user.id +
+                  "', '" +
+                  session.user.email +
+                  "', true);",
+              },
+            });
+          } else {
+            addResult({
+              name: 'Step 4: Database Query Error',
+              status: 'error',
+              message: 'Failed to query admin_users table',
+              details: adminError,
+            });
+          }
+          return;
+        }
+
+        if (!adminData) {
+          addResult({
+            name: 'Step 4: No Admin Record',
+            status: 'error',
+            message: 'Query succeeded but returned no data',
+            details: 'This suggests an RLS policy issue',
+          });
+          return;
+        }
+
+        addResult({
+          name: 'Step 4: Admin Record Found',
+          status: 'success',
+          message: 'You are registered as an admin user',
+          details: {
+            id: adminData.id,
+            email: adminData.email,
+            is_active: adminData.is_active,
+          },
+        });
+
+        // Test 5: getCurrentAdmin() Function
+        addResult({
+          name: 'Step 5: Testing getCurrentAdmin()',
+          status: 'info',
+          message: 'Running the getCurrentAdmin() helper function...',
+        });
+
+        const adminResult = await getCurrentAdmin();
+
+        if (!adminResult) {
+          addResult({
+            name: 'Step 5: getCurrentAdmin() Failed',
+            status: 'error',
+            message:
+              'getCurrentAdmin() returned null despite direct query working',
+            details: 'This is unexpected and suggests a bug in the function',
+          });
+          return;
+        }
+
+        addResult({
+          name: 'Step 5: getCurrentAdmin() Success',
+          status: 'success',
+          message: 'getCurrentAdmin() returned admin info',
+          details: adminResult,
+        });
+
+        // Test 6: Check Analytics Table Access
+        addResult({
+          name: 'Step 6: Testing Analytics Data Access',
+          status: 'info',
+          message: 'Checking if you can read analytics data...',
+        });
+
+        const { data: pageViews, error: analyticsError } = await supabase
+          .from('page_views')
+          .select('count')
+          .limit(1);
+
+        if (analyticsError) {
+          addResult({
+            name: 'Step 6: Analytics Access Error',
+            status: 'warning',
+            message: 'Cannot read analytics data',
+            details: analyticsError,
+          });
+        } else {
+          addResult({
+            name: 'Step 6: Analytics Access OK',
+            status: 'success',
+            message: 'You can read analytics data',
+            details: { sample_data: pageViews },
+          });
+        }
+
+        // Final Summary
+        addResult({
+          name: '✨ Diagnostic Complete',
+          status: 'success',
+          message:
+            'All checks passed! Your admin authentication is working correctly.',
+          details:
+            'If you still have issues accessing specific pages, check the browser console for component-specific errors.',
+        });
+      } catch (error) {
+        addResult({
+          name: 'Fatal Error',
+          status: 'error',
+          message: 'An unexpected error occurred during diagnostics',
+          details:
+            error instanceof Error
+              ? { message: error.message, stack: error.stack }
+              : error,
+        });
+      }
+    }
+
+    // Run diagnostics on page load
+    runDiagnostics();
+
+    // Add refresh button handler
+    document.addEventListener('DOMContentLoaded', () => {
+      const refreshBtn = document.getElementById('refresh-btn');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+          runDiagnostics();
+        });
+      }
+    });
+  </script>
+</MainLayout>
