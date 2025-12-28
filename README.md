@@ -303,7 +303,95 @@ This implementation ensures:
 - **Robust handling of session expiry**
 - **Prevention of zombie auth states**
 
-## Common Authentication Anti-patterns & Lessons Learned
+## Authentication Architecture & Lessons Learned
+
+### Centralized Auth Helpers Pattern
+
+The authentication system uses a **three-layer architecture** for maintainability and reliability:
+
+```
+auth-helpers.ts (Core utilities)
+      ↓
+callback.astro + AuthContext.tsx (Integration layer)
+      ↓
+Admin pages + React components (UI layer)
+```
+
+**Key Components:**
+
+1. **`auth-helpers.ts`** - Single source of truth for auth operations
+
+   - `getValidSession()` - Session retrieval with timeout protection (5s default)
+   - `completeSignOut()` - Thorough cleanup of all auth state
+   - `isSessionValid()` - Expiration check with 30s buffer
+
+2. **`callback.astro`** - Magic link handler with timeout protection
+
+3. **`AuthContext.tsx`** - React auth state provider
+
+4. **Admin pages** - Use `auth-helpers.ts` directly with 1-hour periodic validation
+
+### Critical Lessons: Navigation Hangs & Timeouts
+
+**Problem:** Client-side `supabase.auth.getSession()` could hang indefinitely during page
+navigation, especially when auth state listeners from the previous page conflicted.
+
+**Solution:** Wrap all session checks with `Promise.race()` and timeout:
+
+```typescript
+// ✅ GOOD: With timeout protection
+const session = await getValidSession(5000); // 5 second timeout
+
+// ❌ BAD: No timeout
+const {
+  data: { session },
+} = await supabase.auth.getSession();
+```
+
+**Why This Matters:**
+
+- Supabase client persists across page navigations
+- Multiple auth state listeners can cause deadlocks
+- Without timeout, users see "Getting session..." forever
+- With timeout: max 6 seconds (5s wait + 1s retry) vs infinite hang
+
+### Critical Lessons: Session Expiration Detection
+
+**Problem:** Sessions expire after 1 hour but pages only checked if session _existed_, not if it was
+_expired_. This caused silent failures for comments and analytics.
+
+**Solution:** Check expiration with buffer and auto-refresh:
+
+```typescript
+// Check if session is still valid (30s buffer)
+if (!isSessionValid(session)) {
+  // Attempt to refresh
+  const refreshed = await supabase.auth.refreshSession();
+  return refreshed.session;
+}
+```
+
+**Implementation:**
+
+- Admin pages validate every 1 hour (was 2 minutes)
+- AuthContext validates every 5 minutes
+- Auto-refresh if < 10 minutes remain
+- Clear error messages when expired
+
+### Critical Lessons: Incomplete Sign Out
+
+**Problem:** `supabase.auth.signOut()` only cleared Supabase's internal state. Users could still
+access `/admin` by typing the URL directly after signing out.
+
+**Solution:** Comprehensive cleanup that clears ALL storage:
+
+```typescript
+// ✅ GOOD: Complete sign out
+await completeSignOut(); // Clears Supabase + localStorage + sessionStorage + cookies
+
+// ❌ BAD: Incomplete
+await supabase.auth.signOut(); // Only clears Supabase internal state
+```
 
 ### The Multiple Supabase Clients Problem
 
@@ -431,6 +519,29 @@ graph TD
 - **Avoid creating clients in component files**
 - **Use proper React Context** for auth state management
 - **Test authentication flows** across all UI components
+
+---
+
+### Security Considerations
+
+**Current Implementation:** Client-side JavaScript checks
+
+**Limitations:**
+
+- Can be bypassed if JavaScript is disabled
+- Pages load before auth checks complete
+
+**Future Improvements:**
+
+1. **Server-side protection** - Add Astro middleware for `/admin/*` routes
+2. **Cookie-based sessions** - Enable server-side session access
+3. **Multi-factor authentication** - Additional security layer for admin access
+
+**For comprehensive troubleshooting, see:** `/docs/ADMIN_AUTH_COMPLETE_GUIDE.md`
+
+**For future improvements, see:** `/plans/auth-improvements/`
+
+---
 
 ## Credits
 

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, getCurrentAdmin } from '../utils/supabase';
 import { base } from '../utils/constants';
 import { logSecurityEvent } from '../utils/security-monitor';
+import { getValidSession, completeSignOut } from '../utils/auth-helpers';
 
 type AdminUser = {
   id: string;
@@ -22,7 +23,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Use getValidSession for timeout protection and expiration check
+    getValidSession().then(session => {
       if (session) {
         getCurrentAdmin().then(setAdmin);
       }
@@ -46,34 +48,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // Auto-refresh session to prevent magic link expiration
+  // Auto-refresh session using getValidSession (already handles expiration and refresh)
   useEffect(() => {
     const refreshInterval = setInterval(
       async () => {
-        try {
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
+        // getValidSession already checks expiration and attempts refresh
+        const session = await getValidSession();
 
-          if (session && session.expires_at) {
-            const now = Math.floor(Date.now() / 1000);
-            const expiresAt = session.expires_at;
-            const timeUntilExpiry = expiresAt - now;
-
-            // If session expires in less than 10 minutes, try to refresh
-            if (timeUntilExpiry < 600) {
-              console.log('Session expiring soon, attempting refresh...');
-              const { error } = await supabase.auth.refreshSession();
-
-              if (error) {
-                console.warn('Session refresh failed');
-              } else {
-                console.log('Session refreshed successfully');
-              }
-            }
-          }
-        } catch {
-          console.warn('Session refresh check failed');
+        if (!session) {
+          console.log('Session invalid or expired, signing out...');
+          setAdmin(null);
+        } else {
+          // Session is valid (potentially refreshed by getValidSession)
+          const currentAdmin = await getCurrentAdmin();
+          setAdmin(currentAdmin);
         }
       },
       5 * 60 * 1000
@@ -122,37 +110,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      // Check session validity first
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-
-      if (sessionError || !session) {
-        // If no valid session, just clear local state
-        console.log('No valid session for logout, clearing local state...');
-        setAdmin(null);
-        return;
-      }
-
-      // Check if session is expired
-      const now = Math.floor(Date.now() / 1000);
-      if (session.expires_at && session.expires_at < now) {
-        console.log('Session expired, clearing local state...');
-        setAdmin(null);
-        return;
-      }
-
-      // Valid session - attempt normal logout
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.warn('Supabase signOut failed');
-        // Still clear local state even if server signOut fails
-      }
-
+      // Use centralized complete sign out (handles all cleanup)
+      await completeSignOut();
       setAdmin(null);
-    } catch {
-      console.error('SignOut error');
+    } catch (error) {
+      console.error('SignOut error:', error);
       // Always clear local state, even on error
       setAdmin(null);
     }

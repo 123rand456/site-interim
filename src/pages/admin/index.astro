@@ -209,50 +209,72 @@ const breadcrumbItems = [
 
   <script>
     // Use the shared Supabase instance instead of creating a new one
-    import { supabase } from '../../utils/supabase';
+    import { getCurrentAdmin } from '../../utils/supabase';
+    import { getValidSession, completeSignOut } from '../../utils/auth-helpers';
+
+    // Check authentication on page load
+    async function checkAuth() {
+      try {
+        // Get and validate session (handles expiration and refresh)
+        const session = await getValidSession();
+
+        if (!session) {
+          console.log('No valid session found, redirecting to home');
+          await completeSignOut();
+          window.location.href = '/';
+          return;
+        }
+
+        const admin = await getCurrentAdmin();
+
+        if (!admin) {
+          console.log('Not an admin user, redirecting to home');
+          await completeSignOut();
+          window.location.href = '/';
+          return;
+        }
+
+        console.log('Admin access granted:', admin.email);
+
+        // Set up periodic session validation (every 1 hour)
+        setInterval(async () => {
+          const currentSession = await getValidSession();
+          if (!currentSession) {
+            console.log('Session expired during use, redirecting...');
+            await completeSignOut();
+            window.location.href = '/';
+          }
+        }, 3600000); // 1 hour
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        await completeSignOut();
+        window.location.href = '/';
+      }
+    }
+
+    // Run auth check immediately
+    checkAuth();
 
     document.addEventListener('DOMContentLoaded', () => {
       const logoutBtn = document.getElementById('logout-btn');
 
       if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-          console.log('🚪 FORCE LOGOUT - bypassing all auth state');
+          console.log('🚪 Starting sign out...');
 
           // Disable button to prevent multiple clicks
           const buttonEl = logoutBtn as HTMLButtonElement;
           buttonEl.disabled = true;
           logoutBtn.innerHTML = '<span>Signing Out...</span>';
 
-          try {
-            // Try Supabase logout but don't wait for it
-            supabase.auth
-              .signOut()
-              .catch(e => console.warn('Supabase signOut failed:', e));
+          // Use the complete sign out helper
+          await completeSignOut();
 
-            // Immediately clear everything
-            console.log('🧹 Force clearing all auth data');
-            localStorage.clear();
-            sessionStorage.clear();
-
-            // Clear any auth cookies
-            document.cookie.split(';').forEach(function (c) {
-              document.cookie = c
-                .replace(/^ +/, '')
-                .replace(
-                  /=.*/,
-                  '=;expires=' + new Date().toUTCString() + ';path=/'
-                );
-            });
-          } catch (error) {
-            console.error('❌ Logout error (ignoring):', error);
-          }
-
-          // FORCE redirect immediately - don't wait for anything
-          console.log('🏠 FORCE redirecting to home');
+          // Redirect to home
+          console.log('🏠 Redirecting to home');
           window.location.href = '/';
         });
       }
     });
   </script>
 </MainLayout>
-

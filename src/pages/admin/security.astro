@@ -30,6 +30,7 @@ import SecurityDashboard from '../../components/SecurityDashboard';
         if (statusElement) {
           statusElement.textContent = message;
         }
+        console.log('Status:', message);
       };
 
       const showContent = (show: boolean) => {
@@ -46,33 +47,89 @@ import SecurityDashboard from '../../components/SecurityDashboard';
       try {
         updateStatus('Connecting to database...');
 
-        // Import Supabase client
+        // Import auth helpers
         const { getCurrentAdmin } = await import('../../utils/supabase');
+        const { getValidSession, completeSignOut } = await import(
+          '../../utils/auth-helpers'
+        );
 
-        updateStatus('Checking admin status...');
-        const admin = await getCurrentAdmin();
+        // Check and validate session
+        updateStatus('Validating session...');
 
-        if (!admin) {
-          updateStatus('Access denied. Redirecting...');
+        const session = await getValidSession();
+
+        if (!session) {
+          updateStatus('No valid session found. Redirecting...');
+          await completeSignOut();
           setTimeout(() => {
             window.location.href = '/';
           }, 1000);
           return;
         }
 
-        updateStatus('Loading security dashboard...');
-        showContent(true);
+        console.log('User ID:', session.user.id);
+        console.log('User Email:', session.user.email);
+
+        updateStatus('Checking admin status...');
+
+        try {
+          const admin = await getCurrentAdmin();
+          console.log('Admin result:', admin);
+
+          if (!admin) {
+            updateStatus('Not an admin user. Redirecting...');
+            await completeSignOut();
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
+            return;
+          }
+
+          updateStatus('Loading security dashboard...');
+          showContent(true);
+
+          // Set up periodic session validation (every 1 hour)
+          setInterval(async () => {
+            const currentSession = await getValidSession();
+            if (!currentSession) {
+              console.log('Session expired, redirecting...');
+              await completeSignOut();
+              window.location.href = '/';
+            }
+          }, 3600000); // 1 hour
+        } catch (adminError) {
+          console.error('getCurrentAdmin error:', adminError);
+          updateStatus(
+            'Error checking admin status: ' +
+              (adminError instanceof Error
+                ? adminError.message
+                : 'Unknown error')
+          );
+          const { completeSignOut } = await import('../../utils/auth-helpers');
+          await completeSignOut();
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 3000);
+        }
       } catch (error) {
         console.error('Access check failed:', error);
-        updateStatus('Failed to verify access. Please try again.');
+        const errorMessage =
+          error instanceof Error ? error.message : 'Unknown error';
+        const { completeSignOut } = await import('../../utils/auth-helpers');
+
+        updateStatus('Failed to verify access: ' + errorMessage);
+        await completeSignOut();
         setTimeout(() => {
           window.location.href = '/';
         }, 2000);
       }
     }
 
-    // Run access check when page loads
-    checkAccess();
+    // Wait for page to be fully loaded before checking auth
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkAccess);
+    } else {
+      checkAccess();
+    }
   </script>
 </MainLayout>
-
