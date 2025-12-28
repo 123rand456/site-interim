@@ -19,12 +19,46 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 // Only run these in browser environment
 if (typeof window !== 'undefined') {
-  supabase.auth.getSession().catch(() => {
-    // Silently fail - session errors are handled by the auth system
+  // Initialize session with timeout
+  Promise.race([
+    supabase.auth.getSession(),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Initial session check timeout')), 3000)
+    ),
+  ]).catch(error => {
+    console.warn('Initial session check failed:', error);
+    // Clear any stale session data
+    localStorage.removeItem('sb-' + supabaseUrl.split('//')[1] + '-auth-token');
   });
 
-  supabase.auth.onAuthStateChange(() => {
-    // Intentionally empty - just setting up the listener
+  // Set up auth state change listener with error handling
+  let authSubscription: any = null;
+
+  try {
+    const { data } = supabase.auth.onAuthStateChange(event => {
+      console.log('Auth state changed:', event);
+
+      // Handle specific events
+      if (event === 'SIGNED_OUT') {
+        // Clear any cached data
+        localStorage.removeItem('comment_session_id');
+      }
+
+      if (event === 'TOKEN_REFRESHED') {
+        console.log('Token refreshed successfully');
+      }
+    });
+
+    authSubscription = data.subscription;
+  } catch (error) {
+    console.error('Failed to set up auth listener:', error);
+  }
+
+  // Clean up on page unload
+  window.addEventListener('beforeunload', () => {
+    if (authSubscription) {
+      authSubscription.unsubscribe();
+    }
   });
 }
 
