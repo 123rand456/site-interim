@@ -1,17 +1,5 @@
 ---
-import { base } from '../../utils/constants';
-
-// Handle auth callback redirect
-const url = new URL(Astro.request.url);
-const code = url.searchParams.get('code');
-
-if (code) {
-  // Redirect to main admin dashboard instead of comments
-  return Astro.redirect(`${base}admin`);
-}
-
-// If no code, redirect to home
-return Astro.redirect(`${base}`);
+// No server-side redirects - let client-side JavaScript handle auth callback after user clicks magic link
 ---
 
 <!doctype html>
@@ -33,10 +21,10 @@ return Astro.redirect(`${base}`);
         try {
           const { supabase } = await import('../../utils/supabase');
           const { base } = await import('../../utils/constants');
+          const { getValidSession } = await import('../../utils/auth-helpers');
 
-          const {
-            data: { session: existingSession },
-          } = await supabase.auth.getSession();
+          // Check if already authenticated (with timeout protection)
+          const existingSession = await getValidSession();
           if (existingSession) {
             window.location.href = `${base}admin`;
             return;
@@ -65,9 +53,8 @@ return Astro.redirect(`${base}`);
 
           updateStatus('Session established! Verifying...');
 
-          const {
-            data: { session: verifySession },
-          } = await supabase.auth.getSession();
+          // Verify session using helper (has timeout protection)
+          const verifySession = await getValidSession();
           if (!verifySession) {
             updateStatus('Session verification failed. Redirecting...');
             setTimeout(() => {
