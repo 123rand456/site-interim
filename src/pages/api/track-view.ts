@@ -31,6 +31,13 @@ export const POST: APIRoute = async ({ request }) => {
       language,
       referrer,
       userAgent,
+      // Attribution parameters
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      utmContent,
+      utmTerm,
+      refTag,
     } = body;
 
     // API called with page tracking data
@@ -63,6 +70,13 @@ export const POST: APIRoute = async ({ request }) => {
       p_screen_height: screenHeight || null,
       p_timezone: timezone || null,
       p_language: language || null,
+      // Attribution parameters
+      p_utm_source: utmSource || null,
+      p_utm_medium: utmMedium || null,
+      p_utm_campaign: utmCampaign || null,
+      p_utm_content: utmContent || null,
+      p_utm_term: utmTerm || null,
+      p_ref_tag: refTag || null,
     });
 
     if (error) {

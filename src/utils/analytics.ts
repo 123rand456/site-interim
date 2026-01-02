@@ -18,6 +18,27 @@ export function getSessionId(): string {
   return newId;
 }
 
+// Extract attribution parameters from URL
+export function getAttributionParams(): {
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  utm_term: string | null;
+  ref_tag: string | null;
+} {
+  const params = new URLSearchParams(window.location.search);
+
+  return {
+    utm_source: params.get('utm_source'),
+    utm_medium: params.get('utm_medium'),
+    utm_campaign: params.get('utm_campaign'),
+    utm_content: params.get('utm_content'),
+    utm_term: params.get('utm_term'),
+    ref_tag: params.get('ref'),
+  };
+}
+
 // Track page view with Supabase only
 export async function trackPageView(
   pagePath: string,
@@ -26,6 +47,7 @@ export async function trackPageView(
 ): Promise<void> {
   try {
     const sessionId = getSessionId();
+    const attribution = getAttributionParams();
 
     try {
       // Add timeout to prevent hanging
@@ -45,6 +67,13 @@ export async function trackPageView(
         p_screen_height: screen.height,
         p_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         p_language: navigator.language,
+        // Attribution parameters
+        p_utm_source: attribution.utm_source,
+        p_utm_medium: attribution.utm_medium,
+        p_utm_campaign: attribution.utm_campaign,
+        p_utm_content: attribution.utm_content,
+        p_utm_term: attribution.utm_term,
+        p_ref_tag: attribution.ref_tag,
       });
 
       const { error } = (await Promise.race([
