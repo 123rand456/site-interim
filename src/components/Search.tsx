@@ -8,16 +8,11 @@ interface SearchProps {
 
 interface SearchResult {
   objectID: string;
+  slug: string;
   title: string;
   description: string;
-  url: string;
   category: string;
   tags: string[];
-  hierarchy: {
-    lvl0: string;
-    lvl1: string | null;
-    lvl2: string | null;
-  };
 }
 
 export default function Search({ base }: SearchProps) {
@@ -29,11 +24,13 @@ export default function Search({ base }: SearchProps) {
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize Algolia client
   const env = (import.meta as any).env;
+  const hasAlgoliaConfig =
+    !!env.PUBLIC_ALGOLIA_APP_ID &&
+    !!env.PUBLIC_ALGOLIA_SEARCH_KEY &&
+    !!env.PUBLIC_ALGOLIA_INDEX_NAME;
 
-  // Debug: Check if Algolia env vars are loaded
-  if (!env.PUBLIC_ALGOLIA_APP_ID || !env.PUBLIC_ALGOLIA_SEARCH_KEY) {
+  if (!hasAlgoliaConfig) {
     console.error('Missing Algolia environment variables:', {
       appId: !!env.PUBLIC_ALGOLIA_APP_ID,
       searchKey: !!env.PUBLIC_ALGOLIA_SEARCH_KEY,
@@ -41,15 +38,16 @@ export default function Search({ base }: SearchProps) {
     });
   }
 
-  const searchClient = algoliasearch(
-    env.PUBLIC_ALGOLIA_APP_ID,
-    env.PUBLIC_ALGOLIA_SEARCH_KEY
-  );
-  const index = searchClient.initIndex(env.PUBLIC_ALGOLIA_INDEX_NAME);
+  const searchClient = hasAlgoliaConfig
+    ? algoliasearch(env.PUBLIC_ALGOLIA_APP_ID, env.PUBLIC_ALGOLIA_SEARCH_KEY)
+    : null;
+  const index = searchClient
+    ? searchClient.initIndex(env.PUBLIC_ALGOLIA_INDEX_NAME)
+    : null;
 
   // Debounced search effect
   useEffect(() => {
-    if (!query.trim()) {
+    if (!hasAlgoliaConfig || !query.trim() || !index) {
       setResults([]);
       setIsOpen(false);
       return;
@@ -61,12 +59,11 @@ export default function Search({ base }: SearchProps) {
         const { hits } = await index.search(query, {
           hitsPerPage: 8,
           attributesToRetrieve: [
+            'slug',
             'title',
             'description',
-            'url',
             'category',
             'tags',
-            'hierarchy',
           ],
           attributesToHighlight: ['title', 'description'],
         });
@@ -93,11 +90,11 @@ export default function Search({ base }: SearchProps) {
   // Handle result click with useCallback to stabilize reference
   const handleResultClick = useCallback(
     async (result: SearchResult) => {
-      // Track clicked result
-      await trackSearchQuery(query, results.length, result.url);
+      // Track clicked result (non-blocking)
+      trackSearchQuery(query, results.length, result.slug).catch(console.debug);
 
       // Navigate to result
-      window.location.href = base + result.url;
+      window.location.href = `${base}essays/${result.slug}`;
 
       // Close search
       setIsOpen(false);
@@ -184,10 +181,13 @@ export default function Search({ base }: SearchProps) {
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search essays..."
           value={query}
           onChange={e => setQuery(e.target.value)}
           onFocus={() => query.trim() && results.length > 0 && setIsOpen(true)}
+          disabled={!hasAlgoliaConfig}
+          placeholder={
+            hasAlgoliaConfig ? 'Search essays...' : 'Search unavailable'
+          }
           className="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg 
                      bg-white text-gray-900 placeholder-gray-500
                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
