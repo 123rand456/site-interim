@@ -5,7 +5,7 @@ description: '近况'
 dateCreated: '2026-04-28'
 dateUpdated: '2026-04-28'
 confidence: 'certain'
-category: 'Miscellaneous'
+category: 'Random'
 importance: '3'
 tags:
   - letters
