@@ -16,6 +16,7 @@ export const CATEGORIES = [
   { key: 'Geophysics & Climate', label: 'Geophysics & Climate' },
   { key: 'Immunology', label: 'Immunology' },
   { key: 'Materials Science', label: 'Materials Science' },
+  { key: 'Miscellaneous', label: 'Miscellaneous' },
   { key: 'Mechanical Engineering', label: 'Mechanical Engineering' },
   { key: 'Metascience', label: 'Metascience' },
   { key: 'Nanoscale Fabrication', label: 'Nanoscale Fabrication' },

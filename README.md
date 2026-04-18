@@ -163,6 +163,7 @@ Choose from these predefined categories (defined in `src/utils/constants.ts`):
 - Materials Science
 - Mechanical Engineering
 - Metascience
+- Miscellaneous
 - Nanoscale Fabrication
 - Neuroscience
 - Physics
